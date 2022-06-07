@@ -1,4 +1,4 @@
-export const isValidEmail: (email: String) => boolean = function (
+export let isValidEmail: (email: String) => boolean = function (
   email: String
 ): boolean {
   let lastAtPosition = email.lastIndexOf("@");

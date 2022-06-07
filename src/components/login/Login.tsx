@@ -19,45 +19,24 @@ const theme = createTheme();
 
 export default function Login() {
   const navigate = useNavigate();
-  let email;
-  let checkEmail;
+  let email; // the user email
+  let [validEmail, setValidEmail] = React.useState(true);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    // let emailString = new String(data.get("email"));
-    // let passwordString = new String(data.get("password"));
-    // let lastAtPosition = emailString.lastIndexOf("@");
-    // let lastDotPosition = emailString.lastIndexOf(".");
+    email = new String(data.get("email"));
+    setValidEmail(isValidEmail(email));
 
-    // if (
-    //   !(
-    //     lastAtPosition < lastDotPosition &&
-    //     lastAtPosition > 0 &&
-    //     emailString.indexOf("@@") == -1 &&
-    //     lastDotPosition > 2 &&
-    //     emailString.length - lastDotPosition > 2
-    //   )
-    // ) {
-    //   console.log("Sorry not an email");
-    //   setValidEmail(false);
-    // } else {
-    //   console.log("valid email address");
-    //   const response = await apiLogin(
-    //     `${data.get("email")}`,
-    //     `${data.get("password")}`
-    //   );
-    //   if (response.status >= 200 && response.status < 300) navigate("/");
-    // }
-    console.log("valid email address");
     const response = await apiLogin(
       `${data.get("email")}`,
       `${data.get("password")}`
     );
-    email = new String(data.get("email"));
-    checkEmail = isValidEmail(email);
-    if (response.status >= 200 && response.status < 300) navigate("/");
+
+    if (response.status >= 200 && response.status < 300) {
+      navigate("/");
+    }
   };
 
   return (
@@ -84,11 +63,9 @@ export default function Login() {
             noValidate
             sx={{ mt: 1 }}
           >
-            {checkEmail ? (
-              <></>
-            ) : (
+            {validEmail === false ? (
               <p className="invalid-email">Incorrect Email Format</p>
-            )}
+            ) : null}
             <TextField
               margin="normal"
               required

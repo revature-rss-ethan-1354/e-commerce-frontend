@@ -1,32 +1,4 @@
 # Project 3
-
-0. Update-Thoughts
-
-1. User Stories
-    a. register -> login -> view homepage -> add item -> view cart -> checkout
-
-    view Homepage -> component
-
-    component -> view  
-
-2. Views/Controller/Models
-    a. Central view that gets updated
-    b. individual views
-
-3. Roles in Teams
-
-5. input/validation (Ux/UI error handling) 
-
-6. breaks
-
-Central Views 
-Admin Home 
-    - Delete
-
-Home (user)
-    - search
-    - featured products
-
 1. Search
     Hassan - 
     Justin - 

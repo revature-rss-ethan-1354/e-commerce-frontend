@@ -28,27 +28,27 @@ export default function CreateProduct() {
 
     const handleInput = (event: React.ChangeEvent<HTMLFormElement>) => {
 
-        const data = new FormData(event.currentTarget);
+        //const data = new FormData(event.currentTarget);
 
-        if (event.currentTarget.name == "name") {
-            setName(event.currentTarget.value);
-            console.log(event.currentTarget.value);
+        if (event.target.name == "name") {
+            setName(event.target.value);
+            console.log(event.target.value);
         }
-        else if (event.currentTarget.name == "quantity") {
-            setQuantity(event.currentTarget.value);
-            console.log(event.currentTarget.value);
+        else if (event.target.name == "quantity") {
+            setQuantity(event.target.value);
+            console.log(event.target.value);
         }
-        else if (event.currentTarget.name == "price") {
-            setPrice(event.currentTarget.value);
-            console.log(event.currentTarget.value);
+        else if (event.target.name == "price") {
+            setPrice(event.target.value);
+            console.log(event.target.value);
         }
-        else if (event.currentTarget.name == "description") {
-            setDescription(event.currentTarget.value);
-            console.log(event.currentTarget.value);
+        else if (event.target.name == "description") {
+            setDescription(event.target.value);
+            console.log(event.target.value);
         }
-        else if (event.currentTarget.name == "image") {
-            setImage(event.currentTarget.value);
-            console.log(event.currentTarget.value);
+        else if (event.target.name == "image") {
+            setImage(event.target.value);
+            console.log(event.target.value);
         }
     
     }
@@ -134,9 +134,6 @@ export default function CreateProduct() {
                 </Grid>
                     
                 <Grid item xs={12}>
-                    
-                    
-                    
                 <TextField
                     fullWidth
                     name="image"

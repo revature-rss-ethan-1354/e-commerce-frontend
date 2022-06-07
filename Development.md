@@ -6,18 +6,18 @@
     Mohamed - <br/>
 
 2. Create / Delete / Update<br/>
-    Philip - team lead git<br/>
+    Philip - git lead<br/>
     Jaya -<br/>
     Parth - <br/>
     Hailey -<br/>
 
 3. Chat<br/>
     Chime <br/>
-    Nabil<br/>
-    Milan - team lead 1<br/>
-    Lilianne<br/>
-    Victor<br/>
-    Swathi<br/>
+    Nabil <br/>
+    Milan - Lead<br/>
+    Lilianne <br/>
+    Victor <br/>
+    Swathi <br/>
 
 4. Input Validation / UX-UI Error handling<br/>
     Darryl - team lead 2*<br/>

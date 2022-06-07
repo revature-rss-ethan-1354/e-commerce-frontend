@@ -40,3 +40,11 @@ export const apiDeleteProduct = async (id: number): Promise<eCommerceApiResponse
     );
     return { status: response.status, payload: response.data };
 }
+
+export const apiUpdateProduct = async (product: Product): Promise<eCommerceApiResponse> => {
+    const response = await eCommerceClient.put<any>(
+        `${baseURL}`,
+        product
+    );
+    return {status: response.status, payload: response.data};
+}

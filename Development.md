@@ -2,11 +2,11 @@
 1. Search<br/>
     Hassan - <br/>
     Justin - <br/>
-    Joesph - git hubber <br/>
+    Joesph - <br/>
     Mohamed - <br/>
 
 2. Create / Delete / Update<br/>
-    Philip - git lead<br/>
+    Philip - Lead<br/>
     Jaya -<br/>
     Parth - <br/>
     Hailey -<br/>
@@ -20,7 +20,7 @@
     Swathi <br/>
 
 4. Input Validation / UX-UI Error handling<br/>
-    Darryl - team lead 2*<br/>
+    Darryl - Lead 2*<br/>
     Kenneth<br/>
     Dawit<br/>
     Mohammad<br/>

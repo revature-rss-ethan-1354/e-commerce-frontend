@@ -62,7 +62,8 @@ export default function CreateProduct() {
             quantity,
             price,
             description,
-            image
+            image,
+            featured: false
         }
                             
         const response = await apiUpdateProduct(temp);

@@ -1,32 +1,32 @@
 # Project 3
-1. Search
-    Hassan - 
-    Justin - 
-    Joesph - git hubber
-    Mohamed - 
+1. Search<br/>
+    Hassan - <br/>
+    Justin - <br/>
+    Joesph - git hubber <br/>
+    Mohamed - <br/>
 
-2. Create / Delete / Update
-    Philip - team lead git
-    Jaya -
-    Parth - 
-    Hailey -
+2. Create / Delete / Update<br/>
+    Philip - team lead git<br/>
+    Jaya -<br/>
+    Parth - <br/>
+    Hailey -<br/>
 
-3. Chat
-    Chime 
-    Nabil
-    Milan - team lead 1
-    Lilianne
-    Victor
-    Swathi
+3. Chat<br/>
+    Chime <br/>
+    Nabil<br/>
+    Milan - team lead 1<br/>
+    Lilianne<br/>
+    Victor<br/>
+    Swathi<br/>
 
-4. Input Validation / UX-UI Error handling
-    Darryl - team lead 2*
-    Kenneth
-    Dawit
-    Mohammad
-    Bayode
+4. Input Validation / UX-UI Error handling<br/>
+    Darryl - team lead 2*<br/>
+    Kenneth<br/>
+    Dawit<br/>
+    Mohammad<br/>
+    Bayode<br/>
 
-6. Front-End Styling
+6. Front-End Styling<br/>
 
 7. Jenkins
     Darryl

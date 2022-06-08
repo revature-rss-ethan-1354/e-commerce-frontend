@@ -1,35 +1,43 @@
-import * as React from 'react';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
-import PaymentDetail from '../../models/PaymentDetail';
-import { Box, Button } from '@mui/material';
+import * as React from "react";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import PaymentDetail from "../../models/PaymentDetail";
+import { Box, Button } from "@mui/material";
+import { isValidFirstName } from "../checkout-validation/FirstNameValidation";
 
 interface paymentFormProps {
-  handleBack: () => void
-  handleNext: () => void
-  updatePayment: (paymentDetail: PaymentDetail[]) => void
+  handleBack: () => void;
+  handleNext: () => void;
+  updatePayment: (paymentDetail: PaymentDetail[]) => void;
 }
 
 export default function PaymentForm(props: paymentFormProps) {
+  let fullName;
+  let [validFullName, setValidFullName] = React.useState<String>("");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    props.updatePayment(
-      [
-        {name: "Card Type", detail: `Visa`},
-        {name: "Card Holder", detail: `${data.get('cardName')}`},
-        {name: "Card Number", detail: formatCardNumber(`${data.get('cardNumber')}`)},
-        {name: "Expiry Date", detail: `${data.get('expDate')}`}
-      ]
-    )
-    props.handleNext()
-  }
+
+    fullName = new String(data.get("cardName"));
+    setValidFullName(isValidFirstName(fullName));
+
+    props.updatePayment([
+      { name: "Card Type", detail: `Visa` },
+      { name: "Card Holder", detail: `${data.get("cardName")}` },
+      {
+        name: "Card Number",
+        detail: formatCardNumber(`${data.get("cardNumber")}`),
+      },
+      { name: "Expiry Date", detail: `${data.get("expDate")}` },
+    ]);
+    // props.handleNext();
+  };
 
   const formatCardNumber = (cardNumber: string) => {
-    return `xxxx-xxxx-xxxx-${cardNumber.slice(-4)}`
-  }
+    return `xxxx-xxxx-xxxx-${cardNumber.slice(-4)}`;
+  };
 
   return (
     <React.Fragment>
@@ -48,6 +56,7 @@ export default function PaymentForm(props: paymentFormProps) {
               autoComplete="cc-name"
               variant="standard"
             />
+            <p className="invalid-checkout">{validFullName}</p>
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
@@ -84,20 +93,15 @@ export default function PaymentForm(props: paymentFormProps) {
             />
           </Grid>
         </Grid>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Button onClick={props.handleBack} sx={{ mt: 3, ml: 1 }}>
             Back
           </Button>
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{ mt: 3, ml: 1 }}
-          >
+          <Button type="submit" variant="contained" sx={{ mt: 3, ml: 1 }}>
             Next
           </Button>
         </Box>
       </Box>
-      
     </React.Fragment>
   );
 }

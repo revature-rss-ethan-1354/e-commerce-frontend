@@ -70,7 +70,7 @@ export default function AddressForm(props: addressFormProps) {
       zip: `${data.get("zip")}`,
       country: `${data.get("country")}`,
     });
-    // props.handleNext();
+    props.handleNext();
   };
 
   return (

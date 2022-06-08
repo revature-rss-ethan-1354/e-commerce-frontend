@@ -1,29 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import styled from "styled-components";
+import styled from 'styled-components';
 import Product from '../../models/Product';
 import { apiGetAllProducts } from '../../remote/e-commerce-api/productService';
 import Navbar from '../navbar/Narbar';
-import { ProductCard } from "./ProductCard";
+import { ProductCard } from './ProductCard';
 import Chat from '../chat/Chat';
 
 const Container = styled.div`
-    padding: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 `;
 
 export const DisplayProducts = () => {
-
-  const [products, setProducts] = useState<Product[]>([])
+  const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await apiGetAllProducts()
-      setProducts(result.payload)
-    }
-    fetchData()
-  }, [])
+      const result = await apiGetAllProducts();
+      setProducts(result.payload);
+    };
+    fetchData();
+  }, []);
   // const products: Product[] = [
   //   {
   //       id:1,
@@ -77,14 +76,13 @@ export const DisplayProducts = () => {
 
   return (
     <React.Fragment>
-        <Navbar/>
-        <Container>
+      <Navbar />
+      <Container>
         {products.map((item) => (
-            <ProductCard product={item} key={item.id} />
+          <ProductCard product={item} key={item.id} />
         ))}
-        </Container>
-        <Chat/>
+      </Container>
+      <Chat />
     </React.Fragment>
-    
   );
 };

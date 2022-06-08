@@ -6,14 +6,18 @@ export default class Product {
     description: string;
     image: string;
     featured: boolean;
+    discontinued: boolean;
+    category: string;
 
-    constructor (id: number, name: string, quantity: number, description: string, price: number, image: string, featured: boolean) {
+    constructor (id: number, name: string, quantity: number, description: string, price: number, image: string, featured: boolean, discontinued: boolean, category: string) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
         this.description = description;
         this.price = price;
         this.image = image;
-        this.featured = featured
+        this.discontinued = discontinued;
+        this.featured = featured;
+        this.category = category;
     }
 }

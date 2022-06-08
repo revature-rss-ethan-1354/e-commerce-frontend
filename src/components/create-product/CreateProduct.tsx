@@ -14,6 +14,7 @@ import { apiRegister } from '../../remote/e-commerce-api/authService';
 import { useNavigate } from 'react-router-dom';
 import { apiUpdateProduct, apiUpsertProduct } from '../../remote/e-commerce-api/productService';
 import Product from '../../models/Product';
+import { Select } from '@mui/material';
 
 const theme = createTheme();
 
@@ -24,33 +25,49 @@ export default function CreateProduct() {
     const [price, setPrice] = useState<number>(0);
     const [description, setDescription] = useState<string>('');
     const [image, setImage] = useState<string>('');
-
+    const [featured, isFeatured] = useState<boolean>(false);
+    // const [discontinued, isDiscontinued] = useState<boolean>();
+    const [category, setCategory] = useState<string>("");
 
     const handleInput = (event: React.ChangeEvent<HTMLFormElement>) => {
+      if (event.target.name == "name") {
+        setName(event.target.value);
+        console.log(event.target.value);
+      }
+      else if (event.target.name == "quantity") {
+        setQuantity(event.target.value);
+        console.log(event.target.value);
+      }
+      else if (event.target.name == "price") {
+        setPrice(event.target.value);
+        console.log(event.target.value);
+      }
+      else if (event.target.name == "description") {
+        setDescription(event.target.value);
+        console.log(event.target.value);
+      }
+      else if (event.target.name == "image") {
+        setImage(event.target.value);
+        console.log(event.target.value);
+      }
+    }
 
-        //const data = new FormData(event.currentTarget);
+    const handleClick = (event: React.MouseEvent<HTMLInputElement>) => {
+      if (event.currentTarget.id == "featured") {
+        isFeatured(true);
+        // console.log(featured);
+      }
+      else if (event.currentTarget.id == "not-featured") {
+        isFeatured(false);
+        // console.log(featured);
+      }
+    }
 
-        if (event.target.name == "name") {
-            setName(event.target.value);
-            console.log(event.target.value);
-        }
-        else if (event.target.name == "quantity") {
-            setQuantity(event.target.value);
-            console.log(event.target.value);
-        }
-        else if (event.target.name == "price") {
-            setPrice(event.target.value);
-            console.log(event.target.value);
-        }
-        else if (event.target.name == "description") {
-            setDescription(event.target.value);
-            console.log(event.target.value);
-        }
-        else if (event.target.name == "image") {
-            setImage(event.target.value);
-            console.log(event.target.value);
-        }
-    
+    const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+      if (event.currentTarget.name == "category") {
+        setCategory(event.currentTarget.value);
+        console.log(event.currentTarget.value);
+      }
     }
         
     const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -63,10 +80,14 @@ export default function CreateProduct() {
             price,
             description,
             image,
-            featured: false
+            featured,
+            discontinued: false,
+            category
         }
+
+        console.log(temp);
                             
-        const response = await apiUpdateProduct(temp);
+        const response = await apiUpsertProduct(temp);
     };
     
     return (
@@ -143,6 +164,42 @@ export default function CreateProduct() {
                     placeholder="Image"
                     />
               </Grid>
+
+              <Grid item xs={12}>
+                  <input type="radio" name="is-featured" id="featured" value="featured" onClick={handleClick}></input>
+                  <label>Featured</label>
+                  <br/>
+                  <input type="radio" name="is-featured" id="not-featured" value="not-featured" onClick={handleClick}></input>
+                  <label>Not Featured</label>
+              </Grid>
+
+              <Grid item xs={12}>
+                
+                {/*
+                <Select
+                    fullWidth
+                    name="category"
+                    label="category"
+                    id="category"
+                    >
+                      <option onSelect={(event) => setCategory("Clothing")} selected value="clothing">Clothing</option>
+                      <option onSelect={(event) => setCategory("Accessories")} value="accessories">Accessories</option>
+                      <option onSelect={(event) => setCategory("Electronics")}  value="electronics">Electronics</option>
+                </Select>
+                */}
+
+                <select
+                    name="category"
+                    id="category"
+                    onChange = {handleSelect}
+                    >
+                      <option selected value="clothing">Clothing</option>
+                      <option value="accessories">Accessories</option>
+                      <option value="electronics">Electronics</option>
+                </select>
+
+              </Grid>
+
             </Grid>
             <Button
               type="submit"
@@ -160,10 +217,4 @@ export default function CreateProduct() {
     </ThemeProvider>
             
     )
-    // id: number;
-    // name: string;
-    // quantity: number;
-    // price: number;
-    // description: string;
-    // image: string;
 }

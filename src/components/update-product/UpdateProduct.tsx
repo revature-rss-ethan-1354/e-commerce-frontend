@@ -12,13 +12,27 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { apiRegister } from '../../remote/e-commerce-api/authService';
 import { useNavigate } from 'react-router-dom';
-import { apiUpdateProduct, apiUpsertProduct } from '../../remote/e-commerce-api/productService';
+import { apiGetProductById, apiUpdateProduct } from '../../remote/e-commerce-api/productService';
 import Product from '../../models/Product';
 import { Select } from '@mui/material';
 
 const theme = createTheme();
-
-export default function UpdateProduct(product: Product) {
+interface pain{
+  pid: number
+}
+export default function UpdateProduct(id : pain) {
+  let thingOne : Product = {
+    id:0,
+    name:"",
+    quantity:0,
+    price:0,
+    description:'',
+    image:'',
+    featured:false,
+    discontinued:false,
+    category:''
+  }
+  
 
     const [name, setName] = useState<string>('');
     const [quantity, setQuantity] = useState<number>(0);
@@ -28,6 +42,15 @@ export default function UpdateProduct(product: Product) {
     const [featured, isFeatured] = useState<boolean>(false);
     const [category, setCategory] = useState<string>("");
     const [discontinued, isDiscontinued] = useState<boolean>(false);
+    const [product, setThing] = useState<Product>(thingOne);
+    useEffect(() => {
+      console.log("inEffect", id)
+      const fetchIdData = async () => {
+          const result = await apiGetProductById(id.pid)
+    setThing(result.payload);
+    console.log(result.payload);}
+      fetchIdData()
+    }, [product])
 
     const handleInput = (event: React.ChangeEvent<HTMLFormElement>) => {
       if (event.target.name == "name") {
@@ -91,7 +114,7 @@ export default function UpdateProduct(product: Product) {
 
         console.log(temp);
                             
-        const response = await apiUpsertProduct(temp);
+        const response = await apiUpdateProduct(temp);
     };
     
     return (
@@ -113,7 +136,7 @@ export default function UpdateProduct(product: Product) {
           */}
 
           <Typography component="h1" variant="h5">
-            Create
+            Update
           </Typography>
           <Box component="form" noValidate onChange={handleInput} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -225,7 +248,7 @@ export default function UpdateProduct(product: Product) {
               sx={{ mt: 3, mb: 2 }}
               onClick={handleSubmit}
             >
-              Create Product
+              Update Product
             </Button>
            
           </Box>

@@ -14,57 +14,82 @@ import { apiRegister } from '../../remote/e-commerce-api/authService';
 import { useNavigate } from 'react-router-dom';
 import { apiUpdateProduct, apiUpsertProduct } from '../../remote/e-commerce-api/productService';
 import Product from '../../models/Product';
+import { Select } from '@mui/material';
 
 const theme = createTheme();
 
-export default function UpdateProduct() {
+export default function UpdateProduct(product: Product) {
 
     const [name, setName] = useState<string>('');
     const [quantity, setQuantity] = useState<number>(0);
     const [price, setPrice] = useState<number>(0);
     const [description, setDescription] = useState<string>('');
     const [image, setImage] = useState<string>('');
-    //const [isFeatured, setIsFeatured] = useState<string>('');
+    const [featured, isFeatured] = useState<boolean>(false);
+    const [category, setCategory] = useState<string>("");
+    const [discontinued, isDiscontinued] = useState<boolean>(false);
 
     const handleInput = (event: React.ChangeEvent<HTMLFormElement>) => {
+      if (event.target.name == "name") {
+        setName(event.target.value);
+        console.log(event.target.value);
+      }
+      else if (event.target.name == "quantity") {
+        setQuantity(event.target.value);
+        console.log(event.target.value);
+      }
+      else if (event.target.name == "price") {
+        setPrice(event.target.value);
+        console.log(event.target.value);
+      }
+      else if (event.target.name == "description") {
+        setDescription(event.target.value);
+        console.log(event.target.value);
+      }
+      else if (event.target.name == "image") {
+        setImage(event.target.value);
+        console.log(event.target.value);
+      }
+    }
 
-        //const data = new FormData(event.currentTarget);
+    const handleClick = (event: React.MouseEvent<HTMLInputElement>) => {
+      if (event.currentTarget.id == "featured") {
+        isFeatured(true);
+      }
+      else if (event.currentTarget.id == "not-featured") {
+        isFeatured(false);
+      }
+      else if (event.currentTarget.id == "discontinued") {
+        isDiscontinued(true);
+      }
+      else if (event.currentTarget.id == "not-discontinued") {
+        isDiscontinued(false);
+      }
+    }
 
-        if (event.target.name == "name") {
-            setName(event.target.value);
-            console.log(event.target.value);
-        }
-        else if (event.target.name == "quantity") {
-            setQuantity(event.target.value);
-            console.log(event.target.value);
-        }
-        else if (event.target.name == "price") {
-            setPrice(event.target.value);
-            console.log(event.target.value);
-        }
-        else if (event.target.name == "description") {
-            setDescription(event.target.value);
-            console.log(event.target.value);
-        }
-        else if (event.target.name == "image") {
-            setImage(event.target.value);
-            console.log(event.target.value);
-        }
-    
+    const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+      if (event.currentTarget.name == "category") {
+        setCategory(event.currentTarget.value);
+        console.log(event.currentTarget.value);
+      }
     }
         
     const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
-            event.preventDefault();    
+        event.preventDefault();    
 
         let temp = {
-            id: 0,
+            id: product.id,
             name,
             quantity,
             price,
             description,
             image,
-            featured: false
+            featured,
+            discontinued,
+            category
         }
+
+        console.log(temp);
                             
         const response = await apiUpsertProduct(temp);
     };
@@ -81,9 +106,12 @@ export default function UpdateProduct() {
             alignItems: 'center',
           }}
         >
+          {/*
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
+          */}
+
           <Typography component="h1" variant="h5">
             Create
           </Typography>
@@ -92,7 +120,7 @@ export default function UpdateProduct() {
               <Grid item xs={12} sm={6}>
 
                 <TextField
-                  placeholder="Product Name"
+                  placeholder={product.name}
                   name="name"
                   required
                   fullWidth
@@ -109,7 +137,7 @@ export default function UpdateProduct() {
                   label="quantity"
                   type="number"
                   name="quantity"
-                  placeholder="Quantity"
+                  placeholder={product.quantity.toString()}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -120,7 +148,7 @@ export default function UpdateProduct() {
                   label="Price"
                   name="price"
                   type="number"
-                  placeholder="Price"
+                  placeholder={product.price.toString()}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -130,7 +158,7 @@ export default function UpdateProduct() {
                   name="description"
                   label="description"
                   id="description"
-                  placeholder="Description"
+                  placeholder={product.description}
                 />
                 </Grid>
                     
@@ -140,9 +168,55 @@ export default function UpdateProduct() {
                     name="image"
                     label="image"
                     id="image"
-                    placeholder="Image"
+                    placeholder={product.image}
                     />
               </Grid>
+
+              <Grid item xs={12}>
+                  {product.featured ? <h4>Featured</h4> : <></>}
+                  <input type="radio" name="is-featured" id="featured" value="featured" onClick={handleClick}></input>
+                  <label>Featured</label>
+                  <br/>
+                  <input type="radio" name="is-featured" id="not-featured" value="not-featured" onClick={handleClick}></input>
+                  <label>Not Featured</label>
+              </Grid>
+
+              <Grid item xs={12}>
+                  {product.discontinued ? <h4>Discontinued</h4> : <></>}
+                  <input type="radio" name="is-discontinued" id="discontinued" value="discontinued" onClick={handleClick}></input>
+                  <label>Discontinued</label>
+                  <br/>
+                  <input type="radio" name="is-discontinued" id="not-discontinued" value="not-discontinued" onClick={handleClick}></input>
+                  <label>Not Discontinued</label>
+              </Grid>
+
+              <Grid item xs={12}>
+                
+                {/*
+                <Select
+                    fullWidth
+                    name="category"
+                    label="category"
+                    id="category"
+                    >
+                      <option onSelect={(event) => setCategory("Clothing")} selected value="clothing">Clothing</option>
+                      <option onSelect={(event) => setCategory("Accessories")} value="accessories">Accessories</option>
+                      <option onSelect={(event) => setCategory("Electronics")}  value="electronics">Electronics</option>
+                </Select>
+                */}
+
+                <select
+                    name="category"
+                    id="category"
+                    onChange = {handleSelect}
+                    >
+                      <option selected value="clothing">Clothing</option>
+                      <option value="accessories">Accessories</option>
+                      <option value="electronics">Electronics</option>
+                </select>
+
+              </Grid>
+
             </Grid>
             <Button
               type="submit"
@@ -160,10 +234,4 @@ export default function UpdateProduct() {
     </ThemeProvider>
             
     )
-    // id: number;
-    // name: string;
-    // quantity: number;
-    // price: number;
-    // description: string;
-    // image: string;
 }

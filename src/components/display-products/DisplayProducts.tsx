@@ -16,7 +16,7 @@ const Container = styled.div`
 
 const SearchContainer = styled.div`
     height: 100vh;
-    width: 20vh;
+    width: fit-content;
     border: 2px solid black;
 `;
 
@@ -85,7 +85,10 @@ export const DisplayProducts = () => {
         <Container>
         <SearchContainer>
           <form>
+          <label>Search Products</label> <br/>
             <input className="search-field" type="text" name="search-box" value={filter} placeholder="search" onChange={handleInput}/>
+            <br/>
+            <label>Categories</label> <br/>
             <label><input className="radio-box" type="radio" name="category" value="clothing"  onChange={handleInput}/>
             Clothes
             </label> <br/>
@@ -96,8 +99,8 @@ export const DisplayProducts = () => {
             Accessories
             </label>
             <div>
-            <label>Price Range</label>
-              <input className = "price-range" type="number" name="min-price" placeholder="minimum" onChange={handleInput}/>
+            <label>Price Range</label> <br/>
+              <input className = "price-range" type="number" name="min-price" placeholder="minimum" onChange={handleInput}/> <br/>
               <input className = "price-range" type="number" name="max-price" placeholder="maximum" onChange={handleInput}/>
             </div>
             <input type="reset" value="Reset" onClick={clearFilters} className="reset-btn"></input>

@@ -65,7 +65,7 @@ export default function CreateProduct() {
             image
         }
                             
-        const response = await apiUpdateProduct(temp);
+        const response = await apiUpsertProduct(temp);
     };
     
     return (

@@ -25,7 +25,7 @@ export default function CreateProduct() {
     const [price, setPrice] = useState<number>(0);
     const [description, setDescription] = useState<string>('');
     const [image, setImage] = useState<string>('');
-    // const [featured, isFeatured] = useState<boolean>();
+    const [featured, isFeatured] = useState<boolean>(false);
     // const [discontinued, isDiscontinued] = useState<boolean>();
     const [category, setCategory] = useState<string>("");
 
@@ -52,6 +52,17 @@ export default function CreateProduct() {
       }
     }
 
+    const handleClick = (event: React.MouseEvent<HTMLInputElement>) => {
+      if (event.currentTarget.id == "featured") {
+        isFeatured(true);
+        // console.log(featured);
+      }
+      else if (event.currentTarget.id == "not-featured") {
+        isFeatured(false);
+        // console.log(featured);
+      }
+    }
+
     const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
       if (event.currentTarget.name == "category") {
         setCategory(event.currentTarget.value);
@@ -69,10 +80,12 @@ export default function CreateProduct() {
             price,
             description,
             image,
-            featured: false,
+            featured,
             discontinued: false,
             category
         }
+
+        console.log(temp);
                             
         const response = await apiUpsertProduct(temp);
     };
@@ -153,13 +166,11 @@ export default function CreateProduct() {
               </Grid>
 
               <Grid item xs={12}>
-                <form>
-                  <input type="radio" name="featured" id="featured"></input>
+                  <input type="radio" name="is-featured" id="featured" value="featured" onClick={handleClick}></input>
                   <label>Featured</label>
                   <br/>
-                  <input type="radio" name="not-featured" id="not-featured"></input>
+                  <input type="radio" name="is-featured" id="not-featured" value="not-featured" onClick={handleClick}></input>
                   <label>Not Featured</label>
-                </form>
               </Grid>
 
               <Grid item xs={12}>

@@ -4,6 +4,7 @@ import Product from '../../models/Product';
 import { apiGetAllProducts } from '../../remote/e-commerce-api/productService';
 import Navbar from '../navbar/Narbar';
 import { ProductCard } from "./ProductCard";
+import { useNavigate } from 'react-router-dom';
 // import Chat from '../chat/Chat';
 
 const Container = styled.div`
@@ -36,10 +37,10 @@ export const DisplayProducts = () => {
   const [minimum, setMinimum] = useState<number>(0);
   const [maximum, setMaximum] = useState<number>(1000000);
 
+
   useEffect(() => {
     const fetchData = async () => {
       const result = await apiGetAllProducts()
-      console.log(result.payload);
       setProducts(result.payload)
     }
     fetchData()

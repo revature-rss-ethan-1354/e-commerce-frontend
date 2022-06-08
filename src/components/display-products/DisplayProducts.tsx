@@ -31,13 +31,15 @@ const ItemContainer = styled.div`
 export const DisplayProducts = () => {
 
   const [products, setProducts] = useState<Product[]>([])
-  const [searchInput, setSearchInput] = useState<string>("");
   const [filter, setFilter] = useState<string>("");
-  const [category, setCategory] = useState<string>();
+  const [category, setCategory] = useState<string>("");
+  const [minimum, setMinimum] = useState<number>(0);
+  const [maximum, setMaximum] = useState<number>(1000000);
 
   useEffect(() => {
     const fetchData = async () => {
       const result = await apiGetAllProducts()
+      console.log(result.payload);
       setProducts(result.payload)
     }
     fetchData()
@@ -50,16 +52,30 @@ export const DisplayProducts = () => {
       setCategory(event.target.value)
       console.log("category = "+ category);
     }
+    else if (event.target.name === "min-price"){
+      setMinimum(Number(event.target.value));
+      console.log("minimum price = " + minimum);
+    }
+    else if (event.target.name === "max-price"){
+      if(Number(event.target.value) === 0){
+        setMaximum(1000000);
+      }
+      else{
+        setMaximum(Number(event.target.value));
+        console.log("maximum price = " + maximum);
+      }
+    }
     else {
       setFilter(event.target.value);
-      setSearchInput(event.target.value);
-      console.log("search input = " + searchInput);
     }
 
   }
   
-  const handleSearch=async (event: React.MouseEvent<HTMLButtonElement>) => {
-    
+  const clearFilters = () => {
+    setFilter("");
+    setCategory("");
+    setMinimum(0);
+    setMaximum(1000000);
   }
 
 
@@ -69,25 +85,35 @@ export const DisplayProducts = () => {
         <Container>
         <SearchContainer>
           <form>
-            <input className="search-field" type="text" name="search-box" value={searchInput} onChange={handleInput}/>
-            <label><input className="radio-box" type="radio" name="category" value="clothes"  onChange={handleInput}/>
+            <input className="search-field" type="text" name="search-box" value={filter} placeholder="search" onChange={handleInput}/>
+            <label><input className="radio-box" type="radio" name="category" value="clothing"  onChange={handleInput}/>
             Clothes
-            </label>
+            </label> <br/>
             <label><input className="radio-box" type="radio" name="category" value="electronics"  onChange={handleInput}/>
             Electronics
-            </label>
+            </label> <br/>
             <label><input className="radio-box" type="radio" name="category" value="accessories"  onChange={handleInput}/>
             Accessories
             </label>
+            <div>
+            <label>Price Range</label>
+              <input className = "price-range" type="number" name="min-price" placeholder="minimum" onChange={handleInput}/>
+              <input className = "price-range" type="number" name="max-price" placeholder="maximum" onChange={handleInput}/>
+            </div>
+            <input type="reset" value="Reset" onClick={clearFilters} className="reset-btn"></input>
           </form> 
         </SearchContainer>
         <ItemContainer>
         {products.map((item: Product) => (
-          (item.featured && (item.name.toLowerCase().includes(filter.toLowerCase()) || item.description.toLocaleLowerCase().includes(filter.toLocaleLowerCase()))) ? 
+          (item.featured && (item.name.toLowerCase().includes(filter.toLowerCase()) ||
+           item.description.toLocaleLowerCase().includes(filter.toLocaleLowerCase())) &&
+            (item.category === category || category === "") && (item.price <= maximum && item.price >= minimum)) ? 
              <ProductCard product={item} key={item.id} />: <></>
         ))}
         {products.map((item: Product) => (
-          (!item.featured && (item.name.toLowerCase().includes(filter.toLowerCase()) || item.description.toLocaleLowerCase().includes(filter.toLocaleLowerCase()))) ? 
+          (!item.featured && (item.name.toLowerCase().includes(filter.toLowerCase()) ||
+           item.description.toLocaleLowerCase().includes(filter.toLocaleLowerCase())) &&
+            (item.category === category || category === "") && (item.price <= maximum && item.price >= minimum)) ? 
              <ProductCard product={item} key={item.id} />: <></>
         ))}
         </ItemContainer>

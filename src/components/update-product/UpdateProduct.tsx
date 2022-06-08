@@ -17,7 +17,7 @@ import Product from '../../models/Product';
 
 const theme = createTheme();
 
-export default function CreateProduct() {
+export default function UpdateProduct() {
 
     const [name, setName] = useState<string>('');
     const [quantity, setQuantity] = useState<number>(0);

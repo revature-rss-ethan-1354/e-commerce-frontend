@@ -69,7 +69,7 @@ export const ManagerHomeMock = () => {
         </select>
         
                    
-        {id? <UpdateProduct pid={id}/> : <></> }
+        {id? <UpdateProduct/> : <></> }
         {/* {item?
         <>
             <h4>{item.name}</h4>

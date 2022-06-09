@@ -11,28 +11,17 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { apiRegister } from '../../remote/e-commerce-api/authService';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { apiGetProductById, apiUpdateProduct } from '../../remote/e-commerce-api/productService';
 import Product from '../../models/Product';
 import { Select } from '@mui/material';
+import { useParams } from 'react-router-dom';
 
 const theme = createTheme();
-interface pain {
-  pid: number
-}
-export default function UpdateProduct(id: pain) {
-  let thingOne: Product = {
-    id: 0,
-    name: "",
-    quantity: 0,
-    price: 0,
-    description: '',
-    image: '',
-    featured: false,
-    discontinued: false,
-    category: ''
-  }
+export default function UpdateProduct() {
 
+  let productId = Number(((window.location.pathname).split('/update/'))[1]);
+  console.log("Pid "+productId);
 
   const [name, setName] = useState<string>('');
   const [quantity, setQuantity] = useState<number>(0);
@@ -42,13 +31,11 @@ export default function UpdateProduct(id: pain) {
   const [featured, isFeatured] = useState<boolean>(false);
   const [category, setCategory] = useState<string>("");
   const [discontinued, isDiscontinued] = useState<boolean>(false);
-  const [product, setThing] = useState<Product>(thingOne);
+  
   useEffect(() => {
-    //if(thingOne.id == 0){
-    //console.log("inEffect", id)
     const fetchIdData = async () => {
-      const result = await apiGetProductById(id.pid)
-      setThing(result.payload);
+      const result = await apiGetProductById(productId)
+      
       setName(result.payload.name);
       setQuantity(result.payload.quantity);
       setPrice(result.payload.price);
@@ -58,22 +45,9 @@ export default function UpdateProduct(id: pain) {
       isDiscontinued(result.payload.discontinued);
       setCategory(result.payload.category);
     }
-    //console.log(name);
+    // console.log(name);
     fetchIdData()
-    //}
   }, [])
-
-  // const temp = {
-  //      id: product.id,
-  //       name:product.name,
-  //       quantity,
-  //       price,
-  //       description,
-  //       image,
-  //       featured,
-  //       discontinued,
-  //       category
-  //   }
 
   const handleInput = (event: React.ChangeEvent<HTMLFormElement>) => {
     if (event.target.name == "name") {
@@ -124,7 +98,7 @@ export default function UpdateProduct(id: pain) {
     event.preventDefault();
 
     let temp = {
-      id: product.id,
+      id: productId,
       name,
       quantity,
       price,
@@ -224,7 +198,7 @@ export default function UpdateProduct(id: pain) {
               </Grid>
 
               <Grid item xs={12}>
-                {product.featured ? <h4>Featured</h4> : <></>}
+                {featured ? <h4>Featured</h4> : <></>}
                 <input type="radio" name="is-featured" id="featured" value="featured" onClick={handleClick}></input>
                 <label>Featured</label>
                 <br />
@@ -233,7 +207,7 @@ export default function UpdateProduct(id: pain) {
               </Grid>
 
               <Grid item xs={12}>
-                {product.discontinued ? <h4>Discontinued</h4> : <></>}
+                {discontinued ? <h4>Discontinued</h4> : <></>}
                 <input type="radio" name="is-discontinued" id="discontinued" value="discontinued" onClick={handleClick}></input>
                 <label>Discontinued</label>
                 <br />

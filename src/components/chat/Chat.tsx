@@ -1,63 +1,105 @@
-// import React from "react";
-// import styled from "styled-components";
-// import { CometChat } from "@cometchat-pro/chat";
-// import Popup from "./Popup";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { CometChat } from '@cometchat-pro/chat';
 
+import { ChatSocket } from './ChatSocket';
 
-// const Chat = () => {
-//   // Chat initialize
-//   const appID = "2115110a5496735e";
-//   const region = "us";
-//   const appSetting = new CometChat.AppSettingsBuilder()
-//     .subscribePresenceForAllUsers()
-//     .setRegion(region)
-//     .build();
-//   CometChat.init(appID, appSetting).then(
-//     () => {
-//       console.log("Initialization completed successfully");
-//       // You can now call login function.
-//     },
-//     (error) => {
-//       console.log("Initialization failed with error:", error);
-//       // Check the reason for error and take appropriate action.
-//     }
-//   );
+// function setConnected(connected) {
+//   $('#connect').prop('disabled', connected);
+//   $('#disconnect').prop('disabled', !connected);
+//   if (connected) {
+//     $('#conversation').show();
+//   } else {
+//     $('#conversation').hide();
+//   }
+//   $('#greetings').html('');
+// }
 
-//   // Chat Login User
-//   let authKey = "0e9ac77b6884a68658aace31e9b497d9eaece3e5";
-//   var uid = "user1";
-//   var name = "Kevin";
+// function connect() {
+//   var socket = new SockJS('/gs-guide-websocket');
+//   stompClient = Stomp.over(socket);
+//   stompClient.connect({}, function (frame) {
+//     setConnected(true);
+//     console.log('Connected: ' + frame);
+//     stompClient.subscribe('/topic/greetings', function (greeting) {
+//       showGreeting(JSON.parse(greeting.body).content);
+//     });
+//   });
+// }
 
-//   var user = new CometChat.User(uid);
-//   user.setName(name);
-//   CometChat.createUser(user, authKey).then(
-//     (user) => {
-//       console.log("user created", user);
-//     },
-//     (error) => {
-//       console.log("error", error);
-//     }
-//   );
+// into DisplayProducts
+export const Chat = () => {
+  const [btnConnect, setBtnConnect] = useState(false);
 
-//   // Chat Superhero
-//   CometChat.login("SUPERHERO1", authKey).then(
-//     (user) => {
-//       console.log("Login Successful:", { user });
-//     },
-//     (error) => {
-//       console.log("Login failed with exception:", { error });
-//     }
-//   );
+  //   const handleSetConnected = (event: React.ChangeEvent<HTMLButtonElement>) => {
+  //     setBtnValue(!btnValue);
+  //   };
 
-//   return (
-//     <div>
-//       <h1>Chat popup!!!123</h1>
-//       {/* <Popup></Popup> */}
-//     </div>
-//   );
-// };
+  return (
+    <div id="main-content" className="container">
+      <div className="row">
+        <div className="col-md-6">
+          <form className="form-inline">
+            <div className="form-group">
+              <label htmlFor="connect">WebSocket connection:</label>
 
+              <button
+                id="connect"
+                className="btn btn-default"
+                type="submit"
+                disabled={btnConnect}
+                onClick={() => setBtnConnect(true)}
+              >
+                Connect
+              </button>
 
-// export default {Chat};
+              <button
+                id="disconnect"
+                className="btn btn-default"
+                type="submit"
+                disabled={true}
+              >
+                Disconnect
+              </button>
+            </div>
+          </form>
+        </div>
+        <div className="col-md-6">
+          <form className="form-inline">
+            <div className="form-group">
+              <label htmlFor="name">What is your name?</label>
+              <input
+                type="text"
+                id="name"
+                className="form-control"
+                placeholder="Your name here..."
+              />
+            </div>
+            <button id="send" className="btn btn-default" type="submit">
+              Send
+            </button>
+          </form>
+        </div>
+      </div>
 
-export {}
+      <div className="row">
+        <div className="col-md-12">
+          {btnConnect ? (
+            <table id="conversation" className="table table-striped">
+              <thead>
+                <tr>
+                  <th>Greetings</th>
+                </tr>
+              </thead>
+              <tbody id="greetings"></tbody>
+            </table>
+          ) : (
+            <></>
+          )}
+        </div>
+      </div>
+
+      <ChatSocket />
+    </div>
+  );
+};

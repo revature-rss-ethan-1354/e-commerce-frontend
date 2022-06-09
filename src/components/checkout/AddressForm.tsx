@@ -147,6 +147,7 @@ export default function AddressForm(props: addressFormProps) {
       setCountryText(event.currentTarget.value);
     }
   };
+
   const handleOnBlur = (event: any) => {
     if (event.currentTarget.name == "firstName") {
       setValidFirstName(isValidFirstName(firstNameText));

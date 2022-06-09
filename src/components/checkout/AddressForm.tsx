@@ -19,13 +19,27 @@ interface addressFormProps {
 }
 
 export default function AddressForm(props: addressFormProps) {
-  let firstName;
-  let lastName;
-  let address;
-  let city;
-  let stateOrRegion;
-  let zipOrPostal;
-  let country;
+  let firstName: String = "";
+  let lastName: String = "";
+  let address: String = "";
+  let city: String = "";
+  let stateOrRegion: String = "";
+  let zipOrPostal: String = "";
+  let country: String = "";
+
+  /*
+   * This logic makes it possible to not
+   * go to the Payment details page if the
+   * text fields are left black
+   */
+  let repeatFirstName: String = "";
+  let repeatLastName: String = "";
+  let repeatAddress: String = "";
+  let repeatCity: String = "";
+  let repeatStateOrRegion: String = "";
+  let repeatZipOrPostal: String = "";
+  let repeatCountry: String = "";
+
   let [validFirstName, setValidFirstName] = React.useState<String>("");
   let [validLastName, setValidLastName] = React.useState<String>("");
   let [validAddress, setValidAddress] = React.useState<String>("");
@@ -34,31 +48,44 @@ export default function AddressForm(props: addressFormProps) {
   let [validZipOrPostal, setValidZipOrPostal] = React.useState<String>("");
   let [validCountry, setValidCountry] = React.useState<String>("");
 
+  /* We might need a useEffect to keep track of the
+   * state information typed into the TextFields
+   *    React.useEffect(() => {}, []);
+   */
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
     firstName = new String(data.get("firstName"));
+    repeatFirstName = isValidFirstName(firstName);
     setValidFirstName(isValidFirstName(firstName));
 
     lastName = new String(data.get("lastName"));
+    repeatLastName = isValidLastName(lastName);
     setValidLastName(isValidLastName(lastName));
 
     address = new String(data.get("address1"));
+    repeatAddress = isValidAddress(address);
     setValidAddress(isValidAddress(address));
 
     country = new String(data.get("country"));
+    repeatCountry = isValidCountry(country);
     setValidCountry(isValidCountry(country));
 
     city = new String(data.get("city"));
+    repeatCity = isValidCity(city, country);
     setValidCity(isValidCity(city, country));
+    console.log(repeatCity);
+    console.log(country);
 
     stateOrRegion = new String(data.get("state"));
+    repeatStateOrRegion = isValidStateOrRegion(stateOrRegion, country);
     setValidStateOrRegion(isValidStateOrRegion(stateOrRegion, country));
 
     zipOrPostal = new String(data.get("zip"));
+    repeatZipOrPostal = isValidZipOrPostal(zipOrPostal, country);
     setValidZipOrPostal(isValidZipOrPostal(zipOrPostal, country));
-    console.log(zipOrPostal);
 
     props.updateAddress({
       firstName: `${data.get("firstName")}`,
@@ -70,7 +97,19 @@ export default function AddressForm(props: addressFormProps) {
       zip: `${data.get("zip")}`,
       country: `${data.get("country")}`,
     });
-    // props.handleNext();
+
+    if (
+      repeatFirstName.length === 0 &&
+      repeatLastName.length === 0 &&
+      repeatAddress.length === 0 &&
+      repeatCity.length === 0 &&
+      repeatStateOrRegion.length === 0 &&
+      repeatZipOrPostal.length === 0 &&
+      repeatCountry.length === 0
+    ) {
+      props.handleNext();
+    } else {
+    }
   };
 
   return (
@@ -90,7 +129,7 @@ export default function AddressForm(props: addressFormProps) {
               autoComplete="given-name"
               variant="standard"
             />
-            <p className="invalid-checkout">{validFirstName}</p>
+            <p className="invalid-checkout-field">{validFirstName}</p>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -102,7 +141,7 @@ export default function AddressForm(props: addressFormProps) {
               autoComplete="family-name"
               variant="standard"
             />
-            <p className="invalid-checkout">{validLastName}</p>
+            <p className="invalid-checkout-field">{validLastName}</p>
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -114,7 +153,7 @@ export default function AddressForm(props: addressFormProps) {
               autoComplete="shipping address-line1"
               variant="standard"
             />
-            <p className="invalid-checkout">{validAddress}</p>
+            <p className="invalid-checkout-field">{validAddress}</p>
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -139,10 +178,11 @@ export default function AddressForm(props: addressFormProps) {
                 autoComplete: "off",
               }}
             />
-            <p className="invalid-checkout">{validCity}</p>
+            <p className="invalid-checkout-field">{validCity}</p>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
+              required
               id="state"
               name="state"
               label="State/Province/Region"
@@ -152,7 +192,7 @@ export default function AddressForm(props: addressFormProps) {
                 autoComplete: "off",
               }}
             />
-            <p className="invalid-checkout">{validStateOrRegion}</p>
+            <p className="invalid-checkout-field">{validStateOrRegion}</p>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -167,7 +207,7 @@ export default function AddressForm(props: addressFormProps) {
                 autoComplete: "off",
               }}
             />
-            <p className="invalid-checkout">{validZipOrPostal}</p>
+            <p className="invalid-checkout-field">{validZipOrPostal}</p>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -182,7 +222,7 @@ export default function AddressForm(props: addressFormProps) {
                 autoComplete: "off",
               }}
             />
-            <p className="invalid-checkout">{validCountry}</p>
+            <p className="invalid-checkout-field">{validCountry}</p>
           </Grid>
         </Grid>
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>

@@ -37,6 +37,13 @@ export default function PaymentForm(props: paymentFormProps) {
     React.useState<String>("");
   let [validCvv, setValidCvv] = React.useState<String>("");
 
+  const [fullNameText, setFullNameText] = React.useState<String>("");
+  const [cardNumberText, setCardNumberText] = React.useState<String>("");
+  const [expirationDateText, setExpirationDateText] =
+    React.useState<String>("");
+  const [cvvText, setCvvText] = React.useState<String>("");
+
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -82,6 +89,29 @@ export default function PaymentForm(props: paymentFormProps) {
     return `xxxx-xxxx-xxxx-${cardNumber.slice(-4)}`;
   };
 
+  const handleChange = (event: any) => {
+    if (event.currentTarget.name == "cardName") {
+      setFullNameText(event.currentTarget.value);
+    } else if (event.currentTarget.name == "cardNumber") {
+      setCardNumberText(event.currentTarget.value);
+    } else if (event.currentTarget.name == "expDate") {
+      setExpirationDateText(event.currentTarget.value);
+    } else if (event.currentTarget.name == "cvv") {
+      setCvvText(event.currentTarget.value);
+    }
+  };
+  const handleOnBlur = (event: any) => {
+    if (event.currentTarget.name == "cardName") {
+      setValidFullName(isValidFullName(fullNameText));
+    } else if (event.currentTarget.name == "cardNumber") {
+      setValidCardNumber(isValidCardNumber(cardNumberText));
+    } else if (event.currentTarget.name == "expDate") {
+      setValidExpirationDate(isValidExpirationDate(expirationDateText));
+    } else if (event.currentTarget.name == "cvv") {
+      setValidCvv(isValidCvv(cvvText));
+    }
+  };
+
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -98,6 +128,8 @@ export default function PaymentForm(props: paymentFormProps) {
               fullWidth
               autoComplete="cc-name"
               variant="standard"
+              onBlur={handleOnBlur}
+              onChange={handleChange}
             />
             <p className="invalid-checkout-field">{validFullName}</p>
           </Grid>
@@ -110,6 +142,8 @@ export default function PaymentForm(props: paymentFormProps) {
               fullWidth
               autoComplete="cc-number"
               variant="standard"
+              onBlur={handleOnBlur}
+              onChange={handleChange}
             />
             <p className="invalid-checkout-field">{validCardNumber}</p>
           </Grid>
@@ -122,6 +156,8 @@ export default function PaymentForm(props: paymentFormProps) {
               fullWidth
               autoComplete="cc-exp"
               variant="standard"
+              onBlur={handleOnBlur}
+              onChange={handleChange}
             />
             <p className="invalid-checkout-field">{validExpirationDate}</p>
           </Grid>
@@ -135,6 +171,8 @@ export default function PaymentForm(props: paymentFormProps) {
               fullWidth
               autoComplete="cc-csc"
               variant="standard"
+              onBlur={handleOnBlur}
+              onChange={handleChange}
             />
             <p className="invalid-checkout-field">{validCvv}</p>
           </Grid>

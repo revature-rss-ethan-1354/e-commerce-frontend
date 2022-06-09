@@ -17,108 +17,131 @@ import Product from '../../models/Product';
 import { Select } from '@mui/material';
 
 const theme = createTheme();
-interface pain{
+interface pain {
   pid: number
 }
-export default function UpdateProduct(id : pain) {
-  let thingOne : Product = {
-    id:0,
-    name:"",
-    quantity:0,
-    price:0,
-    description:'',
-    image:'',
-    featured:false,
-    discontinued:false,
-    category:''
+export default function UpdateProduct(id: pain) {
+  let thingOne: Product = {
+    id: 0,
+    name: "",
+    quantity: 0,
+    price: 0,
+    description: '',
+    image: '',
+    featured: false,
+    discontinued: false,
+    category: ''
   }
-  
 
-    const [name, setName] = useState<string>('');
-    const [quantity, setQuantity] = useState<number>(0);
-    const [price, setPrice] = useState<number>(0);
-    const [description, setDescription] = useState<string>('');
-    const [image, setImage] = useState<string>('');
-    const [featured, isFeatured] = useState<boolean>(false);
-    const [category, setCategory] = useState<string>("");
-    const [discontinued, isDiscontinued] = useState<boolean>(false);
-    const [product, setThing] = useState<Product>(thingOne);
-    useEffect(() => {
-      console.log("inEffect", id)
-      const fetchIdData = async () => {
-          const result = await apiGetProductById(id.pid)
-    setThing(result.payload);
-    console.log(result.payload);}
-      fetchIdData()
-    }, [product])
 
-    const handleInput = (event: React.ChangeEvent<HTMLFormElement>) => {
-      if (event.target.name == "name") {
-        setName(event.target.value);
-        console.log(event.target.value);
-      }
-      else if (event.target.name == "quantity") {
-        setQuantity(event.target.value);
-        console.log(event.target.value);
-      }
-      else if (event.target.name == "price") {
-        setPrice(event.target.value);
-        console.log(event.target.value);
-      }
-      else if (event.target.name == "description") {
-        setDescription(event.target.value);
-        console.log(event.target.value);
-      }
-      else if (event.target.name == "image") {
-        setImage(event.target.value);
-        console.log(event.target.value);
-      }
+  const [name, setName] = useState<string>('');
+  const [quantity, setQuantity] = useState<number>(0);
+  const [price, setPrice] = useState<number>(0);
+  const [description, setDescription] = useState<string>('');
+  const [image, setImage] = useState<string>('');
+  const [featured, isFeatured] = useState<boolean>(false);
+  const [category, setCategory] = useState<string>("");
+  const [discontinued, isDiscontinued] = useState<boolean>(false);
+  const [product, setThing] = useState<Product>(thingOne);
+  useEffect(() => {
+    //if(thingOne.id == 0){
+    //console.log("inEffect", id)
+    const fetchIdData = async () => {
+      const result = await apiGetProductById(id.pid)
+      setThing(result.payload);
+      setName(result.payload.name);
+      setQuantity(result.payload.quantity);
+      setPrice(result.payload.price);
+      setDescription(result.payload.description);
+      setImage(result.payload.image);
+      isFeatured(result.payload.featured);
+      isDiscontinued(result.payload.discontinued);
+      setCategory(result.payload.category);
+    }
+    //console.log(name);
+    fetchIdData()
+    //}
+  }, [])
+
+  // const temp = {
+  //      id: product.id,
+  //       name:product.name,
+  //       quantity,
+  //       price,
+  //       description,
+  //       image,
+  //       featured,
+  //       discontinued,
+  //       category
+  //   }
+
+  const handleInput = (event: React.ChangeEvent<HTMLFormElement>) => {
+    if (event.target.name == "name") {
+      setName(event.target.value);
+      console.log(event.target.value);
+    }
+    else if (event.target.name == "quantity") {
+      setQuantity(event.target.value);
+      console.log(event.target.value);
+    }
+    else if (event.target.name == "price") {
+      setPrice(event.target.value);
+      console.log(event.target.value);
+    }
+    else if (event.target.name == "description") {
+      setDescription(event.target.value);
+      console.log(event.target.value);
+    }
+    else if (event.target.name == "image") {
+      setImage(event.target.value);
+      console.log(event.target.value);
+    }
+  }
+
+  const handleClick = (event: React.MouseEvent<HTMLInputElement>) => {
+    if (event.currentTarget.id == "featured") {
+      isFeatured(true);
+    }
+    else if (event.currentTarget.id == "not-featured") {
+      isFeatured(false);
+    }
+    else if (event.currentTarget.id == "discontinued") {
+      isDiscontinued(true);
+    }
+    else if (event.currentTarget.id == "not-discontinued") {
+      isDiscontinued(false);
+    }
+  }
+
+  const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    if (event.currentTarget.name == "category") {
+      setCategory(event.currentTarget.value);
+      console.log(event.currentTarget.value);
+    }
+  }
+
+  const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    let temp = {
+      id: product.id,
+      name,
+      quantity,
+      price,
+      description,
+      image,
+      featured,
+      discontinued,
+      category
     }
 
-    const handleClick = (event: React.MouseEvent<HTMLInputElement>) => {
-      if (event.currentTarget.id == "featured") {
-        isFeatured(true);
-      }
-      else if (event.currentTarget.id == "not-featured") {
-        isFeatured(false);
-      }
-      else if (event.currentTarget.id == "discontinued") {
-        isDiscontinued(true);
-      }
-      else if (event.currentTarget.id == "not-discontinued") {
-        isDiscontinued(false);
-      }
-    }
+    console.log(temp);
 
-    const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-      if (event.currentTarget.name == "category") {
-        setCategory(event.currentTarget.value);
-        console.log(event.currentTarget.value);
-      }
-    }
-        
-    const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();    
+    const response = await apiUpdateProduct(temp);
+  };
 
-        let temp = {
-            id: product.id,
-            name,
-            quantity,
-            price,
-            description,
-            image,
-            featured,
-            discontinued,
-            category
-        }
-
-        console.log(temp);
-                            
-        const response = await apiUpdateProduct(temp);
-    };
-    
-    return (
-        <ThemeProvider theme={theme}>
+  return (
+    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -143,7 +166,8 @@ export default function UpdateProduct(id : pain) {
               <Grid item xs={12} sm={6}>
 
                 <TextField
-                  placeholder={product.name}
+                  value={name}
+                  //placeholder={product.name}
                   name="name"
                   required
                   fullWidth
@@ -160,7 +184,8 @@ export default function UpdateProduct(id : pain) {
                   label="quantity"
                   type="number"
                   name="quantity"
-                  placeholder={product.quantity.toString()}
+                  //placeholder={product.quantity.toString()}
+                  value={quantity}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -171,7 +196,8 @@ export default function UpdateProduct(id : pain) {
                   label="Price"
                   name="price"
                   type="number"
-                  placeholder={product.price.toString()}
+                  //placeholder={product.price.toString()}
+                  value={price}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -181,40 +207,42 @@ export default function UpdateProduct(id : pain) {
                   name="description"
                   label="description"
                   id="description"
-                  placeholder={product.description}
+                  //placeholder={product.description}
+                  value={description}
                 />
-                </Grid>
-                    
-                <Grid item xs={12}>
+              </Grid>
+
+              <Grid item xs={12}>
                 <TextField
-                    fullWidth
-                    name="image"
-                    label="image"
-                    id="image"
-                    placeholder={product.image}
-                    />
+                  fullWidth
+                  name="image"
+                  label="image"
+                  id="image"
+                  //placeholder={product.image}
+                  value={image}
+                />
               </Grid>
 
               <Grid item xs={12}>
-                  {product.featured ? <h4>Featured</h4> : <></>}
-                  <input type="radio" name="is-featured" id="featured" value="featured" onClick={handleClick}></input>
-                  <label>Featured</label>
-                  <br/>
-                  <input type="radio" name="is-featured" id="not-featured" value="not-featured" onClick={handleClick}></input>
-                  <label>Not Featured</label>
+                {product.featured ? <h4>Featured</h4> : <></>}
+                <input type="radio" name="is-featured" id="featured" value="featured" onClick={handleClick}></input>
+                <label>Featured</label>
+                <br />
+                <input type="radio" name="is-featured" id="not-featured" value="not-featured" onClick={handleClick}></input>
+                <label>Not Featured</label>
               </Grid>
 
               <Grid item xs={12}>
-                  {product.discontinued ? <h4>Discontinued</h4> : <></>}
-                  <input type="radio" name="is-discontinued" id="discontinued" value="discontinued" onClick={handleClick}></input>
-                  <label>Discontinued</label>
-                  <br/>
-                  <input type="radio" name="is-discontinued" id="not-discontinued" value="not-discontinued" onClick={handleClick}></input>
-                  <label>Not Discontinued</label>
+                {product.discontinued ? <h4>Discontinued</h4> : <></>}
+                <input type="radio" name="is-discontinued" id="discontinued" value="discontinued" onClick={handleClick}></input>
+                <label>Discontinued</label>
+                <br />
+                <input type="radio" name="is-discontinued" id="not-discontinued" value="not-discontinued" onClick={handleClick}></input>
+                <label>Not Discontinued</label>
               </Grid>
 
               <Grid item xs={12}>
-                
+
                 {/*
                 <Select
                     fullWidth
@@ -229,13 +257,13 @@ export default function UpdateProduct(id : pain) {
                 */}
 
                 <select
-                    name="category"
-                    id="category"
-                    onChange = {handleSelect}
-                    >
-                      <option selected value="clothing">Clothing</option>
-                      <option value="accessories">Accessories</option>
-                      <option value="electronics">Electronics</option>
+                  name="category"
+                  id="category"
+                  onChange={handleSelect}
+                >
+                  <option selected value="clothing">Clothing</option>
+                  <option value="accessories">Accessories</option>
+                  <option value="electronics">Electronics</option>
                 </select>
 
               </Grid>
@@ -250,11 +278,11 @@ export default function UpdateProduct(id : pain) {
             >
               Update Product
             </Button>
-           
+
           </Box>
         </Box>
       </Container>
     </ThemeProvider>
-            
-    )
+
+  )
 }

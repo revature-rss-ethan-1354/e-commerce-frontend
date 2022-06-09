@@ -23,6 +23,8 @@ export default function UpdateProduct() {
   let productId = Number(((window.location.pathname).split('/update/'))[1]);
   console.log("Pid "+productId);
 
+  const navigator = useNavigate();
+
   const [name, setName] = useState<string>('');
   const [quantity, setQuantity] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
@@ -112,6 +114,7 @@ export default function UpdateProduct() {
     console.log(temp);
 
     const response = await apiUpdateProduct(temp);
+    navigator('/');
   };
 
   return (

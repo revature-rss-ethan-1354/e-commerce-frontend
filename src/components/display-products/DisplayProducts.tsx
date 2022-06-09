@@ -4,7 +4,6 @@ import Product from '../../models/Product';
 import { apiGetAllProducts } from '../../remote/e-commerce-api/productService';
 import Navbar from '../navbar/Narbar';
 import { ProductCard } from './ProductCard';
-import Chat from '../chat/Chat';
 
 const Container = styled.div`
   padding: 20px;
@@ -82,7 +81,6 @@ export const DisplayProducts = () => {
           <ProductCard product={item} key={item.id} />
         ))}
       </Container>
-      <Chat />
     </React.Fragment>
   );
 };

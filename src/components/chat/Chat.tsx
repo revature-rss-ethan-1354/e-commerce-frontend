@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { CometChat } from '@cometchat-pro/chat';
 import * as CONSTANTS from '../constants/constants';
-import Popup from './Popup';
+// import Popup from './Popup';
 // import Popup from './Popup';
 
 const Chat = () => {

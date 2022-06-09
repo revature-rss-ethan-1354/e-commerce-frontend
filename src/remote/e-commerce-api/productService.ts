@@ -7,7 +7,6 @@ export const apiGetAllProducts = async (): Promise<eCommerceApiResponse> => {
     const response = await eCommerceClient.get<any>(
         `${baseURL}`
     );
-    console.log(response.data);
     return { status: response.status, payload: response.data };
 }
 

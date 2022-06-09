@@ -1,8 +1,9 @@
 import { Badge } from "@material-ui/core";
 import { ShoppingCartOutlined } from "@material-ui/icons";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { apiCheckLogin, apiLogout } from "../../remote/e-commerce-api/authService";
 
 const Container = styled.div`
   height: 60px;
@@ -37,8 +38,32 @@ const MenuItem = styled.div`
   margin-left: 25px;
 `;
 
+
+
+
 const Navbar = () => {
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const checkLogin = await apiCheckLogin()
+      setLoggedIn(checkLogin.payload);
+    }
+    fetchData()
+  }, [])
+
   const navigate = useNavigate();
+  const [loggedIn, setLoggedIn] = useState<number>(1);
+
+  const handleLogout = () => {
+    apiLogout()
+    setLoggedIn(1)
+    navigate("/")
+  }
+
+  const handleCart = () => {
+    if(loggedIn) navigate("/cart")
+    else navigate("/login")
+  }
 
   return (
     <Container>
@@ -47,9 +72,11 @@ const Navbar = () => {
         <Logo onClick={() => {navigate('/')}}>Revature Swag Shop</Logo>
         </Left>
         <Right>
+          {loggedIn != 1 ? <MenuItem onClick={handleLogout}>LOG OUT</MenuItem> :
+          <>
           <MenuItem onClick={() => {navigate('/register')}}>REGISTER</MenuItem>
-          <MenuItem onClick={() => {navigate('/login')}}>SIGN IN</MenuItem>
-          <MenuItem onClick={() => {navigate('/cart')}}>
+          <MenuItem onClick={() => {navigate('/login')}}>SIGN IN</MenuItem></>}
+          <MenuItem onClick={handleCart}>
             <Badge color="primary">
               <ShoppingCartOutlined />
             </Badge>

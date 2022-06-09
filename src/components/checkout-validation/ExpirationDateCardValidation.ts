@@ -21,10 +21,10 @@ export let isValidExpirationDate: (expirationDate: String) => String = function 
         if (expirationMonthNumber >= currentMonth) {
 
         } else {
-            return "Invalid month";
+            return "Card expired";
         }
     } else {
-        return "Invalid year";
+        return "Card expired";
     }
     
    return "";

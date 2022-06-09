@@ -12,6 +12,10 @@ import { isValidFirstName } from "../checkout-validation/FirstNameValidation";
 import { isValidLastName } from "../checkout-validation/LastNameValidation";
 import { isValidAddress } from "../checkout-validation/AddressValidation";
 import "../checkout/Checkout.css";
+/*
+ * import { Autocomplete } from "@lob/react-address-autocomplete";
+ * <Autocomplete apiKey="YOUR_API_KEY" />;
+ */
 
 interface addressFormProps {
   updateAddress: (addresses: Address) => void;
@@ -40,6 +44,10 @@ export default function AddressForm(props: addressFormProps) {
   let repeatZipOrPostal: String = "";
   let repeatCountry: String = "";
 
+  /*
+   * Declare and set the states of
+   * the TextField entries
+   */
   let [validFirstName, setValidFirstName] = React.useState<String>("");
   let [validLastName, setValidLastName] = React.useState<String>("");
   let [validAddress, setValidAddress] = React.useState<String>("");
@@ -76,8 +84,6 @@ export default function AddressForm(props: addressFormProps) {
     city = new String(data.get("city"));
     repeatCity = isValidCity(city, country);
     setValidCity(isValidCity(city, country));
-    console.log(repeatCity);
-    console.log(country);
 
     stateOrRegion = new String(data.get("state"));
     repeatStateOrRegion = isValidStateOrRegion(stateOrRegion, country);

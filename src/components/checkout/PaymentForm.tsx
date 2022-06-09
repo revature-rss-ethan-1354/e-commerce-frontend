@@ -4,7 +4,10 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import PaymentDetail from "../../models/PaymentDetail";
 import { Box, Button } from "@mui/material";
-import { isValidFirstName } from "../checkout-validation/FirstNameValidation";
+import { isValidFullName } from "../checkout-validation/FullNameCardValidation";
+import { isValidCardNumber } from "../checkout-validation/CardNumberValidation";
+import { isValidExpirationDate } from "../checkout-validation/ExpirationDateCardValidation";
+import { isValidCvv } from "../checkout-validation/CvvValidation";
 
 interface paymentFormProps {
   handleBack: () => void;
@@ -13,15 +16,46 @@ interface paymentFormProps {
 }
 
 export default function PaymentForm(props: paymentFormProps) {
-  let fullName;
+  let fullName: String = "";
+  let cardNumber: String = "";
+  let expirationDate: String = "";
+  let cvv: String = "";
+
+  /*
+   * This logic makes it possible to not
+   * go to the Review order page if the
+   * text fields are left black
+   */
+  let repeatFullName: String = "";
+  let repeatCardNumber: String = "";
+  let repeatExpirationDate: String = "";
+  let repeatCvv: String = "";
+
   let [validFullName, setValidFullName] = React.useState<String>("");
+  let [validCardNumber, setValidCardNumber] = React.useState<String>("");
+  let [validExpirationDate, setValidExpirationDate] =
+    React.useState<String>("");
+  let [validCvv, setValidCvv] = React.useState<String>("");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
     fullName = new String(data.get("cardName"));
-    setValidFullName(isValidFirstName(fullName));
+    repeatFullName = isValidFullName(fullName);
+    setValidFullName(isValidFullName(fullName));
+
+    cardNumber = new String(data.get("cardNumber"));
+    repeatCardNumber = isValidCardNumber(cardNumber);
+    setValidCardNumber(isValidCardNumber(cardNumber));
+
+    expirationDate = new String(data.get("expDate"));
+    repeatExpirationDate = isValidExpirationDate(expirationDate);
+    setValidExpirationDate(isValidExpirationDate(expirationDate));
+
+    cvv = `${data.get("cvv")}`;
+    repeatCvv = isValidCvv(cvv);
+    setValidCvv(isValidCvv(cvv));
 
     props.updatePayment([
       { name: "Card Type", detail: `Visa` },
@@ -32,7 +66,16 @@ export default function PaymentForm(props: paymentFormProps) {
       },
       { name: "Expiry Date", detail: `${data.get("expDate")}` },
     ]);
-    // props.handleNext();
+
+    if (
+      repeatFullName.length === 0 &&
+      repeatCardNumber.length === 0 &&
+      repeatExpirationDate.length === 0 &&
+      repeatCvv.length === 0
+    ) {
+      props.handleNext();
+    } else {
+    }
   };
 
   const formatCardNumber = (cardNumber: string) => {
@@ -56,7 +99,7 @@ export default function PaymentForm(props: paymentFormProps) {
               autoComplete="cc-name"
               variant="standard"
             />
-            <p className="invalid-checkout">{validFullName}</p>
+            <p className="invalid-checkout-field">{validFullName}</p>
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
@@ -68,17 +111,19 @@ export default function PaymentForm(props: paymentFormProps) {
               autoComplete="cc-number"
               variant="standard"
             />
+            <p className="invalid-checkout-field">{validCardNumber}</p>
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
               required
               id="expDate"
               name="expDate"
-              label="Expiry date"
+              label="Expiry date (MMYY)"
               fullWidth
               autoComplete="cc-exp"
               variant="standard"
             />
+            <p className="invalid-checkout-field">{validExpirationDate}</p>
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
@@ -86,11 +131,12 @@ export default function PaymentForm(props: paymentFormProps) {
               id="cvv"
               name="cvv"
               label="CVV"
-              helperText="Last three digits on signature strip"
+              // helperText="Last three digits on signature strip"
               fullWidth
               autoComplete="cc-csc"
               variant="standard"
             />
+            <p className="invalid-checkout-field">{validCvv}</p>
           </Grid>
         </Grid>
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>

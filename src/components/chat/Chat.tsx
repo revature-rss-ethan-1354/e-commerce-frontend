@@ -27,6 +27,7 @@ const Chat = () => {
   var uid = "user1";
   var name = "Kevin";
 
+  // if user doesn't exist, create user
   var user = new CometChat.User(uid);
   user.setName(name);
   CometChat.createUser(user, authKey).then(
@@ -38,6 +39,7 @@ const Chat = () => {
     }
   );
 
+  // if user exists, login user
   // Chat Superhero
   CometChat.login("SUPERHERO1", authKey).then(
     (user) => {
@@ -51,7 +53,7 @@ const Chat = () => {
   return (
     <div>
       <h1>Chat popup!!!123</h1>
-      {/* <Popup></Popup> */}
+      {/* <Popup></Popup>  */}
     </div>
   );
 };

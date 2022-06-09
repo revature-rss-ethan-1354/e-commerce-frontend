@@ -19,6 +19,7 @@
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.3",
     "axios": "^0.27.2",
+    "babel-runtime": "^6.26.0",
     "dateformat": "^4.0.0",
     "emoji-mart": "^5.1.0",
     "html-react-parser": "^1.4.5",

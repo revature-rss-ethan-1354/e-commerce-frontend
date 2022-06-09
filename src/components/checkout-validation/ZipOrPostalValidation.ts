@@ -2,11 +2,12 @@ export let isValidZipOrPostal: (zipOrPostal: String, country: String) => String 
     zipOrPostal: String, country: String
   ): String {
 
-    if(zipOrPostal.length === 0) {
-        return "Zip/Postal code must not be empty";
-    }
+    let zipOrPostalText;
 
-    if(country.toLowerCase() === "canada") {
+    if(zipOrPostal.length === 0) {
+        zipOrPostalText = "Zip/Postal code must not be empty";
+        return zipOrPostalText;
+    } else if(country.toLowerCase() === "canada") {
         let zipOrPostalNumber;
         let zipOrPostalValue;
     
@@ -15,7 +16,7 @@ export let isValidZipOrPostal: (zipOrPostal: String, country: String) => String 
         if(zipOrPostal.length === 7) {
             zipOrPostalValue = zipOrPostal.replace(/\s/g, "");
         } else if(zipOrPostal.length > 7) {
-            return "Invalid Postal Code";
+            return "Invalid postal code";
         } else {
             zipOrPostalValue = zipOrPostal;
         }
@@ -31,10 +32,10 @@ export let isValidZipOrPostal: (zipOrPostal: String, country: String) => String 
                         if(zipOrPostalNumber <= 122 && zipOrPostalNumber >= 97) {
                             
                         } else {
-                            return "Invalid Postal Code";
+                            return "Invalid postal code";
                         }
                     } else {
-                        return "Invalid Postal Code";
+                        return "Invalid postal code";
                     }
                 } else if (variable == 1) {
                     zipOrPostalNumber = zipOrPostalValue.codePointAt(i);
@@ -42,15 +43,15 @@ export let isValidZipOrPostal: (zipOrPostal: String, country: String) => String 
                         if(zipOrPostalNumber <= 57 && zipOrPostalNumber >= 48) {
                             
                         } else {
-                            return "Invalid Postal Code";
+                            return "Invalid postal code";
                         }
                     } else {
-                        return "Invalid Postal Code";
+                        return "Invalid postal code";
                     }
                 }
             }
         } else {
-            return "Invalid Postal Code";
+            return "Invalid postal code";
         }
         
     } else if (country.toLowerCase() === "united states" || country.toLowerCase() === "usa" || country.toLowerCase() === "united states of america" || country.toLowerCase() === "U.S.") {
@@ -61,16 +62,16 @@ export let isValidZipOrPostal: (zipOrPostal: String, country: String) => String 
                     if(zipOrPostalValue <= 57 && zipOrPostalValue >= 48) {
                         
                     } else {
-                        return "ZIP code should have only numbers";
+                        return "Zip code should have only numbers";
                     }
                 } else {
-                    return "Invalid ZIP Code";
+                    return "Invalid zip code";
                 }
             }
         } else {
-            return "Invalid ZIP Code";
+            return "Invalid zip code";
         }
-    } else {
+    } else if (zipOrPostal === zipOrPostalText) {
         return "";
     }
 

@@ -1,17 +1,18 @@
 export let isValidCity: (city: String, country: String) => String = function (
     city: String, country: String
  ): String {
-
-    if(city.length === 0) {
-        return "City must not be empty";
-    } 
+   
+    let cityText;
     
-    if(country.toLowerCase() === "canada") {
+    if(city.length === 0) {
+        cityText = "City must not be empty";
+        return cityText;
+    } else if(country.toLowerCase() === "canada") {
         const pattern = "^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$";
         
         if (city.match(pattern)){
         } else {
-            return "Invalid City";
+            return "Invalid city";
         }
 
     } else if (country.toLowerCase() === "united states" || country.toLowerCase() === "usa" || country.toLowerCase() === "united states of america" || country.toLowerCase() === "U.S.") {
@@ -19,8 +20,10 @@ export let isValidCity: (city: String, country: String) => String = function (
         
         if (city.match(pattern)){
         } else {
-            return "Invalid City";
+            return "Invalid city";
         }
+    } else if (city === cityText) {
+        return "";
     }
 
    return "";

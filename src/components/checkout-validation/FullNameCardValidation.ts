@@ -6,7 +6,6 @@ export let isValidFullName: (fullName: String) => String = function (
         return "Full name must not be empty";
     } 
 
-    console.log(fullName);
     for(let i = 0; i < fullName.length; i++) {
         let fullNameValue = fullName.codePointAt(i);
         if(fullNameValue) {

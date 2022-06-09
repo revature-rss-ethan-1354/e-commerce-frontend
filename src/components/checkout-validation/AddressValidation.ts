@@ -4,7 +4,7 @@ export let isValidAddress: (address: String) => String = function (
 
     if(address.length === 0) {
         return "Address must not be empty";
-    } 
+    }
 
    return "";
  };

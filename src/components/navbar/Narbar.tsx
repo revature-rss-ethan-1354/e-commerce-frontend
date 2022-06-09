@@ -72,6 +72,7 @@ const Navbar = () => {
         <Logo onClick={() => {navigate('/')}}>Revature Swag Shop</Logo>
         </Left>
         <Right>
+          {loggedIn == 3 ? <MenuItem onClick={() => {navigate('/create')}}>CREATE</MenuItem> : <></>}
           {loggedIn != 1 ? <MenuItem onClick={handleLogout}>LOG OUT</MenuItem> :
           <>
           <MenuItem onClick={() => {navigate('/register')}}>REGISTER</MenuItem>

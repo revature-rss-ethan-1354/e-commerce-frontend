@@ -2,10 +2,14 @@ import {
     SearchOutlined,
     ShoppingCartOutlined,
   } from "@material-ui/icons";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
   import styled from "styled-components";
 import { CartContext } from "../../context/cart.context";
 import Product from "../../models/Product";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { apiCheckLogin } from "../../remote/e-commerce-api/authService";
+import EditIcon from '@mui/icons-material/Edit';
   
   const Info = styled.div`
     opacity: 0;
@@ -74,9 +78,18 @@ import Product from "../../models/Product";
 
   export const ProductCard = (props: productProps) => {
     const { cart, setCart } = useContext(CartContext);
+    const [loggedInStatus, setLoggedInStatus] = useState<number>(1);
+    const navigator = useNavigate();
+
+    useEffect(() => {
+      const fetchData = async () => {
+        const result = await apiCheckLogin();
+        setLoggedInStatus(result.payload);
+      }
+      fetchData();
+    }, []);
 
     const addItemToCart = (product: Product) => {
-
       const newCart = [...cart]
       const index = newCart.findIndex((searchProduct) => {
         return searchProduct.id === product.id
@@ -88,6 +101,12 @@ import Product from "../../models/Product";
       setCart(newCart)
     }
 
+    const handleUpdate = () => {
+      if(loggedInStatus == 3) {
+        navigator(`/update/${props.product.id}`);
+      }
+    }
+
     return (
       <Container>
         <Circle />
@@ -96,9 +115,10 @@ import Product from "../../models/Product";
           <Icon>
             <ShoppingCartOutlined onClick={() => {addItemToCart({...props.product, quantity: 1})}} />
           </Icon>
+          {loggedInStatus == 3 ? 
           <Icon>
-            <SearchOutlined />
-          </Icon>
+            <EditIcon onClick={handleUpdate} />
+          </Icon> : <></> }
         </Info>
       </Container>
     );

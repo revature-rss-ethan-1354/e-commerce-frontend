@@ -37,14 +37,12 @@ export default function PaymentForm(props: paymentFormProps) {
     React.useState<String>("");
   let [validCvv, setValidCvv] = React.useState<String>("");
 
-  /*
-   *
-   */
   const [fullNameText, setFullNameText] = React.useState<String>("");
   const [cardNumberText, setCardNumberText] = React.useState<String>("");
   const [expirationDateText, setExpirationDateText] =
     React.useState<String>("");
   const [cvvText, setCvvText] = React.useState<String>("");
+
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

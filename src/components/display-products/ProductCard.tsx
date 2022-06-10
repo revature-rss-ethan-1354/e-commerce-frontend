@@ -82,7 +82,7 @@ const OutOfStock = styled.div`
   position: absolute;
   font-weight: bold;
   bottom: 30%;
-  font-size: 40px;
+  font-size: 1.7vw;
 `;
 
 const Featured = styled.div`
@@ -98,6 +98,15 @@ const Featured = styled.div`
   &:hover ${Info} {
     opacity: 1;
   }
+`;
+
+const Price = styled.div`
+  top: 8%;
+  z-index: 200;
+  right: 10%;
+  position: absolute;
+  font-family: fantasy;
+  font-size: 30px;
 `;
 
 // const VerifiedIcon = styled.div`
@@ -154,6 +163,17 @@ export const ProductCard = (props: productProps) => {
               ) : (
                 <></>
               )}
+              {props.product.discontinued ? (
+                <OutOfStock>DISCONTINUED</OutOfStock>
+              ) : (
+                <></>
+              )}
+              <Price>
+                $
+                {props.product.price % 1 == 0
+                  ? props.product.price
+                  : props.product.price.toFixed(2)}
+              </Price>
               <Image src={props.product.image} />
               <Info>
                 {props.product.discontinued || props.product.quantity == 0 ? (
@@ -196,6 +216,13 @@ export const ProductCard = (props: productProps) => {
               >
                 <VerifiedIcon />
               </div>
+
+              <Price>
+                $
+                {props.product.price % 1 == 0
+                  ? props.product.price
+                  : props.product.price.toFixed(2)}
+              </Price>
 
               <Image src={props.product.image} />
               <Info>

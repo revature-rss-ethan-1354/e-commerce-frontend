@@ -8,6 +8,7 @@ import {
   apiLogout,
 } from "../../remote/e-commerce-api/authService";
 import pride from "./revBackground.png";
+import { useCallback } from "react";
 
 const Container = styled.div`
   height: fit-content;
@@ -64,6 +65,7 @@ const Navbar = () => {
   const handleLogout = () => {
     apiLogout();
     setLoggedIn(1);
+    window.location.reload();
     navigate("/");
   };
 

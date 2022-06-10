@@ -3,7 +3,10 @@ import { ShoppingCartOutlined } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { apiCheckLogin, apiLogout } from "../../remote/e-commerce-api/authService";
+import {
+  apiCheckLogin,
+  apiLogout,
+} from "../../remote/e-commerce-api/authService";
 
 const Container = styled.div`
   height: 60px;
@@ -38,45 +41,85 @@ const MenuItem = styled.div`
   margin-left: 25px;
 `;
 
-
-
-
 const Navbar = () => {
-
   useEffect(() => {
     const fetchData = async () => {
-      const checkLogin = await apiCheckLogin()
+      const checkLogin = await apiCheckLogin();
       setLoggedIn(checkLogin.payload);
-    }
-    fetchData()
-  }, [])
+    };
+    fetchData();
+  }, []);
 
   const navigate = useNavigate();
   const [loggedIn, setLoggedIn] = useState<number>(1);
 
   const handleLogout = () => {
-    apiLogout()
-    setLoggedIn(1)
-    navigate("/")
-  }
+    apiLogout();
+    setLoggedIn(1);
+    navigate("/");
+  };
 
   const handleCart = () => {
-    if(loggedIn) navigate("/cart")
-    else navigate("/login")
-  }
+    if (loggedIn) navigate("/cart");
+    else navigate("/login");
+  };
 
   return (
     <Container>
       <Wrapper>
         <Left>
-        <Logo onClick={() => {navigate('/')}}>Revature Swag Shop</Logo>
+          <Logo
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            Revature Swag Shop
+          </Logo>
         </Left>
         <Right>
-          {loggedIn == 3 ? <MenuItem onClick={() => {navigate('/create')}}>CREATE</MenuItem> : <></>}
-          {loggedIn != 1 ? <MenuItem onClick={handleLogout}>LOG OUT</MenuItem> :
-          <>
-          <MenuItem onClick={() => {navigate('/register')}}>REGISTER</MenuItem>
-          <MenuItem onClick={() => {navigate('/login')}}>SIGN IN</MenuItem></>}
+          {loggedIn == 3 ? (
+            <>
+              {window.location.pathname == "/create" ? (
+                <MenuItem
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                >
+                  SEARCH
+                </MenuItem>
+              ) : (
+                <MenuItem
+                  onClick={() => {
+                    navigate("/create");
+                  }}
+                >
+                  CREATE
+                </MenuItem>
+              )}
+            </>
+          ) : (
+            <></>
+          )}
+          {loggedIn != 1 ? (
+            <MenuItem onClick={handleLogout}>LOG OUT</MenuItem>
+          ) : (
+            <>
+              <MenuItem
+                onClick={() => {
+                  navigate("/register");
+                }}
+              >
+                REGISTER
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  navigate("/login");
+                }}
+              >
+                SIGN IN
+              </MenuItem>
+            </>
+          )}
           <MenuItem onClick={handleCart}>
             <Badge color="primary">
               <ShoppingCartOutlined />

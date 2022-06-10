@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { apiCheckLogin, apiLogout } from "../../remote/e-commerce-api/authService";
-
+import pride from "./revBackground.png"
 const Container = styled.div`
   height: 60px;
 `;
@@ -37,7 +37,11 @@ const MenuItem = styled.div`
   cursor: pointer;
   margin-left: 25px;
 `;
-
+const Image = styled.img`
+ width: 200px;
+ height: 75px;
+z-index: 2;
+`;
 
 
 
@@ -46,19 +50,19 @@ const Navbar = () => {
   useEffect(() => {
     const fetchData = async () => {
       const checkLogin = await apiCheckLogin()
-      if (checkLogin.payload) {
-        setLoggedIn(true)
-      }
+      
+        setLoggedIn(checkLogin.payload)
+      
     }
     fetchData()
   }, [])
 
   const navigate = useNavigate();
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState<number>(1);
 
   const handleLogout = () => {
     apiLogout()
-    setLoggedIn(false)
+    setLoggedIn(1)
     navigate("/")
   }
 
@@ -71,10 +75,10 @@ const Navbar = () => {
     <Container>
       <Wrapper>
         <Left>
-        <Logo onClick={() => {navigate('/')}}>Revature Swag Shop</Logo>
+          <Image src={pride} onClick={() => {navigate('/')}}/>
         </Left>
         <Right>
-          {loggedIn? <MenuItem onClick={handleLogout}>LOG OUT</MenuItem> :
+          {loggedIn != 1? <MenuItem onClick={handleLogout}>LOG OUT</MenuItem> :
           <>
           <MenuItem onClick={() => {navigate('/register')}}>REGISTER</MenuItem>
           <MenuItem onClick={() => {navigate('/login')}}>SIGN IN</MenuItem></>}

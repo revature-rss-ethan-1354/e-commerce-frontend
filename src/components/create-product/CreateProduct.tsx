@@ -21,8 +21,13 @@ import { Select } from "@mui/material";
 import Navbar from "../navbar/Narbar";
 
 import "./CreateProduct.css";
+import "../../fonts/Futura-Std-Book.otf";
 
-const theme = createTheme();
+const theme = createTheme({
+  typography: {
+    fontFamily: "Futura-Std-Book"
+  }
+});
 
 export default function CreateProduct() {
   const [name, setName] = useState<string>("");
@@ -164,7 +169,7 @@ export default function CreateProduct() {
                 />
               </Grid>
 
-              <Grid item xs={12}>
+              <div className="switch-container">
                 {/* <input
                   type="radio"
                   name="is-featured"
@@ -182,6 +187,7 @@ export default function CreateProduct() {
                   onClick={handleClick}
                 ></input>
                 <label>Not Featured</label> */}
+                <span className="featured">Featured:</span>
                 <label className="switch">
                   <input
                     type="checkbox"
@@ -190,8 +196,7 @@ export default function CreateProduct() {
                   />
                   <span className="slider round"></span>
                 </label>
-                <span className="featured">Featured</span>
-              </Grid>
+              </div>
 
               <Grid item xs={12}>
                 {/*
@@ -207,7 +212,7 @@ export default function CreateProduct() {
                 </Select>
                 */}
 
-                <select name="category" id="category" onChange={handleSelect}>
+                <select className="category" id="category" onChange={handleSelect}>
                   <option selected value="clothing">
                     Clothing
                   </option>
@@ -216,15 +221,13 @@ export default function CreateProduct() {
                 </select>
               </Grid>
             </Grid>
-            <Button
+            <button
+              className="create-button"
               type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
               onClick={handleSubmit}
             >
               Create Product
-            </Button>
+            </button>
           </Box>
         </Box>
       </Container>

@@ -17,15 +17,20 @@ const theme = createTheme();
 
 export default function Login() {
   const navigate = useNavigate();
-
+  let [invalidEmail, setinvalidEmail] = React.useState<String>("");
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const response = await apiLogin(
-      `${data.get("email")}`,
-      `${data.get("password")}`
-    );
-    if (response.status >= 200 && response.status < 300) navigate("/");
+    try{
+      const response = await apiLogin(
+        `${data.get("email")}`,
+        `${data.get("password")}`
+      );
+      if (response.status >= 200 && response.status < 300) navigate("/");
+    }
+    catch{
+      setinvalidEmail("Email or Password incorrect");
+    }
   };
 
   return (
@@ -52,6 +57,7 @@ export default function Login() {
             noValidate
             sx={{ mt: 1 }}
           >
+            <p className="invalid-checkout-field">{invalidEmail}</p>
             <TextField
               margin="normal"
               required

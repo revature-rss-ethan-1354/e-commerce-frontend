@@ -6,24 +6,24 @@ import Navbar from "../navbar/Narbar";
 import { ProductCard } from "./ProductCard";
 import { isValidPriceRange } from "../display-products-validation/PriceRangeValidation";
 import { useNavigate } from "react-router-dom";
+import "./DisplayProducts.css";
 // import Chat from '../chat/Chat';
 
 const Container = styled.div`
   padding: 20px;
   display: flex;
   flex-wrap: wrap;
-
   justify-content: space-between;
 `;
 
 const SearchContainer = styled.div`
   height: 100vh;
-  width: fit-content;
+  min-width: 280px;
   border: 2px solid black;
 `;
 
 const ItemContainer = styled.div`
-  width: 80vh;
+  width: fit-content;
   padding: 20px;
   display: flex;
   flex-wrap: wrap;
@@ -80,51 +80,55 @@ export const DisplayProducts = () => {
       <Container>
         <SearchContainer>
           <form>
-            <label>Search Products</label> <br />
-            <input
-              className="search-field"
-              type="text"
-              name="search-box"
-              value={filter}
-              placeholder="search"
-              onChange={handleInput}
-            />
-            <br />
-            <label>Categories</label> <br />
-            <label>
+            <label className="title">Search Products</label> <br />
+            <div className="search">
               <input
-                className="radio-box"
-                type="radio"
-                name="category"
-                value="clothing"
+                className="search-field"
+                type="text"
+                name="search-box"
+                value={filter}
+                placeholder="search"
                 onChange={handleInput}
               />
-              Clothes
-            </label>{" "}
+            </div>
             <br />
-            <label>
-              <input
-                className="radio-box"
-                type="radio"
-                name="category"
-                value="electronics"
-                onChange={handleInput}
-              />
-              Electronics
-            </label>{" "}
-            <br />
-            <label>
-              <input
-                className="radio-box"
-                type="radio"
-                name="category"
-                value="accessories"
-                onChange={handleInput}
-              />
-              Accessories
-            </label>
+            <div className="categories">
+              <label className="title">Categories</label> <br />
+              <label>
+                <input
+                  className="radio-box"
+                  type="radio"
+                  name="category"
+                  value="clothing"
+                  onChange={handleInput}
+                />
+                Clothes
+              </label>{" "}
+              <br />
+              <label>
+                <input
+                  className="radio-box"
+                  type="radio"
+                  name="category"
+                  value="electronics"
+                  onChange={handleInput}
+                />
+                Electronics
+              </label>{" "}
+              <br />
+              <label>
+                <input
+                  className="radio-box"
+                  type="radio"
+                  name="category"
+                  value="accessories"
+                  onChange={handleInput}
+                />
+                Accessories
+              </label>
+            </div>
             <div>
-              <label>Price Range</label> <br />
+              <label className="title">Price Range</label> <br />
               <input
                 className="price-range"
                 type="text"

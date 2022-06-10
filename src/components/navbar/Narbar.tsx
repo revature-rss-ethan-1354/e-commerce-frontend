@@ -64,7 +64,7 @@ const Navbar = () => {
   };
 
   const handleCart = () => {
-    if (loggedIn) navigate("/cart");
+    if (loggedIn != 1) navigate("/cart");
     else navigate("/login");
   };
 

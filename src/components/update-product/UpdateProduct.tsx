@@ -16,6 +16,8 @@ import { apiGetProductById, apiUpdateProduct } from '../../remote/e-commerce-api
 import Product from '../../models/Product';
 import { Select } from '@mui/material';
 import { useParams } from 'react-router-dom';
+import Navbar from '../navbar/Narbar';
+import "./UpdateProduct.css";
 
 const theme = createTheme();
 export default function UpdateProduct() {
@@ -119,6 +121,7 @@ export default function UpdateProduct() {
 
   return (
     <ThemeProvider theme={theme}>
+      <Navbar />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -234,27 +237,24 @@ export default function UpdateProduct() {
                 */}
 
                 <select
-                  name="category"
+                  className="category"
                   id="category"
                   onChange={handleSelect}
                 >
-                  <option selected value="clothing">Clothing</option>
-                  <option value="accessories">Accessories</option>
-                  <option value="electronics">Electronics</option>
+                  <option className="option" selected value="clothing">Clothing</option>
+                  <option className="option" value="accessories">Accessories</option>
+                  <option className="option" value="electronics">Electronics</option>
                 </select>
 
               </Grid>
-
             </Grid>
-            <Button
+            <button
               type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
               onClick={handleSubmit}
+              className="submit-button"
             >
               Update Product
-            </Button>
+            </button>
 
           </Box>
         </Box>

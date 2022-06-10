@@ -21,8 +21,14 @@ import { Select } from "@mui/material";
 import { useParams } from "react-router-dom";
 import Navbar from "../navbar/Narbar";
 import "./UpdateProduct.css";
+import "../../fonts/Futura-Std-Book.otf";
 
-const theme = createTheme();
+const theme = createTheme({
+  typography: {
+    fontFamily: "Futura-Std-Book"
+  }
+});
+
 export default function UpdateProduct() {
   let productId = Number(window.location.pathname.split("/update/")[1]);
   console.log("Pid " + productId);
@@ -113,6 +119,7 @@ export default function UpdateProduct() {
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
+      <div className="body-container">
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -198,7 +205,8 @@ export default function UpdateProduct() {
                 />
               </Grid>
 
-              <Grid item xs={12}>
+              <div className="switch-container">
+              <span className="featured">Featured:</span>
                 <label className="switch">
                   <input
                     type="checkbox"
@@ -208,10 +216,8 @@ export default function UpdateProduct() {
                   />
                   <span className="slider round"></span>
                 </label>
-                <span className="featured">Featured</span>
-              </Grid>
 
-              <Grid item xs={12}>
+                <span className="featured">Discontinued:</span>
                 <label className="switch">
                   <input
                     type="checkbox"
@@ -221,8 +227,7 @@ export default function UpdateProduct() {
                   />
                   <span className="slider round"></span>
                 </label>
-                <span className="featured">Discontinued</span>
-              </Grid>
+              </div>
 
               <Grid item xs={12}>
                 {/*
@@ -260,6 +265,7 @@ export default function UpdateProduct() {
           </Box>
         </Box>
       </Container>
+      </div>
     </ThemeProvider>
   );
 }

@@ -7,6 +7,15 @@
     --light-gray: #b9b9ba;
 }
 
+.body-container {
+    font-family: 'Futura-Std-Book';
+}
+
+@font-face {
+    font-family: 'Futura-Std-Book';
+    src: url(../../fonts/Futura-Std-Book.otf) format("opentype");
+}
+
 .submit-button {
     display: block;
     margin-top: 4rem;
@@ -19,6 +28,7 @@
     color: #ffffff;
     font-weight: 600;
     font-size: large;
+    font-family: 'Futura-Std-Book';
 }
 
 .submit-button:hover {
@@ -34,6 +44,7 @@
     font-size: medium;
     text-align: left;
     border-radius: 5px;
+    font-family: 'Futura-Std-Book';
 }
 
 .category:hover {
@@ -49,7 +60,9 @@ select option:hover {
   position: relative;
   display: inline-block;
   width: 60px;
-  height: 34px;
+  height: 28px;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
 /* Hide default HTML checkbox */
@@ -57,6 +70,13 @@ select option:hover {
   opacity: 0;
   width: 0;
   height: 0;
+}
+
+.switch-container {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
 }
 
 /* The slider */
@@ -75,8 +95,8 @@ select option:hover {
 .slider:before {
   position: absolute;
   content: "";
-  height: 26px;
-  width: 26px;
+  height: 20px;
+  width: 20px;
   left: 4px;
   bottom: 4px;
   background-color: white;
@@ -93,9 +113,9 @@ input:focus + .slider {
 }
 
 input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
+  -webkit-transform: translateX(32px);
+  -ms-transform: translateX(32px);
+  transform: translateX(32px);
 }
 
 /* Rounded sliders */
@@ -105,4 +125,11 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+.featured {
+    display: inline-flex;
+    justify-content: center;
+    vertical-align: middle;
+    font-weight: bold;
 }

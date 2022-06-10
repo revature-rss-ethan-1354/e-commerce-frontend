@@ -1,0 +1,5 @@
+.invalid-checkout-field {
+    font-size: 0.8rem;
+    color: var(--error-red); 
+    font-weight: 450; 
+}

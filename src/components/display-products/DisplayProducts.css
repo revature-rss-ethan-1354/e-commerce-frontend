@@ -23,6 +23,10 @@
   display: block;
 }
 
+.reset-btn:hover {
+    opacity: 0.8;
+}
+
 .title { 
     font-size: 22px;
     font-weight: bold;

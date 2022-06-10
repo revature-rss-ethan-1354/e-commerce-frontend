@@ -18,12 +18,12 @@ const Container = styled.div`
 
 const SearchContainer = styled.div`
   height: 100vh;
-  min-width: 280px;
+  width: fit-content;
   border: 2px solid black;
 `;
 
 const ItemContainer = styled.div`
-  width: fit-content;
+  width: 80vh;
   padding: 20px;
   display: flex;
   flex-wrap: wrap;

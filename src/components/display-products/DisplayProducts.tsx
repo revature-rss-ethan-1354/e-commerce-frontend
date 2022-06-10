@@ -17,7 +17,7 @@ const Container = styled.div`
 
 const SearchContainer = styled.div`
   height: 80vh;
-  min-width: 10%;
+  min-width: 10vh;
   border: 2px solid #b9b9ba;
   padding: 20px;
   border-radius: 10px;
@@ -27,7 +27,7 @@ const SearchContainer = styled.div`
 const ItemContainer = styled.div`
   width: auto;
   padding: 20px;
-  margin-left: 15%;
+  margin-left: 25vh;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -40,7 +40,14 @@ export const DisplayProducts = () => {
   const [minimum, setMinimum] = useState<number>(0);
   const [maximum, setMaximum] = useState<number>(1000000);
 
+  // For small bug
+  const [checkedAll, setCheckedAll] = useState(true);
+  const [checkedClothes, setCheckedClothes] = useState(false);
+  const [checkedAccessories, setCheckedAccessories] = useState(false);
+  const [checkedElectronics, setCheckedElectronics] = useState(false);
+
   useEffect(() => {
+    //setCheckedAll(true);
     const fetchData = async () => {
       const result = await apiGetAllProducts();
       setProducts(result.payload);
@@ -48,12 +55,33 @@ export const DisplayProducts = () => {
     fetchData();
   }, []);
 
-  let minPriceRange: number = 0;
-  let maxPriceRange: String = "";
+  //let minPriceRange: number = 0;
+  //let maxPriceRange: String = "";
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.name === "category") {
       setCategory(event.target.value);
+      if (event.target.value === "clothing") {
+        setCheckedClothes(true);
+        setCheckedAccessories(false);
+        setCheckedElectronics(false);
+        setCheckedAll(false);
+      } else if (event.target.value === "accessories") {
+        setCheckedAccessories(true);
+        setCheckedClothes(false);
+        setCheckedElectronics(false);
+        setCheckedAll(false);
+      } else if (event.target.value === "electronics") {
+        setCheckedElectronics(true);
+        setCheckedClothes(false);
+        setCheckedAccessories(false);
+        setCheckedAll(false);
+      } else if (event.target.value === "") {
+        setCheckedAll(true);
+        setCheckedElectronics(false);
+        setCheckedClothes(false);
+        setCheckedAccessories(false);
+      }
       console.log("category = " + event.target.value);
     } else if (event.target.name === "min-price") {
       setMinimum(Number(event.target.value));
@@ -71,6 +99,10 @@ export const DisplayProducts = () => {
   };
 
   const clearFilters = () => {
+    setCheckedClothes(false);
+    setCheckedAccessories(false);
+    setCheckedElectronics(false);
+    setCheckedAll(true);
     setFilter("");
     setCategory("");
     setMinimum(0);
@@ -105,6 +137,7 @@ export const DisplayProducts = () => {
                   type="radio"
                   name="category"
                   value=""
+                  checked={checkedAll}
                   onChange={handleInput}
                 />
                 All
@@ -116,6 +149,7 @@ export const DisplayProducts = () => {
                   type="radio"
                   name="category"
                   value="clothing"
+                  checked={checkedClothes}
                   onChange={handleInput}
                 />
                 Clothes
@@ -127,6 +161,7 @@ export const DisplayProducts = () => {
                   type="radio"
                   name="category"
                   value="electronics"
+                  checked={checkedElectronics}
                   onChange={handleInput}
                 />
                 Electronics
@@ -138,6 +173,7 @@ export const DisplayProducts = () => {
                   type="radio"
                   name="category"
                   value="accessories"
+                  checked={checkedAccessories}
                   onChange={handleInput}
                 />
                 Accessories
@@ -184,13 +220,13 @@ export const DisplayProducts = () => {
         <ItemContainer>
           {products.map((item: Product) =>
             item.featured &&
-              (item.name.toLowerCase().includes(filter.toLowerCase()) ||
-                item.description
-                  .toLocaleLowerCase()
-                  .includes(filter.toLocaleLowerCase())) &&
-              (item.category === category || category === "") &&
-              item.price <= maximum &&
-              item.price >= minimum ? (
+            (item.name.toLowerCase().includes(filter.toLowerCase()) ||
+              item.description
+                .toLocaleLowerCase()
+                .includes(filter.toLocaleLowerCase())) &&
+            (item.category === category || category === "") &&
+            item.price <= maximum &&
+            item.price >= minimum ? (
               <ProductCard product={item} key={item.id} />
             ) : (
               <></>
@@ -198,13 +234,13 @@ export const DisplayProducts = () => {
           )}
           {products.map((item: Product) =>
             !item.featured &&
-              (item.name.toLowerCase().includes(filter.toLowerCase()) ||
-                item.description
-                  .toLocaleLowerCase()
-                  .includes(filter.toLocaleLowerCase())) &&
-              (item.category === category || category === "") &&
-              item.price <= maximum &&
-              item.price >= minimum ? (
+            (item.name.toLowerCase().includes(filter.toLowerCase()) ||
+              item.description
+                .toLocaleLowerCase()
+                .includes(filter.toLocaleLowerCase())) &&
+            (item.category === category || category === "") &&
+            item.price <= maximum &&
+            item.price >= minimum ? (
               <ProductCard product={item} key={item.id} />
             ) : (
               <></>

@@ -3,12 +3,15 @@ import { ShoppingCartOutlined } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { apiCheckLogin, apiLogout } from "../../remote/e-commerce-api/authService";
-import pride from "./revBackground.png"
+import {
+  apiCheckLogin,
+  apiLogout,
+} from "../../remote/e-commerce-api/authService";
+import pride from "./revBackground.png";
 
 const Container = styled.div`
   height: fit-content;
-  background: #b9b9ba
+  background: #72a4c2;
 `;
 
 const Wrapper = styled.div`
@@ -35,18 +38,16 @@ const Right = styled.div`
 `;
 
 const MenuItem = styled.div`
-  font-size: 14px;
+  font-size: 17px;
   cursor: pointer;
-  margin-left: 25px;
+  margin-left: 55px;
 `;
 const Image = styled.img`
- width: 200px;
- height: 75px;
- z-index: 2;
- cursor: pointer;
+  width: 200px;
+  height: 75px;
+  z-index: 2;
+  cursor: pointer;
 `;
-
-
 
 const Navbar = () => {
   useEffect(() => {
@@ -75,7 +76,12 @@ const Navbar = () => {
     <Container>
       <Wrapper>
         <Left>
-        <Image src={pride} onClick={() => {navigate('/')}}/>
+          <Image
+            src={pride}
+            onClick={() => {
+              navigate("/");
+            }}
+          />
         </Left>
         <Right>
           {loggedIn == 3 ? (

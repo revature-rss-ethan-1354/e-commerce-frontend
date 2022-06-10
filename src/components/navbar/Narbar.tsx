@@ -5,8 +5,10 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { apiCheckLogin, apiLogout } from "../../remote/e-commerce-api/authService";
 import pride from "./revBackground.png"
+
 const Container = styled.div`
-  height: 60px;
+  height: fit-content;
+  background: #b9b9ba
 `;
 
 const Wrapper = styled.div`
@@ -40,7 +42,8 @@ const MenuItem = styled.div`
 const Image = styled.img`
  width: 200px;
  height: 75px;
-z-index: 2;
+ z-index: 2;
+ cursor: pointer;
 `;
 
 

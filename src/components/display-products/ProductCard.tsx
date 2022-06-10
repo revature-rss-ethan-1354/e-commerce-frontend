@@ -51,8 +51,11 @@ const Circle = styled.div`
 `;
 
 const Image = styled.img`
-  height: 75%;
   z-index: 2;
+  max-height: 350px;
+  max-width: 280px;
+  height: auto;
+  width: auto;
 `;
 
 const Icon = styled.div`

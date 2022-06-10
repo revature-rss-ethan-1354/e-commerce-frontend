@@ -11,20 +11,23 @@ import "./DisplayProducts.css";
 
 const Container = styled.div`
   padding: 20px;
-  display: flex;
-  flex-wrap: wrap;
+  display: inline-flex;
   justify-content: space-between;
 `;
 
 const SearchContainer = styled.div`
-  height: 100vh;
-  width: fit-content;
-  border: 2px solid black;
+  height: 80vh;
+  min-width: 10%;
+  border: 2px solid #b9b9ba;
+  padding: 20px;
+  border-radius: 10px;
+  position: fixed;
 `;
 
 const ItemContainer = styled.div`
-  width: 80vh;
+  width: auto;
   padding: 20px;
+  margin-left: 15%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -51,7 +54,7 @@ export const DisplayProducts = () => {
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.name === "category") {
       setCategory(event.target.value);
-      console.log("category = " + category);
+      console.log("category = " + event.target.value);
     } else if (event.target.name === "min-price") {
       setMinimum(Number(event.target.value));
       console.log("minimum price = " + minimum);
@@ -76,7 +79,9 @@ export const DisplayProducts = () => {
 
   return (
     <React.Fragment>
-      <Navbar />
+      <div className="navbar-div">
+        <Navbar />
+      </div>
       <Container>
         <SearchContainer>
           <form>
@@ -94,6 +99,17 @@ export const DisplayProducts = () => {
             <br />
             <div className="categories">
               <label className="title">Categories</label> <br />
+              <label>
+                <input
+                  className="radio-box"
+                  type="radio"
+                  name="category"
+                  value=""
+                  onChange={handleInput}
+                />
+                All
+              </label>{" "}
+              <br />
               <label>
                 <input
                   className="radio-box"
@@ -168,13 +184,13 @@ export const DisplayProducts = () => {
         <ItemContainer>
           {products.map((item: Product) =>
             item.featured &&
-            (item.name.toLowerCase().includes(filter.toLowerCase()) ||
-              item.description
-                .toLocaleLowerCase()
-                .includes(filter.toLocaleLowerCase())) &&
-            (item.category === category || category === "") &&
-            item.price <= maximum &&
-            item.price >= minimum ? (
+              (item.name.toLowerCase().includes(filter.toLowerCase()) ||
+                item.description
+                  .toLocaleLowerCase()
+                  .includes(filter.toLocaleLowerCase())) &&
+              (item.category === category || category === "") &&
+              item.price <= maximum &&
+              item.price >= minimum ? (
               <ProductCard product={item} key={item.id} />
             ) : (
               <></>
@@ -182,13 +198,13 @@ export const DisplayProducts = () => {
           )}
           {products.map((item: Product) =>
             !item.featured &&
-            (item.name.toLowerCase().includes(filter.toLowerCase()) ||
-              item.description
-                .toLocaleLowerCase()
-                .includes(filter.toLocaleLowerCase())) &&
-            (item.category === category || category === "") &&
-            item.price <= maximum &&
-            item.price >= minimum ? (
+              (item.name.toLowerCase().includes(filter.toLowerCase()) ||
+                item.description
+                  .toLocaleLowerCase()
+                  .includes(filter.toLocaleLowerCase())) &&
+              (item.category === category || category === "") &&
+              item.price <= maximum &&
+              item.price >= minimum ? (
               <ProductCard product={item} key={item.id} />
             ) : (
               <></>

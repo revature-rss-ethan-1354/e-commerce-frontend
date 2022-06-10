@@ -12,6 +12,10 @@ import { isValidFirstName } from "../checkout-validation/FirstNameValidation";
 import { isValidLastName } from "../checkout-validation/LastNameValidation";
 import { isValidAddress } from "../checkout-validation/AddressValidation";
 import "../checkout/Checkout.css";
+/*
+ * import { Autocomplete } from "@lob/react-address-autocomplete";
+ * <Autocomplete apiKey="YOUR_API_KEY" />;
+ */
 
 interface addressFormProps {
   updateAddress: (addresses: Address) => void;
@@ -40,6 +44,10 @@ export default function AddressForm(props: addressFormProps) {
   let repeatZipOrPostal: String = "";
   let repeatCountry: String = "";
 
+  /*
+   * Declare and set the states of
+   * the TextField entries
+   */
   let [validFirstName, setValidFirstName] = React.useState<String>("");
   let [validLastName, setValidLastName] = React.useState<String>("");
   let [validAddress, setValidAddress] = React.useState<String>("");
@@ -47,6 +55,17 @@ export default function AddressForm(props: addressFormProps) {
   let [validStateOrRegion, setValidStateOrRegion] = React.useState<String>("");
   let [validZipOrPostal, setValidZipOrPostal] = React.useState<String>("");
   let [validCountry, setValidCountry] = React.useState<String>("");
+
+  /*
+   *
+   */
+  const [firstNameText, setFirstNameText] = React.useState<String>("");
+  const [lastNameText, setLastNameText] = React.useState<String>("");
+  const [addressText, setAddressText] = React.useState<String>("");
+  const [cityText, setCityText] = React.useState<String>("");
+  const [stateOrRegionText, setStateOrRegionText] = React.useState<String>("");
+  const [zipOrPostalText, setZipOrPostalText] = React.useState<String>("");
+  const [countryText, setCountryText] = React.useState<String>("");
 
   /* We might need a useEffect to keep track of the
    * state information typed into the TextFields
@@ -76,8 +95,6 @@ export default function AddressForm(props: addressFormProps) {
     city = new String(data.get("city"));
     repeatCity = isValidCity(city, country);
     setValidCity(isValidCity(city, country));
-    console.log(repeatCity);
-    console.log(country);
 
     stateOrRegion = new String(data.get("state"));
     repeatStateOrRegion = isValidStateOrRegion(stateOrRegion, country);
@@ -112,6 +129,49 @@ export default function AddressForm(props: addressFormProps) {
     }
   };
 
+  const handleChange = (event: any) => {
+    if (event.currentTarget.name == "firstName") {
+      setFirstNameText(event.currentTarget.value);
+    } else if (event.currentTarget.name == "lastName") {
+      setLastNameText(event.currentTarget.value);
+    } else if (event.currentTarget.name == "address1") {
+      setAddressText(event.currentTarget.value);
+    } else if (event.currentTarget.name == "city") {
+      setCityText(event.currentTarget.value);
+    } else if (event.currentTarget.name == "state") {
+      setStateOrRegionText(event.currentTarget.value);
+    } else if (event.currentTarget.name == "zip") {
+      setZipOrPostalText(event.currentTarget.value);
+    } else {
+      // otherwise check for country
+      setCountryText(event.currentTarget.value);
+    }
+  };
+
+  const handleOnBlur = (event: any) => {
+    if (event.currentTarget.name == "firstName") {
+      setValidFirstName(isValidFirstName(firstNameText));
+    } else if (event.currentTarget.name == "lastName") {
+      setValidLastName(isValidLastName(lastNameText));
+    } else if (event.currentTarget.name == "address1") {
+      setValidAddress(isValidAddress(addressText));
+    } else if (event.currentTarget.name == "city") {
+      setValidCity(isValidCity(cityText, countryText));
+    } else if (event.currentTarget.name == "state") {
+      setValidStateOrRegion(
+        isValidStateOrRegion(stateOrRegionText, countryText)
+      );
+    } else if (event.currentTarget.name == "zip") {
+      setValidZipOrPostal(isValidZipOrPostal(zipOrPostalText, countryText));
+    } else if (event.currentTarget.name == "country") {
+      // otherwise check for country
+      setValidCountry(isValidCountry(countryText));
+      console.log("country", countryText);
+      setValidZipOrPostal(isValidZipOrPostal(zipOrPostalText, countryText));
+      setValidCity(isValidCity(cityText, countryText));
+    }
+  };
+
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -128,6 +188,8 @@ export default function AddressForm(props: addressFormProps) {
               fullWidth
               autoComplete="given-name"
               variant="standard"
+              onBlur={handleOnBlur}
+              onChange={handleChange}
             />
             <p className="invalid-checkout-field">{validFirstName}</p>
           </Grid>
@@ -140,6 +202,8 @@ export default function AddressForm(props: addressFormProps) {
               fullWidth
               autoComplete="family-name"
               variant="standard"
+              onBlur={handleOnBlur}
+              onChange={handleChange}
             />
             <p className="invalid-checkout-field">{validLastName}</p>
           </Grid>
@@ -152,6 +216,8 @@ export default function AddressForm(props: addressFormProps) {
               fullWidth
               autoComplete="shipping address-line1"
               variant="standard"
+              onBlur={handleOnBlur}
+              onChange={handleChange}
             />
             <p className="invalid-checkout-field">{validAddress}</p>
           </Grid>
@@ -177,6 +243,8 @@ export default function AddressForm(props: addressFormProps) {
               inputProps={{
                 autoComplete: "off",
               }}
+              onBlur={handleOnBlur}
+              onChange={handleChange}
             />
             <p className="invalid-checkout-field">{validCity}</p>
           </Grid>
@@ -191,6 +259,8 @@ export default function AddressForm(props: addressFormProps) {
               inputProps={{
                 autoComplete: "off",
               }}
+              onBlur={handleOnBlur}
+              onChange={handleChange}
             />
             <p className="invalid-checkout-field">{validStateOrRegion}</p>
           </Grid>
@@ -206,6 +276,8 @@ export default function AddressForm(props: addressFormProps) {
               inputProps={{
                 autoComplete: "off",
               }}
+              onBlur={handleOnBlur}
+              onChange={handleChange}
             />
             <p className="invalid-checkout-field">{validZipOrPostal}</p>
           </Grid>
@@ -221,6 +293,8 @@ export default function AddressForm(props: addressFormProps) {
               inputProps={{
                 autoComplete: "off",
               }}
+              onBlur={handleOnBlur}
+              onChange={handleChange}
             />
             <p className="invalid-checkout-field">{validCountry}</p>
           </Grid>

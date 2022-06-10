@@ -11,28 +11,48 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { apiRegister } from "../../remote/e-commerce-api/authService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
+  apiGetProductById,
   apiUpdateProduct,
-  apiUpsertProduct,
 } from "../../remote/e-commerce-api/productService";
 import Product from "../../models/Product";
 import { Select } from "@mui/material";
+import { useParams } from "react-router-dom";
 import Navbar from "../navbar/Narbar";
 
-import "./CreateProduct.css";
-
 const theme = createTheme();
+export default function UpdateProduct() {
+  let productId = Number(window.location.pathname.split("/update/")[1]);
+  console.log("Pid " + productId);
 
-export default function CreateProduct() {
+  const navigator = useNavigate();
+
   const [name, setName] = useState<string>("");
   const [quantity, setQuantity] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
   const [description, setDescription] = useState<string>("");
   const [image, setImage] = useState<string>("");
   const [featured, isFeatured] = useState<boolean>(false);
-  // const [discontinued, isDiscontinued] = useState<boolean>();
   const [category, setCategory] = useState<string>("");
+  const [discontinued, isDiscontinued] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchIdData = async () => {
+      const result = await apiGetProductById(productId);
+
+      setName(result.payload.name);
+      setQuantity(result.payload.quantity);
+      setPrice(result.payload.price);
+      setDescription(result.payload.description);
+      setImage(result.payload.image);
+      isFeatured(result.payload.featured);
+      isDiscontinued(result.payload.discontinued);
+      setCategory(result.payload.category);
+    };
+    // console.log(name);
+    fetchIdData();
+  }, []);
 
   const handleInput = (event: React.ChangeEvent<HTMLFormElement>) => {
     if (event.target.name == "name") {
@@ -54,7 +74,11 @@ export default function CreateProduct() {
   };
 
   const handleClick = (event: React.MouseEvent<HTMLInputElement>) => {
-    isFeatured(!featured);
+    if (event.currentTarget.name == "featured") {
+      isFeatured(!featured);
+    } else {
+      isDiscontinued(!discontinued);
+    }
   };
 
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -68,20 +92,21 @@ export default function CreateProduct() {
     event.preventDefault();
 
     let temp = {
-      id: 0,
+      id: productId,
       name,
       quantity,
       price,
       description,
       image,
       featured,
-      discontinued: false,
+      discontinued,
       category,
     };
 
     console.log(temp);
 
-    const response = await apiUpsertProduct(temp);
+    const response = await apiUpdateProduct(temp);
+    navigator("/");
   };
 
   return (
@@ -97,11 +122,14 @@ export default function CreateProduct() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          {/*
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
+          */}
+
           <Typography component="h1" variant="h5">
-            Create
+            Update
           </Typography>
           <Box
             component="form"
@@ -112,7 +140,8 @@ export default function CreateProduct() {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  placeholder="Product Name"
+                  value={name}
+                  //placeholder={product.name}
                   name="name"
                   required
                   fullWidth
@@ -129,7 +158,8 @@ export default function CreateProduct() {
                   label="quantity"
                   type="number"
                   name="quantity"
-                  placeholder="Quantity"
+                  //placeholder={product.quantity.toString()}
+                  value={quantity}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -140,7 +170,8 @@ export default function CreateProduct() {
                   label="Price"
                   name="price"
                   type="number"
-                  placeholder="Price"
+                  //placeholder={product.price.toString()}
+                  value={price}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -150,7 +181,8 @@ export default function CreateProduct() {
                   name="description"
                   label="description"
                   id="description"
-                  placeholder="Description"
+                  //placeholder={product.description}
+                  value={description}
                 />
               </Grid>
 
@@ -160,37 +192,35 @@ export default function CreateProduct() {
                   name="image"
                   label="image"
                   id="image"
-                  placeholder="Image"
+                  //placeholder={product.image}
+                  value={image}
                 />
               </Grid>
 
               <Grid item xs={12}>
-                {/* <input
-                  type="radio"
-                  name="is-featured"
-                  id="featured"
-                  value="featured"
-                  onClick={handleClick}
-                ></input>
-                <label>Featured</label>
-                <br />
-                <input
-                  type="radio"
-                  name="is-featured"
-                  id="not-featured"
-                  value="not-featured"
-                  onClick={handleClick}
-                ></input>
-                <label>Not Featured</label> */}
                 <label className="switch">
                   <input
                     type="checkbox"
-                    name="featured-check"
+                    name="featured"
                     onClick={handleClick}
+                    checked={featured}
                   />
                   <span className="slider round"></span>
                 </label>
                 <span className="featured">Featured</span>
+              </Grid>
+
+              <Grid item xs={12}>
+                <label className="switch">
+                  <input
+                    type="checkbox"
+                    name="discontinued"
+                    onClick={handleClick}
+                    checked={discontinued}
+                  />
+                  <span className="slider round"></span>
+                </label>
+                <span className="featured">Discontinued</span>
               </Grid>
 
               <Grid item xs={12}>
@@ -223,7 +253,7 @@ export default function CreateProduct() {
               sx={{ mt: 3, mb: 2 }}
               onClick={handleSubmit}
             >
-              Create Product
+              Update Product
             </Button>
           </Box>
         </Box>

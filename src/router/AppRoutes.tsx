@@ -5,6 +5,7 @@ import Checkout from '../components/checkout/Checkout';
 import { DisplayProducts } from "../components/display-products/DisplayProducts";
 import Login from '../components/login/Login';
 import Register from '../components/register/Register';
+import ChatApp from '../static/ChatApp'
 
 export const AppRoutes: React.FC<unknown> = () => (
   <Routes>
@@ -13,5 +14,6 @@ export const AppRoutes: React.FC<unknown> = () => (
     <Route path="/register" element={<Register />} />
     <Route path="/checkout" element={<Checkout />} />
     <Route path="/cart" element={<Cart />} />
+    <Route path="/chat" element={<ChatApp/>} />
   </Routes>
 )

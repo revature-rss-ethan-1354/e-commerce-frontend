@@ -8,6 +8,7 @@ const Messenger: React.FC = () => {
     const [privateChats, setPrivateChats] = useState(new Map());
     const [publicChats, setPublicChats] = useState([]);
     const [tab, setTab] = useState("CHATROOM");
+    const [showInput, setShowInput] = useState(false);
     const [userData, setUserData] = useState({
         username: '',
         receivername: '',
@@ -18,6 +19,9 @@ const Messenger: React.FC = () => {
         console.log(userData);
     }, [userData]);
 
+    const showConnect = () => {
+        setShowInput(true)
+    }
     const connect = () => {
         let Sock = new SockJS('http://localhost:8080/ws');
         stompClient = over(Sock);
@@ -151,18 +155,24 @@ const Messenger: React.FC = () => {
                     </div>}
                 </div>
                 :
-                <div className="register">
-                    <input
-                        id="user-name"
-                        placeholder="Enter your name"
-                        name="userName"
-                        value={userData.username}
-                        onChange={handleUsername}
-                    />
-                    <button type="button" onClick={registerUser}>
-                        connect
-                    </button>
-                </div>}
+                <button className={!showInput ? "showConnect": "hideConnect"} onClick={showConnect}>Get Support</button>
+               }
+               {
+                   showInput &&
+                   <div className="register">
+                   <input
+                       id="user-name"
+                       placeholder="Enter your name"
+                       name="userName"
+                       value={userData.username}
+                       onChange={handleUsername}
+                   />
+                   <button type="button" onClick={registerUser}>
+                       connect
+                   </button>
+               </div>
+               }
+                
         </div>
     )
 }

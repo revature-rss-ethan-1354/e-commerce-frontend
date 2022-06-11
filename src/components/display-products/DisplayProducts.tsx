@@ -7,6 +7,7 @@ import { ProductCard } from "./ProductCard";
 import { isValidPriceRange } from "../display-products-validation/PriceRangeValidation";
 import { useNavigate } from "react-router-dom";
 import "./DisplayProducts.css";
+import Messenger from "../chat/Messenger";
 // import Chat from '../chat/Chat';
 
 const Container = styled.div`
@@ -197,6 +198,7 @@ export const DisplayProducts = () => {
         </ItemContainer>
       </Container>
       {/*<Chat/>*/}
+      <Messenger/>
     </React.Fragment>
   );
 };

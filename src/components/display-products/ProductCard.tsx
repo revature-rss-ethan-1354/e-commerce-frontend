@@ -10,6 +10,11 @@ import EditIcon from "@mui/icons-material/Edit";
 import CancelIcon from "@mui/icons-material/Cancel";
 import VerifiedIcon from "@mui/icons-material/Verified";
 
+
+import React from 'react';
+import Popup from  'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
+
 const Info = styled.div`
   opacity: 0;
   width: 100%;
@@ -109,6 +114,8 @@ const Price = styled.div`
   font-size: 30px;
 `;
 
+
+
 // const VerifiedIcon = styled.div`
 
 // `;
@@ -143,6 +150,10 @@ export const ProductCard = (props: productProps) => {
     setCart(newCart);
   };
 
+  const displayProduct = (product: Product) => {
+
+
+  }
   const handleUpdate = () => {
     if (loggedInStatus == 3) {
       navigator(`/update/${props.product.id}`);
@@ -187,6 +198,27 @@ export const ProductCard = (props: productProps) => {
                     />
                   </Icon>
                 )}
+                <Icon>
+                <Popup trigger={<SearchOutlined   />} 
+                    position="right center"
+                      contentStyle= {{
+                        border: "2px solid #F26925",
+                        borderRadius: "10px",
+                        background: "#f5fbfd"
+
+                      }}
+                      >
+                      <div>
+                        <h2>  {props.product.name} </h2>
+                        <h4> Category: {props.product.category} </h4>
+                        <h4> {props.product.description} </h4>
+                        <h4> Stock: {props.product.quantity} </h4>
+                        
+                        
+                      </div>
+                </Popup>
+                  
+                </Icon>
                 {loggedInStatus == 3 ? (
                   <Icon>
                     <EditIcon onClick={handleUpdate} />
@@ -235,10 +267,32 @@ export const ProductCard = (props: productProps) => {
                     }}
                   />
                 </Icon>
+                <Icon>
+                <Popup trigger={<SearchOutlined   />} 
+                    position="right center"
+                      contentStyle= {{
+                        border: "2px solid #F26925",
+                        borderRadius: "10px",
+                        background: "#f5fbfd"
+
+                      }}
+                      >
+                      <div>
+                        <h2>  {props.product.name} </h2>
+                        <h4> Category: {props.product.category} </h4>
+                        <h4> {props.product.description} </h4>
+                        <h4> Stock: {props.product.quantity} </h4>
+                        
+                        
+                      </div>
+                </Popup>
+                  
+                </Icon>
                 {loggedInStatus == 3 ? (
                   <Icon>
                     <EditIcon onClick={handleUpdate} />
                   </Icon>
+                  
                 ) : (
                   <></>
                 )}

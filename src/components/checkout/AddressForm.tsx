@@ -190,6 +190,11 @@ export default function AddressForm(props: addressFormProps) {
               variant="standard"
               onBlur={handleOnBlur}
               onChange={handleChange}
+              onKeyPress={(event) => {
+                if (!/[A-Z, a-z]/.test(event.key)) {
+                  event.preventDefault();
+                }
+              }}
             />
             <p className="invalid-checkout-field">{validFirstName}</p>
           </Grid>
@@ -204,6 +209,11 @@ export default function AddressForm(props: addressFormProps) {
               variant="standard"
               onBlur={handleOnBlur}
               onChange={handleChange}
+              onKeyPress={(event) => {
+                if (!/[A-Z, a-z]/.test(event.key)) {
+                  event.preventDefault();
+                }
+              }}
             />
             <p className="invalid-checkout-field">{validLastName}</p>
           </Grid>
@@ -218,6 +228,11 @@ export default function AddressForm(props: addressFormProps) {
               variant="standard"
               onBlur={handleOnBlur}
               onChange={handleChange}
+              onKeyPress={(event) => {
+                if (!/[A-Z, a-z, 0-9]/.test(event.key)) {
+                  event.preventDefault();
+                }
+              }}
             />
             <p className="invalid-checkout-field">{validAddress}</p>
           </Grid>
@@ -229,6 +244,11 @@ export default function AddressForm(props: addressFormProps) {
               fullWidth
               autoComplete="shipping address-line2"
               variant="standard"
+              onKeyPress={(event) => {
+                if (!/[A-Z, a-z, 0-9]/.test(event.key)) {
+                  event.preventDefault();
+                }
+              }}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -245,6 +265,11 @@ export default function AddressForm(props: addressFormProps) {
               }}
               onBlur={handleOnBlur}
               onChange={handleChange}
+              onKeyPress={(event) => {
+                if (!/[A-Z, a-z]/.test(event.key)) {
+                  event.preventDefault();
+                }
+              }}
             />
             <p className="invalid-checkout-field">{validCity}</p>
           </Grid>
@@ -261,6 +286,11 @@ export default function AddressForm(props: addressFormProps) {
               }}
               onBlur={handleOnBlur}
               onChange={handleChange}
+              onKeyPress={(event) => {
+                if (!/[A-Z, a-z]/.test(event.key)) {
+                  event.preventDefault();
+                }
+              }}
             />
             <p className="invalid-checkout-field">{validStateOrRegion}</p>
           </Grid>
@@ -278,6 +308,11 @@ export default function AddressForm(props: addressFormProps) {
               }}
               onBlur={handleOnBlur}
               onChange={handleChange}
+              onKeyPress={(event) => {
+                if (!/[A-Z, a-z, 0-9]/.test(event.key)) {
+                  event.preventDefault();
+                }
+              }}
             />
             <p className="invalid-checkout-field">{validZipOrPostal}</p>
           </Grid>
@@ -295,6 +330,11 @@ export default function AddressForm(props: addressFormProps) {
               }}
               onBlur={handleOnBlur}
               onChange={handleChange}
+              onKeyPress={(event) => {
+                if (!/[A-Z, a-z]/.test(event.key)) {
+                  event.preventDefault();
+                }
+              }}
             />
             <p className="invalid-checkout-field">{validCountry}</p>
           </Grid>

@@ -1,8 +1,15 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { CartContext } from "../../context/cart.context";
 import Navbar from "../navbar/Narbar";
+import Product from "../../models/Product";
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import RemoveIcon from '@mui/icons-material/Remove';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 const Container = styled.div``;
 
@@ -37,7 +44,7 @@ const Info = styled.div`
   flex: 3;
 `;
 
-const Product = styled.div`
+const ProductContainer = styled.div`
   display: flex;
   justify-content: space-between;
 `;
@@ -130,10 +137,47 @@ const Button = styled.button`
   font-weight: 600;
 `;
 
-export const Cart = () => {
+
+export const Cart = () =>  {
   const { cart, setCart } = useContext(CartContext);
 
   const navigate = useNavigate();
+
+  const removeProductFromCart = (product: Product) => {
+
+    setCart(cart.filter((obj) => {
+      return obj.id != product.id;
+    }));
+  }
+
+  const handleAdd = (product: Product) => {
+    if(product.cartCount < product.quantity) {
+      const newCart = [...cart];
+      const index = newCart.findIndex((searchProduct) => {
+        return searchProduct.id === product.id;
+      });
+
+      if (index === -1) newCart.push(product);
+      else newCart[index].cartCount += 1;
+
+      setCart(newCart);
+    }
+  }
+
+  const handleSubtract = (product: Product) => {
+    if(product.cartCount >= 2) {
+      const newCart = [...cart];
+      const index = newCart.findIndex((searchProduct) => {
+        return searchProduct.id === product.id;
+      });
+
+      if (index === -1) newCart.push(product);
+      else newCart[index].cartCount -= 1;
+
+      setCart(newCart);
+    }
+  }
+
 
   return (
     <Container>
@@ -149,7 +193,7 @@ export const Cart = () => {
             {
               cart.map((product)=> (
                 <>
-                  <Product>
+                  <ProductContainer>
                     <ProductDetail>
                       <Image src={product.image} />
                       <Details>
@@ -159,15 +203,18 @@ export const Cart = () => {
                         <ProductId>
                           <b>ID:</b> {product.id}
                         </ProductId>
+                        <DeleteIcon onClick={() => {removeProductFromCart({...product})}}/>
                       </Details>
                     </ProductDetail>
                     <PriceDetail>
                       <ProductAmountContainer>
-                        <ProductAmount> {product.quantity} </ProductAmount>
+                        <RemoveCircleOutlineIcon onClick={() => {handleSubtract({...product})}}/>
+                        <ProductAmount>{product.cartCount}</ProductAmount>
+                        <AddCircleOutlineIcon onClick={() => {handleAdd({...product})}}/>
                       </ProductAmountContainer>
-                      <ProductPrice>$ {product.price}</ProductPrice>
+                      <ProductPrice>$ {product.price * product.cartCount}</ProductPrice>
                     </PriceDetail>
-                  </Product>
+                  </ProductContainer>
                   <Hr/>
                 </>
               ))
@@ -178,7 +225,7 @@ export const Cart = () => {
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
               <SummaryItemPrice>$ 
-                  {cart.reduce<number>((total, product) => total + product.price * product.quantity, 0)}
+                  {cart.reduce<number>((total, product) => total + product.price * product.cartCount, 0)}
               </SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
@@ -192,7 +239,7 @@ export const Cart = () => {
             <SummaryItem>
               <SummaryItemText>Total</SummaryItemText>
               <SummaryItemPrice>$ 
-                {cart.reduce<number>((total, product) => total + product.price * product.quantity, 0)}
+                {cart.reduce<number>((total, product) => total + product.price * product.cartCount, 0)}
               </SummaryItemPrice>
             </SummaryItem>
             <Button onClick={() => {navigate('/checkout')}}>CHECKOUT NOW</Button>

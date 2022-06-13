@@ -23,16 +23,22 @@ interface reviewProps {
 export default function Review(props: reviewProps) {
 
   const {cart, setCart} = React.useContext(CartContext)
-
+  let [invalidOrder, setinvalidOrder] = React.useState<String>("");
   const handleSubmit = (event: React.MouseEvent) => {
     event.preventDefault();
     let productPurchaseDtos = cart.map((product) => ({
       id: product.id,
-      quantity: product.quantity
+      quantity: product.cartCount
     }))
-    apiPurchase(productPurchaseDtos)
+    try{
+      const fetchData = async () => {
+        const result = await apiPurchase(productPurchaseDtos)
+        if(result.status == 400){setinvalidOrder("We were unable to fullfill the quantity of at least one of your ordered items.");}
+        else{
     setCart([])
-    props.handleNext()
+    props.handleNext()}
+      }; fetchData();
+  }catch{}
   }
 
   return (
@@ -40,17 +46,18 @@ export default function Review(props: reviewProps) {
       <Typography variant="h6" gutterBottom>
         Order summary
       </Typography>
+      <p className="invalid-checkout-field">{invalidOrder}</p>
       <List disablePadding>
         {cart.map((product) => (
           <ListItem key={product.name} sx={{ py: 1, px: 0 }}>
-            <ListItemText primary={`${product.name} x${product.quantity}`} secondary={product.description} />
-            <Typography variant="body2">{product.price * product.quantity}</Typography>
+            <ListItemText primary={`${product.name} x${product.cartCount}`} secondary={product.description} />
+            <Typography variant="body2">{product.price * product.cartCount}</Typography>
           </ListItem>
         ))}
         <ListItem sx={{ py: 1, px: 0 }}>
           <ListItemText primary="Total" />
           <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-            $ {cart.reduce<number>((total, product) => total + product.price * product.quantity, 0)}
+            $ {cart.reduce<number>((total, product) => total + product.price * product.cartCount, 0)}
           </Typography>
         </ListItem>
       </List>

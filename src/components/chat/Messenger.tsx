@@ -17,7 +17,13 @@ const Messenger: React.FC = () => {
         connected: false,
         message: ''
     });
-    const [user, setUser] = useState({        
+    const [user, setUser] = useState({ 
+        "id": null,
+    "email": "",
+    "password": "",
+    "firstName": "",
+    "lastName": "",
+    "admin":  null      
     });
 
     useEffect(() => {
@@ -134,7 +140,7 @@ const Messenger: React.FC = () => {
           };
           fetchData();        
         console.log(user);
-               
+
         connect();        
     }
     return (
@@ -172,7 +178,7 @@ const Messenger: React.FC = () => {
                         id="user-name"
                         placeholder="Enter your name"
                         name="userName"
-                        value={userData.username}
+                        value={user.firstName}
                         onChange={handleUsername}
                     />
                     <button type="button" onClick={registerUser}>

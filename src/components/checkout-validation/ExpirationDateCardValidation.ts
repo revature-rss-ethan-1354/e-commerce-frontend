@@ -17,17 +17,21 @@ export let isValidExpirationDate: (expirationDate: String) => String = function 
         return "Invalid month";
     } 
 
-    if (expirationYearNumber >= (currentYear - 2000)){
+    if (expirationYearNumber == (currentYear - 2000)){
         if (expirationMonthNumber >= currentMonth) {
 
         } else {
 
             return "Card expired";
         }
-    } else {
-        return "Card expired";
+    } 
+    else if(expirationYearNumber > (currentYear - 2000)){
 
     }
+    else{
+        return "Card expired";
+    }
+    
     
    return "";
  };

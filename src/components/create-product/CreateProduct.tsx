@@ -38,7 +38,7 @@ export default function CreateProduct() {
   const [featured, isFeatured] = useState<boolean>(false);
   // const [discontinued, isDiscontinued] = useState<boolean>();
   const [category, setCategory] = useState<string>("");
-
+  let [invalidServer, setinvalidServer] = React.useState<String>("");
   const handleInput = (event: React.ChangeEvent<HTMLFormElement>) => {
     if (event.target.name == "name") {
       setName(event.target.value);
@@ -85,8 +85,9 @@ export default function CreateProduct() {
     };
 
     console.log(temp);
-
+    try{
     const response = await apiUpsertProduct(temp);
+  }catch{setinvalidServer("Our servers are momentarily down please visit again soon.");}
   };
 
   return (
@@ -94,6 +95,7 @@ export default function CreateProduct() {
       <Navbar />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
+        <p className="invalid-checkout-field">{invalidServer}</p>
         <Box
           sx={{
             marginTop: 8,

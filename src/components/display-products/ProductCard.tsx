@@ -9,6 +9,13 @@ import { apiCheckLogin } from "../../remote/e-commerce-api/authService";
 import EditIcon from "@mui/icons-material/Edit";
 import CancelIcon from "@mui/icons-material/Cancel";
 import VerifiedIcon from "@mui/icons-material/Verified";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
+
+import React from 'react';
+import Popup from  'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 
 const Info = styled.div`
   opacity: 0;
@@ -109,6 +116,8 @@ const Price = styled.div`
   font-size: 30px;
 `;
 
+
+
 // const VerifiedIcon = styled.div`
 
 // `;
@@ -131,18 +140,56 @@ export const ProductCard = (props: productProps) => {
     fetchData();
   }, []);
 
+
+
+
   const addItemToCart = (product: Product) => {
-    const newCart = [...cart];
-    const index = newCart.findIndex((searchProduct) => {
-      return searchProduct.id === product.id;
-    });
 
-    if (index === -1) newCart.push(product);
-    else newCart[index].quantity += product.quantity;
+      let success = false;
 
-    setCart(newCart);
+      const newCart = [...cart];
+      const index = newCart.findIndex((searchProduct) => {
+        return searchProduct.id === product.id;
+      });
+
+        if (index === -1){
+           newCart.push(product);
+           success = true;
+        }
+        else if(newCart[index].cartCount < product.quantity){ 
+          newCart[index].cartCount += product.cartCount;
+          success = true;
+        }
+
+        if(success){
+          toast.success(product.name + ' Added to Cart', {
+            position: 'top-center',
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        } else {
+          toast.error('Error: Not enough product in stock', {
+            position: 'top-center',
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+
+        setCart(newCart);
   };
 
+  const displayProduct = (product: Product) => {
+
+
+  }
   const handleUpdate = () => {
     if (loggedInStatus == 3) {
       navigator(`/update/${props.product.id}`);
@@ -151,6 +198,7 @@ export const ProductCard = (props: productProps) => {
 
   return (
     <>
+
       {loggedInStatus != 3 && props.product.discontinued ? (
         <></>
       ) : (
@@ -182,11 +230,32 @@ export const ProductCard = (props: productProps) => {
                   <Icon>
                     <ShoppingCartOutlined
                       onClick={() => {
-                        addItemToCart({ ...props.product, quantity: 1 });
+                        addItemToCart({ ...props.product, cartCount: 1 });
                       }}
                     />
                   </Icon>
                 )}
+                <Icon>
+                <Popup trigger={<SearchOutlined   />} 
+                    position="right center"
+                      contentStyle= {{
+                        border: "2px solid #F26925",
+                        borderRadius: "10px",
+                        background: "#f5fbfd"
+
+                      }}
+                      >
+                      <div>
+                        <h2>  {props.product.name} </h2>
+                        <h4> Category: {props.product.category} </h4>
+                        <h4> {props.product.description} </h4>
+                        <h4> Stock: {props.product.quantity} </h4>
+                        
+                        
+                      </div>
+                </Popup>
+                  
+                </Icon>
                 {loggedInStatus == 3 ? (
                   <Icon>
                     <EditIcon onClick={handleUpdate} />
@@ -227,18 +296,41 @@ export const ProductCard = (props: productProps) => {
               <Image src={props.product.image} />
               <Info>
                 {props.product.discontinued ? <CancelIcon /> : <></>}
-
-                <Icon>
+                {props.product.quantity == 0 ? <></> :
+                <Icon> 
                   <ShoppingCartOutlined
                     onClick={() => {
-                      addItemToCart({ ...props.product, quantity: 1 });
+                      addItemToCart({ ...props.product, cartCount: 1 });
                     }}
                   />
+                </Icon>
+                }
+                <Icon>
+                <Popup trigger={<SearchOutlined   />} 
+                    position="right center"
+                      contentStyle= {{
+                        border: "2px solid #F26925",
+                        borderRadius: "10px",
+                        background: "#f5fbfd"
+
+                      }}
+                      >
+                      <div>
+                        <h2>  {props.product.name} </h2>
+                        <h4> Category: {props.product.category} </h4>
+                        <h4> {props.product.description} </h4>
+                        <h4> Stock: {props.product.quantity} </h4>
+                        
+                        
+                      </div>
+                </Popup>
+                  
                 </Icon>
                 {loggedInStatus == 3 ? (
                   <Icon>
                     <EditIcon onClick={handleUpdate} />
                   </Icon>
+                  
                 ) : (
                   <></>
                 )}

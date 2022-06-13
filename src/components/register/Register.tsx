@@ -89,6 +89,7 @@ export default function Register() {
       repeatEmail.length === 0 &&
       repeatPassword.length === 0
     ) {
+      console.log(response.payload);
       navigate("/login");
       // props.handleNext();
       console.log(data);

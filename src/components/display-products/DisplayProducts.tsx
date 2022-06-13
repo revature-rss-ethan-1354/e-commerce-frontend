@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import "./DisplayProducts.css";
 import Messenger from "../chat/Messenger";
 // import Chat from '../chat/Chat';
+import { ToastContainer } from "react-toastify";
 
 const Container = styled.div`
   padding: 20px;
@@ -28,7 +29,7 @@ const SearchContainer = styled.div`
 const ItemContainer = styled.div`
   width: auto;
   padding: 20px;
-  margin-left: 25vh;
+  margin-left: max(25vh, 275px);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -119,6 +120,7 @@ export const DisplayProducts = () => {
       <div className="navbar-div">
         <Navbar />
       </div>
+      <ToastContainer/>
       <Container>
         <SearchContainer>
           <form>

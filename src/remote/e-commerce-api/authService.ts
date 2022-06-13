@@ -31,3 +31,10 @@ export const apiCheckLogin = async(): Promise<eCommerceApiResponse> => {
     );
     return { status: response.status, payload: response.data };
 };
+
+export const apiGetUser = async (): Promise<eCommerceApiResponse> => {
+    const response = await eCommerceClient.get<any>(
+        `${baseURL}/getUser`        
+    );
+    return { status: response.status, payload: response.data };
+}

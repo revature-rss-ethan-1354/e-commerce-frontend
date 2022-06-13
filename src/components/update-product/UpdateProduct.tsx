@@ -22,6 +22,10 @@ import { useParams } from "react-router-dom";
 import Navbar from "../navbar/Narbar";
 import "./UpdateProduct.css";
 import "../../fonts/Futura-Std-Book.otf";
+import { isValidProductName } from "../create-product-validation/product-name-validation";
+import { isValidProductQuantity } from "../create-product-validation/product-quantity-validation";
+import { isValidProductPrice } from "../create-product-validation/product-price-validation";
+import { isValidProductDescription } from "../create-product-validation/product-description-validation";
 
 const theme = createTheme({
   typography: {
@@ -30,6 +34,23 @@ const theme = createTheme({
 });
 
 export default function UpdateProduct() {
+  let productName: String = "";
+  let productNameChecked: String = "";
+  let [validProductName, setValidProductName] = React.useState<String>("");
+
+  let productQuantity: String = "";
+  let productQuantityChecked: String = "";
+  let [validProductQuantity, setValidProductQuantity] = React.useState<String>("");
+
+  let productPrice: String = "";
+  let productPriceChecked: String = "";
+  let [validProductPrice, setValidProductPrice] = React.useState<String>("");
+
+  let productDescription: String = "";
+  let productDescriptionChecked: String = "";
+  let [validProductDescription, setValidProductDescription] = React.useState<String>("");
+
+
   let productId = Number(window.location.pathname.split("/update/")[1]);
   console.log("Pid " + productId);
 
@@ -111,9 +132,33 @@ export default function UpdateProduct() {
     };
 
     console.log(temp);
+    productName = temp.name;
+    productNameChecked = isValidProductName(productName);
+    setValidProductName(isValidProductName(productName));
 
-    const response = await apiUpdateProduct(temp);
-    navigator("/");
+    productQuantity = new String(temp.quantity);
+    productQuantityChecked = isValidProductQuantity(productQuantity);
+    setValidProductQuantity(isValidProductQuantity(productQuantity));
+
+    productPrice = new String(temp.price);
+    productPriceChecked = isValidProductPrice(productPrice);
+    setValidProductPrice(isValidProductPrice(productPrice));
+
+    productDescription = temp.description;
+    productDescriptionChecked = isValidProductDescription(productDescription);
+    setValidProductDescription(isValidProductDescription(productDescription));
+
+    console.log(temp);
+    if (
+      productNameChecked.length === 0 &&
+      productPriceChecked.length === 0 &&
+      productPriceChecked.length === 0 &&
+      productDescriptionChecked.length === 0
+    ) {
+      const response = await apiUpdateProduct(temp);
+      navigator("/");
+    }
+
   };
 
   return (
@@ -156,7 +201,13 @@ export default function UpdateProduct() {
                   id="name"
                   label="name"
                   autoFocus
+                  onKeyPress={(event) => {
+                    if (!/[a-z, A-Z]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                 />
+                <p className="invalid-product-field">{validProductName}</p>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -168,7 +219,13 @@ export default function UpdateProduct() {
                   name="quantity"
                   //placeholder={product.quantity.toString()}
                   value={quantity}
+                  onKeyPress={(event) => {
+                    if (!/[0-9]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                 />
+                <p className="invalid-product-field">{validProductQuantity}</p>
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -180,7 +237,13 @@ export default function UpdateProduct() {
                   type="number"
                   //placeholder={product.price.toString()}
                   value={price}
+                  onKeyPress={(event) => {
+                    if (!/[0-9]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                 />
+                <p className="invalid-product-field">{validProductPrice}</p>
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -191,7 +254,13 @@ export default function UpdateProduct() {
                   id="description"
                   //placeholder={product.description}
                   value={description}
+                  onKeyPress={(event) => {
+                    if (!/[a-z, A-Z, 0-9, %]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                 />
+                <p className="invalid-product-field">{validProductDescription}</p>
               </Grid>
 
               <Grid item xs={12}>

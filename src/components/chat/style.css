@@ -19,7 +19,7 @@ body {
   button{
     border: none;
     padding: 10px;
-    background: green;
+    background: #f37a2a;
     color:#fff;
     font-size: 1.2em;
     font-weight: bold;
@@ -36,18 +36,37 @@ body {
     position: fixed;
     padding:0px;
     box-shadow:0 2.8px 2.2px rgba(0, 0, 0, 0.034),0 6.7px 5.3px rgba(0, 0, 0, 0.048),0 12.5px 10px rgba(0, 0, 0, 0.06),0 22.3px 17.9px rgba(0, 0, 0, 0.072),0 41.8px 33.4px rgba(0, 0, 0, 0.086),0 100px 80px rgba(0, 0, 0, 0.12);
-    right: 3%;
+    top: 95%;
+    left: 80.5%;
     display: flex;
     flex-direction: row;
     z-index:20;
-    bottom: 20px;
-  }
-  .chat-box{
-    margin:40px 50px;
-    height: 600px;
-    padding: 10px;
+    border-radius: 5px;
+   
+   
+    /* right: 3%;
     display: flex;
     flex-direction: row;
+    z-index:20;
+    bottom: 20px; */
+  }
+  .chat-box{
+    box-shadow:0 2.8px 2.2px rgba(0, 0, 0, 0.034),0 6.7px 5.3px rgba(0, 0, 0, 0.048),0 12.5px 10px rgba(0, 0, 0, 0.06),0 22.3px 17.9px rgba(0, 0, 0, 0.072),0 41.8px 33.4px rgba(0, 0, 0, 0.086),0 100px 80px rgba(0, 0, 0, 0.12);
+  margin:40px 50px;
+  height: 600px;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  border-radius: 5px;
+  max-width: 'calc(100% - 60px)';
+  max-height: 'calc(100% - 60px)';
+  bottom: 116px;
+  right: 50px;
+  width: 420px;
+  height: '530px';
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+
   }
   
   .member-list{
@@ -81,9 +100,9 @@ body {
     list-style-type: none;
   }
   .send-button{
-    width:10%;
-    border-radius: 50px;
-    margin-left: 5px;
+    width:20%;
+    border-radius: 75px;
+    margin-left: 5px; 
     cursor: pointer;
   }
   .member{
@@ -95,7 +114,7 @@ body {
     box-shadow: 0 8px 8px -4px lightblue;
   }
   .member.active{
-    background: blueviolet;
+    background: cornflowerblue;
     color:#fff;
   }
   .member:hover{
@@ -111,7 +130,9 @@ body {
   }
   .avatar.self{
     color:#000;
-    background-color: greenyellow;
+    background-color: gray;
+    margin-left: 200px;
+    padding: 3px 5px
   }
   .message{
     padding:5px;
@@ -119,13 +140,15 @@ body {
     display: flex;
     flex-direction: row;
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-    margin: 5px 10px;
+    margin: 20px 10px;
+    border-radius: 5px;
   }
   .message-data{
     padding:5px;
   }
   .message.self{
-    justify-content: end;
+    justify-content: left;
+  padding: 3px 5px;
   }
 
   .register input{

@@ -46,14 +46,18 @@ export const DisplayProducts = () => {
   const [checkedClothes, setCheckedClothes] = useState(false);
   const [checkedAccessories, setCheckedAccessories] = useState(false);
   const [checkedElectronics, setCheckedElectronics] = useState(false);
-
+ 
+  const navigate = useNavigate();
   useEffect(() => {
     //setCheckedAll(true);
+    try{
     const fetchData = async () => {
       const result = await apiGetAllProducts();
       setProducts(result.payload);
+      if(result.status == 500){navigate("/500")}
     };
     fetchData();
+  }catch{}
   }, []);
 
   //let minPriceRange: number = 0;

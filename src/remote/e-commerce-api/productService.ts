@@ -4,10 +4,25 @@ import eCommerceClient, { eCommerceApiResponse } from "./eCommerceClient";
 const baseURL = "/api/product"
 
 export const apiGetAllProducts = async (): Promise<eCommerceApiResponse> => {
+    try{
     const response = await eCommerceClient.get<any>(
         `${baseURL}`
     );
-    return { status: response.status, payload: response.data };
+    return { status: response.status, payload: response.data };}catch{ 
+        console.log("i like turtles.")
+        let product:Product = {
+            id: 0,
+            name: "",
+            quantity: 0,
+            price: 0,
+            description: "",
+            image: "",
+            featured: false,
+            discontinued: false,
+            category: ""
+         };
+         let stuff:Product[]=[product,product];
+        return { status: 500, payload: stuff };}
 }
 
 export const apiGetProductById = async (id: number): Promise<eCommerceApiResponse> => {
@@ -26,11 +41,13 @@ export const apiUpsertProduct = async (product: Product): Promise<eCommerceApiRe
 }
 
 export const apiPurchase = async (products: {id: number, quantity: number}[]): Promise<eCommerceApiResponse> => {
+    try{
     const response = await eCommerceClient.patch<any>(
         `${baseURL}`,
         products
     );
     return { status: response.status, payload: response.data };
+}catch{return {status: 400, payload: null};}
 }
 
 export const apiDeleteProduct = async (id: number): Promise<eCommerceApiResponse> => {

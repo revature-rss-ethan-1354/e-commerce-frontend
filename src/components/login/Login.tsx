@@ -14,7 +14,7 @@ import { apiLogin } from "../../remote/e-commerce-api/authService";
 import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
-
+//export const HTTP_500_ERROR = 'HTTP_500_ERROR'
 export default function Login() {
   const navigate = useNavigate();
   let [invalidEmail, setinvalidEmail] = React.useState<String>("");
@@ -27,11 +27,14 @@ export default function Login() {
         `${data.get("email")}`,
         `${data.get("password")}`
       );
+
       console.log(response);
       if (response.status >= 200 && response.status < 300) navigate("/");
     }
     catch{
+     
       setinvalidEmail("Email or Password incorrect");
+      
     }
   };
 

@@ -51,12 +51,15 @@ const Image = styled.img`
 `;
 
 const Navbar = () => {
+  let [invalidServer, setinvalidServer] = React.useState<String>("");
   useEffect(() => {
+    try{
     const fetchData = async () => {
       const checkLogin = await apiCheckLogin();
       setLoggedIn(checkLogin.payload);
     };
     fetchData();
+  }catch(e){setinvalidServer("Our servers are momentarily down please visit again soon.");}
   }, []);
 
   const navigate = useNavigate();
@@ -85,6 +88,7 @@ const Navbar = () => {
             }}
           />
         </Left>
+        <p className="invalid-checkout-field">{invalidServer}</p>
         <Right>
           {loggedIn == 3 ? (
             <>

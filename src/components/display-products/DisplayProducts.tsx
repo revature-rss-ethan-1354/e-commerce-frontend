@@ -12,20 +12,23 @@ import Messenger from "../chat/Messenger";
 
 const Container = styled.div`
   padding: 20px;
-  display: flex;
-  flex-wrap: wrap;
+  display: inline-flex;
   justify-content: space-between;
 `;
 
 const SearchContainer = styled.div`
-  height: 100vh;
-  width: fit-content;
-  border: 2px solid black;
+  height: 80vh;
+  min-width: 10vh;
+  border: 2px solid #b9b9ba;
+  padding: 20px;
+  border-radius: 10px;
+  position: fixed;
 `;
 
 const ItemContainer = styled.div`
-  width: 80vh;
+  width: auto;
   padding: 20px;
+  margin-left: max(25vh, 275px);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -38,7 +41,14 @@ export const DisplayProducts = () => {
   const [minimum, setMinimum] = useState<number>(0);
   const [maximum, setMaximum] = useState<number>(1000000);
 
+  // For small bug
+  const [checkedAll, setCheckedAll] = useState(true);
+  const [checkedClothes, setCheckedClothes] = useState(false);
+  const [checkedAccessories, setCheckedAccessories] = useState(false);
+  const [checkedElectronics, setCheckedElectronics] = useState(false);
+
   useEffect(() => {
+    //setCheckedAll(true);
     const fetchData = async () => {
       const result = await apiGetAllProducts();
       setProducts(result.payload);
@@ -46,13 +56,34 @@ export const DisplayProducts = () => {
     fetchData();
   }, []);
 
-  let minPriceRange: number = 0;
-  let maxPriceRange: String = "";
+  //let minPriceRange: number = 0;
+  //let maxPriceRange: String = "";
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.name === "category") {
       setCategory(event.target.value);
-      console.log("category = " + category);
+      if (event.target.value === "clothing") {
+        setCheckedClothes(true);
+        setCheckedAccessories(false);
+        setCheckedElectronics(false);
+        setCheckedAll(false);
+      } else if (event.target.value === "accessories") {
+        setCheckedAccessories(true);
+        setCheckedClothes(false);
+        setCheckedElectronics(false);
+        setCheckedAll(false);
+      } else if (event.target.value === "electronics") {
+        setCheckedElectronics(true);
+        setCheckedClothes(false);
+        setCheckedAccessories(false);
+        setCheckedAll(false);
+      } else if (event.target.value === "") {
+        setCheckedAll(true);
+        setCheckedElectronics(false);
+        setCheckedClothes(false);
+        setCheckedAccessories(false);
+      }
+      console.log("category = " + event.target.value);
     } else if (event.target.name === "min-price") {
       setMinimum(Number(event.target.value));
       console.log("minimum price = " + minimum);
@@ -69,6 +100,10 @@ export const DisplayProducts = () => {
   };
 
   const clearFilters = () => {
+    setCheckedClothes(false);
+    setCheckedAccessories(false);
+    setCheckedElectronics(false);
+    setCheckedAll(true);
     setFilter("");
     setCategory("");
     setMinimum(0);
@@ -77,7 +112,9 @@ export const DisplayProducts = () => {
 
   return (
     <React.Fragment>
-      <Navbar />
+      <div className="navbar-div">
+        <Navbar />
+      </div>
       <Container>
         <SearchContainer>
           <form>
@@ -100,7 +137,20 @@ export const DisplayProducts = () => {
                   className="radio-box"
                   type="radio"
                   name="category"
+                  value=""
+                  checked={checkedAll}
+                  onChange={handleInput}
+                />
+                All
+              </label>{" "}
+              <br />
+              <label>
+                <input
+                  className="radio-box"
+                  type="radio"
+                  name="category"
                   value="clothing"
+                  checked={checkedClothes}
                   onChange={handleInput}
                 />
                 Clothes
@@ -112,6 +162,7 @@ export const DisplayProducts = () => {
                   type="radio"
                   name="category"
                   value="electronics"
+                  checked={checkedElectronics}
                   onChange={handleInput}
                 />
                 Electronics
@@ -123,6 +174,7 @@ export const DisplayProducts = () => {
                   type="radio"
                   name="category"
                   value="accessories"
+                  checked={checkedAccessories}
                   onChange={handleInput}
                 />
                 Accessories

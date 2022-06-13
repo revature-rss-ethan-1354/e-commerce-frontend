@@ -122,7 +122,7 @@ const Messenger: React.FC = () => {
         connect();
     }
     return (
-        <div className="container">     
+        <div className="container">
             {userData.connected ?
                 <div className="chat-box">
                     <div className="member-list"> 

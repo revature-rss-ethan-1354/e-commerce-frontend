@@ -1,54 +1,56 @@
 .root {
-    --orange: #f26925;
-    --white: #ffffff;
-    --dark-gray: #474c55;
-    --blue: #72a4c2;
-    --yellow: #fcb414;
-    --light-gray: #b9b9ba;
+  --orange: #f26925;
+  --white: #ffffff;
+  --dark-gray: #474c55;
+  --blue: #72a4c2;
+  --yellow: #fcb414;
+  --light-gray: #b9b9ba;
 }
 
 .body-container {
-    font-family: 'Futura-Std-Book';
+  font-family: "Futura-Std-Book";
 }
 
 @font-face {
-    font-family: 'Futura-Std-Book';
-    src: url(../../fonts/Futura-Std-Book.otf) format("opentype");
+  font-family: "Futura-Std-Book";
+  src: url(../../fonts/Futura-Std-Book.otf) format("opentype");
 }
 
 .submit-button {
-    display: block;
-    margin-top: 4rem;
-    padding: 1rem 6rem 1rem 6rem;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: #f26925;
-    border: solid 1px #b9b9ba;
-    border-radius: 10px;
-    color: #ffffff;
-    font-weight: 600;
-    font-size: large;
-    font-family: 'Futura-Std-Book';
+  display: block;
+  margin-top: 4rem;
+  padding: 1rem 6rem 1rem 6rem;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #f26925;
+  border: solid 1px #b9b9ba;
+  border-radius: 10px;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: large;
+  font-family: "Futura-Std-Book";
 }
 
 .submit-button:hover {
-    cursor: pointer;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: 0.3s;
 }
 
 .category {
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
-    height: 25px;
-    width: 200px;
-    font-size: medium;
-    text-align: left;
-    border-radius: 5px;
-    font-family: 'Futura-Std-Book';
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  height: 25px;
+  width: 200px;
+  font-size: medium;
+  text-align: left;
+  border-radius: 5px;
+  font-family: "Futura-Std-Book";
 }
 
 .category:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 /*
@@ -73,10 +75,10 @@ select option:hover {
 }
 
 .switch-container {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
 }
 
 /* The slider */
@@ -128,8 +130,8 @@ input:checked + .slider:before {
 }
 
 .featured {
-    display: inline-flex;
-    justify-content: center;
-    vertical-align: middle;
-    font-weight: bold;
+  display: inline-flex;
+  justify-content: center;
+  vertical-align: middle;
+  font-weight: bold;
 }

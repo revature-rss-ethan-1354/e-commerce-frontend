@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import "./DisplayProducts.css";
 import Messenger from "../chat/Messenger";
 // import Chat from '../chat/Chat';
+import { ToastContainer } from "react-toastify";
 
 const Container = styled.div`
   padding: 20px;
@@ -119,6 +120,7 @@ export const DisplayProducts = () => {
       <div className="navbar-div">
         <Navbar />
       </div>
+      <ToastContainer/>
       <Container>
         <SearchContainer>
           <form>

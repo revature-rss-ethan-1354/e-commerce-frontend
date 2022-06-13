@@ -9,6 +9,8 @@ import { apiCheckLogin } from "../../remote/e-commerce-api/authService";
 import EditIcon from "@mui/icons-material/Edit";
 import CancelIcon from "@mui/icons-material/Cancel";
 import VerifiedIcon from "@mui/icons-material/Verified";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 import React from 'react';
@@ -138,16 +140,50 @@ export const ProductCard = (props: productProps) => {
     fetchData();
   }, []);
 
+
+
+
   const addItemToCart = (product: Product) => {
-    const newCart = [...cart];
-    const index = newCart.findIndex((searchProduct) => {
-      return searchProduct.id === product.id;
-    });
 
-    if (index === -1) newCart.push(product);
-    else newCart[index].quantity += product.quantity;
+      let success = false;
 
-    setCart(newCart);
+      const newCart = [...cart];
+      const index = newCart.findIndex((searchProduct) => {
+        return searchProduct.id === product.id;
+      });
+
+        if (index === -1){
+           newCart.push(product);
+           success = true;
+        }
+        else if(newCart[index].cartCount < product.quantity){ 
+          newCart[index].cartCount += product.cartCount;
+          success = true;
+        }
+
+        if(success){
+          toast.success(product.name + ' Added to Cart', {
+            position: 'top-center',
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        } else {
+          toast.error('Error: Not enough product in stock', {
+            position: 'top-center',
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+
+        setCart(newCart);
   };
 
   const displayProduct = (product: Product) => {
@@ -162,6 +198,7 @@ export const ProductCard = (props: productProps) => {
 
   return (
     <>
+
       {loggedInStatus != 3 && props.product.discontinued ? (
         <></>
       ) : (
@@ -193,7 +230,7 @@ export const ProductCard = (props: productProps) => {
                   <Icon>
                     <ShoppingCartOutlined
                       onClick={() => {
-                        addItemToCart({ ...props.product, quantity: 1 });
+                        addItemToCart({ ...props.product, cartCount: 1 });
                       }}
                     />
                   </Icon>
@@ -259,14 +296,15 @@ export const ProductCard = (props: productProps) => {
               <Image src={props.product.image} />
               <Info>
                 {props.product.discontinued ? <CancelIcon /> : <></>}
-
-                <Icon>
+                {props.product.quantity == 0 ? <></> :
+                <Icon> 
                   <ShoppingCartOutlined
                     onClick={() => {
-                      addItemToCart({ ...props.product, quantity: 1 });
+                      addItemToCart({ ...props.product, cartCount: 1 });
                     }}
                   />
                 </Icon>
+                }
                 <Icon>
                 <Popup trigger={<SearchOutlined   />} 
                     position="right center"

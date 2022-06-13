@@ -131,11 +131,7 @@ export default function CreateProduct() {
       productPriceChecked.length === 0 &&
       productDescriptionChecked.length === 0
     ) {
-      console.log("string passed");
-      console.log(temp);
       const response = await apiUpsertProduct(temp);
-    } else {
-      console.log("string was empty ");
     }
   };
 

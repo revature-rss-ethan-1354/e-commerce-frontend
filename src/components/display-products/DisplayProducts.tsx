@@ -28,7 +28,7 @@ const SearchContainer = styled.div`
 const ItemContainer = styled.div`
   width: auto;
   padding: 20px;
-  margin-left: 25vh;
+  margin-left: max(25vh, 275px);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;

@@ -11,6 +11,7 @@ const Messenger: React.FC = () => {
     const [privateChats, setPrivateChats] = useState(new Map());
     const [publicChats, setPublicChats] = useState([]);
     const [tab, setTab] = useState("CHATROOM");
+    const [showInput, setShowInput] = useState(false);
     const [userData, setUserData] = useState({
         username: '',
         receivername: '',
@@ -33,6 +34,9 @@ const Messenger: React.FC = () => {
                         
     }, [user]);
 
+    const showConnect = () => {
+        setShowInput(true)
+    }
     const connect = () => {
         let Sock = new SockJS('http://localhost:8080/ws');
         stompClient = over(Sock);

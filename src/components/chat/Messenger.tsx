@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Client, over } from 'stompjs';
 import SockJS from 'sockjs-client';
 import "./style.css";
-import {
-    apiGetUser
-  } from "../../remote/e-commerce-api/authService";
+import { apiGetUser } from '../../remote/e-commerce-api/authService';
 
 var stompClient: Client | null = null;
 const Messenger: React.FC = () => {
@@ -18,40 +16,50 @@ const Messenger: React.FC = () => {
         connected: false,
         message: ''
     });
-    const [user, setUser] = useState({ 
-        "id": null,
-    "email": "",
-    "password": "",
-    "firstName": "",
-    "lastName": "",
-    "admin":  null      
+
+    const [user, setUser] = useState({
+        id: 0+Date.now(),
+    email: "guest@gmail.com",
+    password: "password",
+    firstName: "Guest",
+    lastName: "User",
+    admin: false
     });
 
     useEffect(() => {
-        //response from server take username, admin
-        
-            
-                        
-    }, [user]);
-
+        console.log(userData);
+    }, [userData]);
+    
     const showConnect = () => {
+        
+        const fetchData = async () => {            
+            const getUser = await apiGetUser();
+            setUser(getUser.payload);           
+            console.log(getUser.payload);            
+            setUserData({ ...userData, "username": user.firstName+" "+user.lastName });
+            console.log("Userdata: "+userData.username);
+            
+        };
+          fetchData();
+            
         setShowInput(true)
+        
+        
     }
+    
     const connect = () => {
         let Sock = new SockJS('http://localhost:8080/ws');
         stompClient = over(Sock);
         stompClient.connect({}, onConnected, onError);
     }
-
     const onConnected = () => {
-        setUserData({ ...userData, "connected": true });
+        //setUserData({ ...userData, "connected": true });
         if (stompClient) {
             stompClient.subscribe('/chatroom/public', onMessageReceived);
             stompClient.subscribe('/user/' + userData.username + '/private', onPrivateMessage);
             userJoin();
         }
     }
-
     const userJoin = () => {
         var chatMessage = {
             senderName: userData.username,
@@ -61,7 +69,6 @@ const Messenger: React.FC = () => {
             stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
         }
     }
-
     const onMessageReceived = (payload: { body: string; }) => {
         let payloadData = JSON.parse(payload.body);
         switch (payloadData.status) {
@@ -77,7 +84,6 @@ const Messenger: React.FC = () => {
                 break;
         }
     }
-
     const onPrivateMessage = (payload: { body: string; }) => {
         console.log(payload);
         var payloadData = JSON.parse(payload.body);
@@ -91,12 +97,9 @@ const Messenger: React.FC = () => {
             setPrivateChats(new Map(privateChats));
         }
     }
-
     const onError = (err: any) => {
         console.log(err);
-
     }
-
     const handleMessage = (event: { target: { value: any; }; }) => {
         const { value } = event.target;
         setUserData({ ...userData, "message": value });
@@ -113,7 +116,6 @@ const Messenger: React.FC = () => {
             setUserData({ ...userData, "message": "" });
         }
     }
-
     const sendPrivateValue = () => {
         if (stompClient) {
             var chatMessage = {
@@ -122,7 +124,6 @@ const Messenger: React.FC = () => {
                 message: userData.message,
                 status: "MESSAGE"
             };
-
             if (userData.username !== tab) {
                 privateChats.get(tab).push(chatMessage);
                 setPrivateChats(new Map(privateChats));
@@ -131,27 +132,19 @@ const Messenger: React.FC = () => {
             setUserData({ ...userData, "message": "" });
         }
     }
-
     const handleUsername = (event: { target: { value: any; }; }) => {
         const { value } = event.target;
-        setUserData({ ...userData, "username": value });
+        setUserData({ ...userData, "username": user.firstName+" "+user.lastName });
     }
-
-    const registerUser = () => { 
-        const fetchData = async () => {
-            const getUser = await apiGetUser();
-            setUser(getUser.payload);
-          };
-          fetchData();        
-        console.log(user);
-
-        connect();        
+    const registerUser = () => {
+        setUserData({ ...userData, "username": user.firstName+" "+user.lastName });
+        connect();
     }
     return (
         <div className="container">
             {userData.connected ?
                 <div className="chat-box">
-                    <div className="member-list"> 
+                    <div className="member-list">
                     {/* TODO: REMOVE LEFT SIDE PANEL IF IT IS A USER OR GUEST */}
                         <ul>
                             {[...privateChats.keys()].map((name, index) => (
@@ -169,7 +162,6 @@ const Messenger: React.FC = () => {
                                 </li>
                             ))}
                         </ul>
-
                         <div className="send-message">
                             <input type="text" className="input-message" placeholder="enter the message" value={userData.message} onChange={handleMessage} />
                             <button type="button" className="send-button" onClick={sendPrivateValue}>send</button>
@@ -177,20 +169,24 @@ const Messenger: React.FC = () => {
                     </div>}
                 </div>
                 :
-                <div className="register">
-                    <input
-                        id="user-name"
-                        placeholder="Enter your name"
-                        name="userName"
-                        value={user.firstName}
-                        onChange={handleUsername}
-                    />
-                    <button type="button" onClick={registerUser}>
-                        connect
-                    </button>
-                </div>}
+                <button className={!showInput ? "showConnect": "hideConnect"} onClick={showConnect}>Get Support</button>
+               }
+               {
+                   showInput &&
+                   <div className="register">
+                   <input
+                       id="user-name"
+                       placeholder="Enter your name"
+                       name="userName"
+                       value={user.firstName+" "+user.lastName}
+                    //    onChange={handleUsername}
+                   />
+                   <button type="button" onClick={registerUser}>
+                       connect
+                   </button>
+               </div>
+               }
         </div>
     )
 }
-
-export default Messenger
+export default Messenger;

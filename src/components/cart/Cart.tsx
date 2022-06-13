@@ -5,6 +5,11 @@ import { CartContext } from "../../context/cart.context";
 import Navbar from "../navbar/Narbar";
 import Product from "../../models/Product";
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import RemoveIcon from '@mui/icons-material/Remove';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 const Container = styled.div``;
 
@@ -143,8 +148,36 @@ export const Cart = () =>  {
     setCart(cart.filter((obj) => {
       return obj.id != product.id;
     }));
-
   }
+
+  const handleAdd = (product: Product) => {
+    if(product.cartCount < product.quantity) {
+      const newCart = [...cart];
+      const index = newCart.findIndex((searchProduct) => {
+        return searchProduct.id === product.id;
+      });
+
+      if (index === -1) newCart.push(product);
+      else newCart[index].cartCount += 1;
+
+      setCart(newCart);
+    }
+  }
+
+  const handleSubtract = (product: Product) => {
+    if(product.cartCount >= 2) {
+      const newCart = [...cart];
+      const index = newCart.findIndex((searchProduct) => {
+        return searchProduct.id === product.id;
+      });
+
+      if (index === -1) newCart.push(product);
+      else newCart[index].cartCount -= 1;
+
+      setCart(newCart);
+    }
+  }
+
 
   return (
     <Container>
@@ -175,9 +208,11 @@ export const Cart = () =>  {
                     </ProductDetail>
                     <PriceDetail>
                       <ProductAmountContainer>
-                        <ProductAmount> {product.quantity} </ProductAmount>
+                        <RemoveCircleOutlineIcon onClick={() => {handleSubtract({...product})}}/>
+                        <ProductAmount>{product.cartCount}</ProductAmount>
+                        <AddCircleOutlineIcon onClick={() => {handleAdd({...product})}}/>
                       </ProductAmountContainer>
-                      <ProductPrice>$ {product.price}</ProductPrice>
+                      <ProductPrice>$ {product.price * product.cartCount}</ProductPrice>
                     </PriceDetail>
                   </ProductContainer>
                   <Hr/>
@@ -190,7 +225,7 @@ export const Cart = () =>  {
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
               <SummaryItemPrice>$ 
-                  {cart.reduce<number>((total, product) => total + product.price * product.quantity, 0)}
+                  {cart.reduce<number>((total, product) => total + product.price * product.cartCount, 0)}
               </SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
@@ -204,7 +239,7 @@ export const Cart = () =>  {
             <SummaryItem>
               <SummaryItemText>Total</SummaryItemText>
               <SummaryItemPrice>$ 
-                {cart.reduce<number>((total, product) => total + product.price * product.quantity, 0)}
+                {cart.reduce<number>((total, product) => total + product.price * product.cartCount, 0)}
               </SummaryItemPrice>
             </SummaryItem>
             <Button onClick={() => {navigate('/checkout')}}>CHECKOUT NOW</Button>

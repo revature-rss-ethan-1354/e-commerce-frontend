@@ -139,15 +139,16 @@ export const ProductCard = (props: productProps) => {
   }, []);
 
   const addItemToCart = (product: Product) => {
-    const newCart = [...cart];
-    const index = newCart.findIndex((searchProduct) => {
-      return searchProduct.id === product.id;
-    });
+      const newCart = [...cart];
+      const index = newCart.findIndex((searchProduct) => {
+        return searchProduct.id === product.id;
+      });
 
-    if (index === -1) newCart.push(product);
-    else newCart[index].quantity += product.quantity;
-
-    setCart(newCart);
+        if (index === -1) newCart.push(product);
+        else if(newCart[index].cartCount < product.quantity){ 
+          newCart[index].cartCount += product.cartCount;
+        }
+        setCart(newCart);
   };
 
   const displayProduct = (product: Product) => {
@@ -193,7 +194,7 @@ export const ProductCard = (props: productProps) => {
                   <Icon>
                     <ShoppingCartOutlined
                       onClick={() => {
-                        addItemToCart({ ...props.product, quantity: 1 });
+                        addItemToCart({ ...props.product, cartCount: 1 });
                       }}
                     />
                   </Icon>
@@ -263,7 +264,7 @@ export const ProductCard = (props: productProps) => {
                 <Icon>
                   <ShoppingCartOutlined
                     onClick={() => {
-                      addItemToCart({ ...props.product, quantity: 1 });
+                      addItemToCart({ ...props.product, cartCount: 1 });
                     }}
                   />
                 </Icon>

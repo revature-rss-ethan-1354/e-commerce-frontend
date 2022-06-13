@@ -8,6 +8,7 @@ export default class Product {
     featured: boolean;
     discontinued: boolean;
     category: string;
+    cartCount: number;
 
     constructor (id: number, name: string, quantity: number, description: string, price: number, image: string, featured: boolean, discontinued: boolean, category: string) {
         this.id = id;
@@ -19,5 +20,6 @@ export default class Product {
         this.discontinued = discontinued;
         this.featured = featured;
         this.category = category;
+        this.cartCount = 0;
     }
 }

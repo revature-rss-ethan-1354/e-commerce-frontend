@@ -10,6 +10,7 @@ const Messenger: React.FC = () => {
     const [publicChats, setPublicChats] = useState([]);
     const [tab, setTab] = useState("CHATROOM");
     const [showInput, setShowInput] = useState(false);
+
     const [userData, setUserData] = useState({
         username: '',
         receivername: '',
@@ -18,35 +19,35 @@ const Messenger: React.FC = () => {
     });
 
     const [user, setUser] = useState({
-        id: 0+Date.now(),
-    email: "guest@gmail.com",
-    password: "password",
-    firstName: "Guest",
-    lastName: "User",
-    admin: false
+        id: 0 + Date.now(),
+        email: "guest@gmail.com",
+        password: "password",
+        firstName: "Blank_first",
+        lastName: "Blank_last",
+        admin: false
     });
 
     useEffect(() => {
         console.log(userData);
     }, [userData]);
-    
+
     const showConnect = () => {
-        
-        const fetchData = async () => {            
+
+        const fetchData = async () => { //Checkadmin + update UserData
             const getUser = await apiGetUser();
-            setUser(getUser.payload);           
-            console.log(getUser.payload);            
-            setUserData({ ...userData, "username": user.firstName+" "+user.lastName });
-            console.log("Userdata: "+userData.username);
+
+            if (getUser.payload.lastName != "") {
+                setUserData({ ...userData, "username": getUser.payload.lastName });
+                console.log("X1");
+            } 
             
-        };
-          fetchData();
-            
+        }; fetchData().catch( () => {
+            setUserData({ ...userData, "username": "Guest: " + Date.now() });
+        });
+
         setShowInput(true)
-        
-        
     }
-    
+
     const connect = () => {
         let Sock = new SockJS('http://localhost:8080/ws');
         stompClient = over(Sock);
@@ -134,10 +135,9 @@ const Messenger: React.FC = () => {
     }
     const handleUsername = (event: { target: { value: any; }; }) => {
         const { value } = event.target;
-        setUserData({ ...userData, "username": user.firstName+" "+user.lastName });
+        setUserData({ ...userData, "username": value });
     }
     const registerUser = () => {
-        setUserData({ ...userData, "username": user.firstName+" "+user.lastName });
         connect();
     }
     return (
@@ -145,7 +145,7 @@ const Messenger: React.FC = () => {
             {userData.connected ?
                 <div className="chat-box">
                     <div className="member-list">
-                    {/* TODO: REMOVE LEFT SIDE PANEL IF IT IS A USER OR GUEST */}
+                        {/* TODO: REMOVE LEFT SIDE PANEL IF IT IS A USER OR GUEST */}
                         <ul>
                             {[...privateChats.keys()].map((name, index) => (
                                 <li onClick={() => { setTab(name) }} className={`member ${tab === name && "active"}`} key={index}>{name}</li>
@@ -169,23 +169,23 @@ const Messenger: React.FC = () => {
                     </div>}
                 </div>
                 :
-                <button className={!showInput ? "showConnect": "hideConnect"} onClick={showConnect}>Get Support</button>
-               }
-               {
-                   showInput &&
-                   <div className="register">
-                   <input
-                       id="user-name"
-                       placeholder="Enter your name"
-                       name="userName"
-                       value={user.firstName+" "+user.lastName}
-                    //    onChange={handleUsername}
-                   />
-                   <button type="button" onClick={registerUser}>
-                       connect
-                   </button>
-               </div>
-               }
+                <button className={!showInput ? "showConnect" : "hideConnect"} onClick={showConnect}>Get Support</button>
+            }
+            {
+                showInput &&
+                <div className="register">
+                    <input
+                        id="user-name"
+                        placeholder="Enter your name"
+                        name="userName"
+                        value={userData.username}
+                        onChange={handleUsername}
+                    />
+                    <button type="button" onClick={registerUser}>
+                        connect
+                    </button>
+                </div>
+            }
         </div>
     )
 }

@@ -22,6 +22,11 @@ import Navbar from "../navbar/Narbar";
 
 import "./CreateProduct.css";
 import "../../fonts/Futura-Std-Book.otf";
+import { isValidProductName } from "../create-product-validation/product-name-validation";
+import { isValidProductQuantity } from "../create-product-validation/product-quantity-validation";
+import { isValidProductPrice } from "../create-product-validation/product-price-validation";
+import { isValidProductDescription } from "../create-product-validation/product-description-validation";
+import { number } from "card-validator";
 
 const theme = createTheme({
   typography: {
@@ -30,6 +35,24 @@ const theme = createTheme({
 });
 
 export default function CreateProduct() {
+  let productName: String = "";
+  let productNameChecked: String = "";
+  let [validProductName, setValidProductName] = React.useState<String>("");
+
+  let productQuantity: String = "";
+  let productQuantityChecked: String = "";
+  let [validProductQuantity, setValidProductQuantity] = React.useState<String>("");
+
+  let productPrice: String = "";
+  let productPriceChecked: String = "";
+  let [validProductPrice, setValidProductPrice] = React.useState<String>("");
+
+  let productDescription: String = "";
+  let productDescriptionChecked: String = "";
+  let [validProductDescription, setValidProductDescription] = React.useState<String>("");
+
+ 
+  
   const [name, setName] = useState<string>("");
   const [quantity, setQuantity] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
@@ -72,6 +95,7 @@ export default function CreateProduct() {
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
+
     let temp = {
       id: 0,
       name,
@@ -84,10 +108,33 @@ export default function CreateProduct() {
       category,
     };
 
+
+    productName = temp.name;
+    productNameChecked = isValidProductName(productName);
+    setValidProductName(isValidProductName(productName));
+
+    productQuantity = new String(temp.quantity);
+    productQuantityChecked = isValidProductQuantity(productQuantity);
+    setValidProductQuantity(isValidProductQuantity(productQuantity));
+
+    productPrice = new String(temp.price);
+    productPriceChecked = isValidProductPrice(productPrice);
+    setValidProductPrice(isValidProductPrice(productPrice));
+
+    productDescription = temp.description;
+    productDescriptionChecked = isValidProductDescription(productDescription);
+    setValidProductDescription(isValidProductDescription(productDescription));
+
     console.log(temp);
-    try{
-    const response = await apiUpsertProduct(temp);
-  }catch{setinvalidServer("Our servers are momentarily down please visit again soon.");}
+    if (
+      productNameChecked.length === 0 &&
+      productPriceChecked.length === 0 &&
+      productPriceChecked.length === 0 &&
+      productDescriptionChecked.length === 0
+    ) {
+      const response = await apiUpsertProduct(temp);
+    }
+
   };
 
   return (
@@ -126,7 +173,13 @@ export default function CreateProduct() {
                   id="name"
                   label="name"
                   autoFocus
+                  onKeyPress={(event) => {
+                    if (!/[a-z, A-Z]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                 />
+                <p className="invalid-product-field">{validProductName}</p>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -137,7 +190,13 @@ export default function CreateProduct() {
                   type="number"
                   name="quantity"
                   placeholder="Quantity"
+                  onKeyPress={(event) => {
+                    if (!/[0-9]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                 />
+                <p className="invalid-product-field">{validProductQuantity}</p>
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -148,7 +207,13 @@ export default function CreateProduct() {
                   name="price"
                   type="number"
                   placeholder="Price"
+                  onKeyPress={(event) => {
+                    if (!/[0-9]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                 />
+                <p className="invalid-product-field">{validProductPrice}</p>
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -158,7 +223,13 @@ export default function CreateProduct() {
                   label="description"
                   id="description"
                   placeholder="Description"
+                  onKeyPress={(event) => {
+                    if (!/[a-z, A-Z, 0-9, %]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                 />
+                <p className="invalid-product-field">{validProductDescription}</p>
               </Grid>
 
               <Grid item xs={12}>

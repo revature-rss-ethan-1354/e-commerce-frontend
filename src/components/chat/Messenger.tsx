@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Client, over } from 'stompjs';
 import SockJS from 'sockjs-client';
 import "./style.css";
+import {
+    apiGetUser
+  } from "../../remote/e-commerce-api/authService";
 
 var stompClient: Client | null = null;
 const Messenger: React.FC = () => {
@@ -14,9 +17,15 @@ const Messenger: React.FC = () => {
         connected: false,
         message: ''
     });
+    const [user, setUser] = useState({        
+    });
+
     useEffect(() => {
-        console.log(userData);
-    }, [userData]);
+        //response from server take username, admin
+        
+            
+                        
+    }, [user]);
 
     const connect = () => {
         let Sock = new SockJS('http://localhost:8080/ws');
@@ -118,8 +127,15 @@ const Messenger: React.FC = () => {
         setUserData({ ...userData, "username": value });
     }
 
-    const registerUser = () => {
-        connect();
+    const registerUser = () => { 
+        const fetchData = async () => {
+            const getUser = await apiGetUser();
+            setUser(getUser.payload);
+          };
+          fetchData();        
+        console.log(user);
+               
+        connect();        
     }
     return (
         <div className="container">

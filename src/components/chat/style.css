@@ -47,6 +47,7 @@ body {
     padding: 10px;
     display: flex;
     flex-direction: row;
+    background: blanchedalmond;
   }
   
   .member-list{
@@ -118,6 +119,7 @@ body {
     flex-direction: row;
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
     margin: 5px 10px;
+    background: lemonchiffon;
   }
   .message-data{
     padding:5px;

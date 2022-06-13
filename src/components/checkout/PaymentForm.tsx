@@ -130,6 +130,11 @@ export default function PaymentForm(props: paymentFormProps) {
               variant="standard"
               onBlur={handleOnBlur}
               onChange={handleChange}
+              onKeyPress={(event) => {
+                if (!/[a-z, A-Z]/.test(event.key)) {
+                  event.preventDefault();
+                }
+              }}
             />
             <p className="invalid-checkout-field">{validFullName}</p>
           </Grid>
@@ -144,6 +149,11 @@ export default function PaymentForm(props: paymentFormProps) {
               variant="standard"
               onBlur={handleOnBlur}
               onChange={handleChange}
+              onKeyPress={(event) => {
+                if (!/[0-9]/.test(event.key)) {
+                  event.preventDefault();
+                }
+              }}
             />
             <p className="invalid-checkout-field">{validCardNumber}</p>
           </Grid>
@@ -158,6 +168,11 @@ export default function PaymentForm(props: paymentFormProps) {
               variant="standard"
               onBlur={handleOnBlur}
               onChange={handleChange}
+              onKeyPress={(event) => {
+                if (!/[0-9]/.test(event.key)) {
+                  event.preventDefault();
+                }
+              }}
             />
             <p className="invalid-checkout-field">{validExpirationDate}</p>
           </Grid>
@@ -173,6 +188,11 @@ export default function PaymentForm(props: paymentFormProps) {
               variant="standard"
               onBlur={handleOnBlur}
               onChange={handleChange}
+              onKeyPress={(event) => {
+                if (!/[0-9]/.test(event.key)) {
+                  event.preventDefault();
+                }
+              }}
             />
             <p className="invalid-checkout-field">{validCvv}</p>
           </Grid>

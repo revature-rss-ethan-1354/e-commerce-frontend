@@ -5,6 +5,7 @@
   --blue: #72a4c2;
   --yellow: #fcb414;
   --light-gray: #b9b9ba;
+  --error-red: #A3161D;
 }
 
 .body-container {
@@ -132,4 +133,7 @@ border-radius: 50%;
   justify-content: center;
   vertical-align: middle;
   font-weight: bold;
+}
+.invalid-product-field{
+  color: var(--error-red);
 }

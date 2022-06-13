@@ -26,6 +26,7 @@ export default function Login() {
         `${data.get("email")}`,
         `${data.get("password")}`
       );
+      console.log(response);
       if (response.status >= 200 && response.status < 300) navigate("/");
     }
     catch{

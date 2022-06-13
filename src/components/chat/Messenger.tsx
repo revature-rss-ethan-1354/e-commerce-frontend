@@ -53,7 +53,7 @@ const Messenger: React.FC = () => {
         stompClient.connect({}, onConnected, onError);
     }
     const onConnected = () => {
-        //setUserData({ ...userData, "connected": true });
+        setUserData({ ...userData, "connected": true });
         if (stompClient) {
             stompClient.subscribe('/chatroom/public', onMessageReceived);
             stompClient.subscribe('/user/' + userData.username + '/private', onPrivateMessage);

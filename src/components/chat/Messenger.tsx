@@ -38,10 +38,9 @@ const Messenger: React.FC = () => {
 
             if (getUser.payload.lastName != "") {
                 setUserData({ ...userData, "username": getUser.payload.lastName });
-                console.log("X1");
-            } 
-            
-        }; fetchData().catch( () => {
+            }
+
+        }; fetchData().catch(() => {
             setUserData({ ...userData, "username": "Guest: " + Date.now() });
         });
 

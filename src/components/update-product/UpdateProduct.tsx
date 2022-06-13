@@ -10,7 +10,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { apiRegister } from "../../remote/e-commerce-api/authService";
+import { apiCheckLogin, apiRegister } from "../../remote/e-commerce-api/authService";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   apiGetProductById,
@@ -34,6 +34,17 @@ const theme = createTheme({
 });
 
 export default function UpdateProduct() {
+  const navigate = useNavigate();
+  useEffect(() => {
+   
+    try{
+    const fetchData = async () => {
+      const result = await apiCheckLogin();
+      if(result.payload != 3){navigate("/")}
+    };
+    fetchData();
+  }catch{}
+  }, []);
   let productName: String = "";
   let productNameChecked: String = "";
   let [validProductName, setValidProductName] = React.useState<String>("");
@@ -54,7 +65,7 @@ export default function UpdateProduct() {
   let productId = Number(window.location.pathname.split("/update/")[1]);
   console.log("Pid " + productId);
 
-  const navigator = useNavigate();
+  // const navigator = useNavigate();
 
   const [name, setName] = useState<string>("");
   const [quantity, setQuantity] = useState<number>(0);
@@ -129,6 +140,7 @@ export default function UpdateProduct() {
       featured,
       discontinued,
       category,
+      cartCount: 0
     };
 
     console.log(temp);
@@ -156,7 +168,7 @@ export default function UpdateProduct() {
       productDescriptionChecked.length === 0
     ) {
       const response = await apiUpdateProduct(temp);
-      navigator("/");
+      navigate("/");
     }
 
   };

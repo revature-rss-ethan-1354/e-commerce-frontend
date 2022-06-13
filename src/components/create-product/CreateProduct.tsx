@@ -10,10 +10,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { apiRegister } from "../../remote/e-commerce-api/authService";
+import { apiCheckLogin, apiRegister } from "../../remote/e-commerce-api/authService";
 import { useNavigate } from "react-router-dom";
 import {
-  apiUpdateProduct,
   apiUpsertProduct,
 } from "../../remote/e-commerce-api/productService";
 import Product from "../../models/Product";
@@ -35,6 +34,17 @@ const theme = createTheme({
 });
 
 export default function CreateProduct() {
+  const navigate = useNavigate();
+  useEffect(() => {
+   
+    try{
+    const fetchData = async () => {
+      const result = await apiCheckLogin();
+      if(result.payload != 3){navigate("/")}
+    };
+    fetchData();
+  }catch{}
+  }, []);
   let productName: String = "";
   let productNameChecked: String = "";
   let [validProductName, setValidProductName] = React.useState<String>("");
@@ -106,6 +116,7 @@ export default function CreateProduct() {
       featured,
       discontinued: false,
       category,
+      cartCount: 0
     };
 
 

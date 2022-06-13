@@ -92,6 +92,7 @@ export default function Register() {
       console.log(response.payload);
       navigate("/login");
       // props.handleNext();
+      console.log(data);
     } else {
     }
     }catch{setinvalidServer("Our servers are momentarily down please visit again soon.");}

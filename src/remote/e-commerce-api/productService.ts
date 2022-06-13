@@ -9,7 +9,6 @@ export const apiGetAllProducts = async (): Promise<eCommerceApiResponse> => {
         `${baseURL}`
     );
     return { status: response.status, payload: response.data };}catch{ 
-        console.log("i like turtles.")
         let product:Product = {
             id: 0,
             name: "",
@@ -19,7 +18,8 @@ export const apiGetAllProducts = async (): Promise<eCommerceApiResponse> => {
             image: "",
             featured: false,
             discontinued: false,
-            category: ""
+            category: "",
+            cartCount: 0
          };
          let stuff:Product[]=[product,product];
         return { status: 500, payload: stuff };}

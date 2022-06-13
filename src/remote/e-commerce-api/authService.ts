@@ -24,3 +24,10 @@ export const apiRegister = async (firstName: string, lastName: string, email: st
     );
     return { status: response.status, payload: response.data };
 }
+
+export const apiCheckLogin = async(): Promise<eCommerceApiResponse> => {
+    const response = await eCommerceClient.post<any>(
+        `${baseURL}/checkLogin`
+    );
+    return { status: response.status, payload: response.data };
+};

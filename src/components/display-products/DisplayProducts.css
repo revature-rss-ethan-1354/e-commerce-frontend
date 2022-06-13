@@ -1,0 +1,59 @@
+@font-face {
+  font-family: "Futura-Std-Book";
+  src: url(../../fonts/Futura-Std-Book.otf) format("opentype");
+}
+
+body {
+  font-family: "Futura-Std-Book";
+}
+
+.navbar-div {
+  position: sticky;
+  top: 0px;
+  z-index: 500;
+}
+
+.search-field,
+.price-range {
+  width: 90%;
+  margin-top: 15px;
+  border: 3px solid #f26925;
+  padding: 5px;
+  height: 20px;
+  border-radius: 5px;
+  outline: none;
+  font-family: "Futura-Std-Book";
+}
+
+.reset-btn {
+  width: fit-content;
+  border: none;
+  background-color: #f26925;
+  color: #fff;
+  padding: 10px 30px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 auto;
+  margin-top: 30px;
+  display: block;
+}
+
+.reset-btn:hover {
+  cursor: pointer;
+  opacity: 0.8;
+  transition: 0.3s;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.categories {
+  margin-bottom: 20px;
+}
+
+.radio-box {
+  font-size: 20px;
+}

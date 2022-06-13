@@ -18,7 +18,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "preserve",
+    "compilerOptions": {
+      "target": "es2015"
+    }
   },
   "include": [
     "src"

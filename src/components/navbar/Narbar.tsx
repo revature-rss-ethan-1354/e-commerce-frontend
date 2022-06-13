@@ -1,11 +1,18 @@
 import { Badge } from "@material-ui/core";
 import { ShoppingCartOutlined } from "@material-ui/icons";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import {
+  apiCheckLogin,
+  apiLogout,
+} from "../../remote/e-commerce-api/authService";
+import pride from "./revBackground.png";
+import { useCallback } from "react";
 
 const Container = styled.div`
-  height: 60px;
+  height: fit-content;
+  background: #72a4c2;
 `;
 
 const Wrapper = styled.div`
@@ -32,24 +39,97 @@ const Right = styled.div`
 `;
 
 const MenuItem = styled.div`
-  font-size: 14px;
+  font-size: 17px;
   cursor: pointer;
-  margin-left: 25px;
+  margin-left: 55px;
+`;
+const Image = styled.img`
+  width: 200px;
+  height: 75px;
+  z-index: 2;
+  cursor: pointer;
 `;
 
 const Navbar = () => {
+  useEffect(() => {
+    const fetchData = async () => {
+      const checkLogin = await apiCheckLogin();
+      setLoggedIn(checkLogin.payload);
+    };
+    fetchData();
+  }, []);
+
   const navigate = useNavigate();
+  const [loggedIn, setLoggedIn] = useState<number>(1);
+
+  const handleLogout = () => {
+    apiLogout();
+    setLoggedIn(1);
+    window.location.reload();
+    navigate("/");
+  };
+
+  const handleCart = () => {
+    if (loggedIn != 1) navigate("/cart");
+    else navigate("/login");
+  };
 
   return (
     <Container>
       <Wrapper>
         <Left>
-        <Logo onClick={() => {navigate('/')}}>Revature Swag Shop</Logo>
+          <Image
+            src={pride}
+            onClick={() => {
+              navigate("/");
+            }}
+          />
         </Left>
         <Right>
-          <MenuItem onClick={() => {navigate('/register')}}>REGISTER</MenuItem>
-          <MenuItem onClick={() => {navigate('/login')}}>SIGN IN</MenuItem>
-          <MenuItem onClick={() => {navigate('/cart')}}>
+          {loggedIn == 3 ? (
+            <>
+              {window.location.pathname == "/create" ? (
+                <MenuItem
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                >
+                  SEARCH
+                </MenuItem>
+              ) : (
+                <MenuItem
+                  onClick={() => {
+                    navigate("/create");
+                  }}
+                >
+                  CREATE
+                </MenuItem>
+              )}
+            </>
+          ) : (
+            <></>
+          )}
+          {loggedIn != 1 ? (
+            <MenuItem onClick={handleLogout}>LOG OUT</MenuItem>
+          ) : (
+            <>
+              <MenuItem
+                onClick={() => {
+                  navigate("/register");
+                }}
+              >
+                REGISTER
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  navigate("/login");
+                }}
+              >
+                SIGN IN
+              </MenuItem>
+            </>
+          )}
+          <MenuItem onClick={handleCart}>
             <Badge color="primary">
               <ShoppingCartOutlined />
             </Badge>

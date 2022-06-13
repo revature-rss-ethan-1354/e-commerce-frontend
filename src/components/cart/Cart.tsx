@@ -1,8 +1,10 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { CartContext } from "../../context/cart.context";
 import Navbar from "../navbar/Narbar";
+import Product from "../../models/Product";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const Container = styled.div``;
 
@@ -37,7 +39,7 @@ const Info = styled.div`
   flex: 3;
 `;
 
-const Product = styled.div`
+const ProductContainer = styled.div`
   display: flex;
   justify-content: space-between;
 `;
@@ -130,10 +132,19 @@ const Button = styled.button`
   font-weight: 600;
 `;
 
-export const Cart = () => {
+
+export const Cart = () =>  {
   const { cart, setCart } = useContext(CartContext);
 
   const navigate = useNavigate();
+
+  const removeProductFromCart = (product: Product) => {
+
+    setCart(cart.filter((obj) => {
+      return obj.id != product.id;
+    }));
+
+  }
 
   return (
     <Container>
@@ -149,7 +160,7 @@ export const Cart = () => {
             {
               cart.map((product)=> (
                 <>
-                  <Product>
+                  <ProductContainer>
                     <ProductDetail>
                       <Image src={product.image} />
                       <Details>
@@ -159,6 +170,7 @@ export const Cart = () => {
                         <ProductId>
                           <b>ID:</b> {product.id}
                         </ProductId>
+                        <DeleteIcon onClick={() => {removeProductFromCart({...product})}}/>
                       </Details>
                     </ProductDetail>
                     <PriceDetail>
@@ -167,7 +179,7 @@ export const Cart = () => {
                       </ProductAmountContainer>
                       <ProductPrice>$ {product.price}</ProductPrice>
                     </PriceDetail>
-                  </Product>
+                  </ProductContainer>
                   <Hr/>
                 </>
               ))

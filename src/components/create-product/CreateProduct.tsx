@@ -61,7 +61,7 @@ export default function CreateProduct() {
   const [featured, isFeatured] = useState<boolean>(false);
   // const [discontinued, isDiscontinued] = useState<boolean>();
   const [category, setCategory] = useState<string>("");
-
+  let [invalidServer, setinvalidServer] = React.useState<String>("");
   const handleInput = (event: React.ChangeEvent<HTMLFormElement>) => {
     if (event.target.name == "name") {
       setName(event.target.value);
@@ -108,6 +108,7 @@ export default function CreateProduct() {
       category,
     };
 
+
     productName = temp.name;
     productNameChecked = isValidProductName(productName);
     setValidProductName(isValidProductName(productName));
@@ -133,6 +134,7 @@ export default function CreateProduct() {
     ) {
       const response = await apiUpsertProduct(temp);
     }
+
   };
 
   return (
@@ -140,6 +142,7 @@ export default function CreateProduct() {
       <Navbar />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
+        <p className="invalid-checkout-field">{invalidServer}</p>
         <Box
           sx={{
             marginTop: 8,

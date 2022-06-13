@@ -8,6 +8,7 @@ import { DisplayProducts } from "../components/display-products/DisplayProducts"
 import Login from '../components/login/Login';
 import Register from '../components/register/Register';
 import UpdateProduct from '../components/update-product/UpdateProduct';
+import { ERROR500 } from '../components/500ERROR/500ERROR';
 
 export const AppRoutes: React.FC<unknown> = () => (
   <Routes>
@@ -19,5 +20,6 @@ export const AppRoutes: React.FC<unknown> = () => (
     <Route path="/update/:id" element={<UpdateProduct/>} />
     <Route path="/create" element={<CreateProduct/>} />
     <Route path="/messenger" element={<Messenger/>} />
+    <Route path="/500" element={<ERROR500/>} />
   </Routes>
 )

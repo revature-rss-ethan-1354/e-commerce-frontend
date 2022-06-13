@@ -21,7 +21,7 @@ const theme = createTheme();
 
 export default function Register() {
   const navigate = useNavigate();
-
+  const [invalidServer, setinvalidServer] = React.useState<String>("");
   let firstName: String = "";
   let lastName: String = "";
   let email: String = "";
@@ -73,14 +73,14 @@ export default function Register() {
     password = new String(data.get("password"));
     repeatPassword = isValidPassword(password);
     setValidPassword(isValidPassword(password));
-
+    try{
     const response = await apiRegister(
       `${data.get("firstName")}`,
       `${data.get("lastName")}`,
       `${data.get("email")}`,
       `${data.get("password")}`
     );
-
+      
     if (
       response.status >= 200 &&
       response.status < 300 &&
@@ -94,7 +94,7 @@ export default function Register() {
       // props.handleNext();
     } else {
     }
-
+    }catch{setinvalidServer("Our servers are momentarily down please visit again soon.");}
     // if (response.status >= 200 && response.status < 300) navigate("/login");
   };
 
@@ -126,6 +126,7 @@ export default function Register() {
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
+        <p className="invalid-checkout-field">{invalidServer}</p>
         <Box
           sx={{
             marginTop: 8,

@@ -20,10 +20,7 @@ const Messenger: React.FC = () => {
         message: ''
     });
 
-    const [user, setUser] = useState({
-        id: 0 + Date.now(),
-        email: "guest@gmail.com",
-        password: "password",
+    const [user, setUser] = useState({        
         firstName: "Blank_first",
         lastName: "Blank_last",
         admin: false
@@ -125,6 +122,7 @@ const Messenger: React.FC = () => {
 
        
         setUserData({ ...userData, "connected": false });
+
     }
     const sendPrivateValue = () => {
         if (stompClient) {

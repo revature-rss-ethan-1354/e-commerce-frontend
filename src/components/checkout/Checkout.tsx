@@ -18,6 +18,7 @@ import { useContext } from 'react';
 import { CartContext } from '../../context/cart.context';
 import Product from '../../models/Product';
 import { useNavigate } from 'react-router-dom';
+import { apiCheckLogin } from '../../remote/e-commerce-api/authService';
 
 const steps = ['Shipping address', 'Payment details', 'Review your order'];
 
@@ -62,6 +63,15 @@ export default function Checkout() {
   const updatePayment = (newPaymentDetail: PaymentDetail[]) => {
     paymentDetail = newPaymentDetail
   }
+  const [loggedInStatus, setLoggedInStatus] = React.useState<number>(1);
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const result = await apiCheckLogin();
+      setLoggedInStatus(result.payload);
+      if(result.payload == 1){navigate("/")}
+    };
+    fetchData();
+  }, []);
 
   function getStepContent(step: number) {
     switch (step) {

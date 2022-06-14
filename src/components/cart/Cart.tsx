@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { CartContext } from "../../context/cart.context";
@@ -10,6 +10,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveIcon from '@mui/icons-material/Remove';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import { apiCheckLogin } from "../../remote/e-commerce-api/authService";
 
 const Container = styled.div``;
 
@@ -140,8 +141,18 @@ const Button = styled.button`
 
 export const Cart = () =>  {
   const { cart, setCart } = useContext(CartContext);
+  const [loggedInStatus, setLoggedInStatus] = useState<number>(1);
 
   const navigate = useNavigate();
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await apiCheckLogin();
+      setLoggedInStatus(result.payload);
+      if(result.payload == 1){navigate("/")}
+    };
+    fetchData();
+  }, []);
+
 
   const removeProductFromCart = (product: Product) => {
 

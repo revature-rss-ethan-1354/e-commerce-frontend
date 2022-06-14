@@ -18,6 +18,8 @@ import { useContext } from 'react';
 import { CartContext } from '../../context/cart.context';
 import Product from '../../models/Product';
 import { useNavigate } from 'react-router-dom';
+import { apiCheckLogin } from '../../remote/e-commerce-api/authService';
+import Navbar from '../navbar/Narbar';
 
 const steps = ['Shipping address', 'Payment details', 'Review your order'];
 
@@ -62,6 +64,16 @@ export default function Checkout() {
   const updatePayment = (newPaymentDetail: PaymentDetail[]) => {
     paymentDetail = newPaymentDetail
   }
+  const [loggedInStatus, setLoggedInStatus] = React.useState<number>(1);
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const result = await apiCheckLogin();
+      setLoggedInStatus(result.payload);
+      if(result.payload == 1){navigate("/")}
+      if(result.status == 500){navigate("/500")};
+    };
+    fetchData();
+  }, []);
 
   function getStepContent(step: number) {
     switch (step) {
@@ -78,8 +90,12 @@ export default function Checkout() {
 
   return (
     <ThemeProvider theme={theme}>
+
       <CssBaseline />
-      <AppBar
+      <div className="navbar-div">
+        <Navbar />
+      </div>
+      {/* <AppBar
         position="absolute"
         color="default"
         elevation={0}
@@ -93,7 +109,7 @@ export default function Checkout() {
             Revature Swag Shop
           </Typography>
         </Toolbar>
-      </AppBar>
+      </AppBar> */}
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
         <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
           <Typography component="h1" variant="h4" align="center">

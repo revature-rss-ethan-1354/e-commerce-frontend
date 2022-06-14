@@ -31,20 +31,22 @@ const Messenger: React.FC = () => {
         console.log(userData);
     }, [userData]);
 
+    let getUser: any;
+
     const showConnect = () => {
-
         const fetchData = async () => { //Checkadmin + update UserData
-            const getUser = await apiGetUser();
-
+            getUser = await apiGetUser();
+        };
+        fetchData().then( () => {
             if (getUser.payload.lastName != "") {
-                setUserData({ ...userData, "username": getUser.payload.lastName });
+                userData.username = getUser.payload.firstName + " " + getUser.payload.lastName;
             }
-
-        }; fetchData().catch(() => {
-            setUserData({ ...userData, "username": "Guest: " + Date.now() });
+            connect();
+        })
+        fetchData().catch(() => {
+            userData.username = "GUEST" + Date.now();
+            connect();
         });
-
-        setShowInput(true)
     }
 
     const connect = () => {

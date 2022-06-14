@@ -10,6 +10,8 @@ const Messenger: React.FC = () => {
     const [publicChats, setPublicChats] = useState([]);
     const [tab, setTab] = useState("CHATROOM");
     const [showInput, setShowInput] = useState(false);
+    const [showSupport, setShowSupport]  = useState(true);
+   
 
     const [userData, setUserData] = useState({
         username: '',
@@ -43,8 +45,8 @@ const Messenger: React.FC = () => {
         }; fetchData().catch(() => {
             setUserData({ ...userData, "username": "Guest: " + Date.now() });
         });
-
-        setShowInput(true)
+        setShowSupport(false);
+        setShowInput(true);
     }
 
     const connect = () => {
@@ -97,6 +99,7 @@ const Messenger: React.FC = () => {
             setPrivateChats(new Map(privateChats));
         }
     }
+    
     const onError = (err: any) => {
         console.log(err);
     }
@@ -115,6 +118,13 @@ const Messenger: React.FC = () => {
             stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
             setUserData({ ...userData, "message": "" });
         }
+    }
+    const closeChatBox = () => {
+        setShowInput(false);
+        setShowSupport(true);
+
+       
+        setUserData({ ...userData, "connected": false });
     }
     const sendPrivateValue = () => {
         if (stompClient) {
@@ -137,6 +147,7 @@ const Messenger: React.FC = () => {
         setUserData({ ...userData, "username": value });
     }
     const registerUser = () => {
+        setShowInput(false);
         connect();
     }
     return (
@@ -152,6 +163,9 @@ const Messenger: React.FC = () => {
                         </ul>
                     </div>
                     {tab !== "CHATROOM" && <div className="chat-content">
+                        <div>
+                            <button type="button" className='chat-close' onClick={closeChatBox}>x</button>
+                        </div>
                         <ul className="chat-messages">
                             {[...privateChats.get(tab)].map((chat, index) => (
                                 <li className={`message ${chat.senderName === userData.username && "self"}`} key={index}>
@@ -168,10 +182,10 @@ const Messenger: React.FC = () => {
                     </div>}
                 </div>
                 :
-                <button className={!showInput ? "showConnect" : "hideConnect"} onClick={showConnect}>Get Support</button>
+                <button className={(!showInput && showSupport) ? "showConnect" : "hideConnect"} onClick={showConnect}>Get Support</button>
             }
             {
-                showInput &&
+                (showInput && !showSupport) &&
                 <div className="register">
                     <input
                         id="user-name"

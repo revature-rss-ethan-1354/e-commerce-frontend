@@ -166,3 +166,7 @@ body {
   right: 3%;
   bottom: 20px;
 }
+
+.hideMemeber {
+  display: none;
+}

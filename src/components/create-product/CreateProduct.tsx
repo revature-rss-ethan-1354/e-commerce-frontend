@@ -219,7 +219,7 @@ export default function CreateProduct() {
                   type="number"
                   placeholder="Price"
                   onKeyPress={(event) => {
-                    if (!/[0-9]/.test(event.key)) {
+                    if (!/[0-9, .]/.test(event.key)) {
                       event.preventDefault();
                     }
                   }}

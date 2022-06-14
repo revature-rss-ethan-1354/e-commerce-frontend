@@ -163,7 +163,7 @@ export default function UpdateProduct() {
     console.log(temp);
     if (
       productNameChecked.length === 0 &&
-      productPriceChecked.length === 0 &&
+      productQuantityChecked.length === 0 &&
       productPriceChecked.length === 0 &&
       productDescriptionChecked.length === 0
     ) {

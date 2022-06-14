@@ -138,6 +138,7 @@ const Button = styled.button`
   color: white;
   font-weight: 600;
   border-radius: 10px;
+  cursor: pointer;
 `;
 
 

@@ -33,6 +33,7 @@ const TopButton = styled.button`
   padding: 10px;
   font-weight: 600;
   cursor: pointer;
+  border-radius: 10px;
 `;
 
 const Bottom = styled.div`
@@ -135,6 +136,7 @@ const Button = styled.button`
   background-color: black;
   color: white;
   font-weight: 600;
+  border-radius: 10px;
 `;
 
 

@@ -250,7 +250,7 @@ export default function UpdateProduct() {
                   //placeholder={product.price.toString()}
                   value={price}
                   onKeyPress={(event) => {
-                    if (!/[0-9]/.test(event.key)) {
+                    if (!/[0-9, .]/.test(event.key)) {
                       event.preventDefault();
                     }
                   }}

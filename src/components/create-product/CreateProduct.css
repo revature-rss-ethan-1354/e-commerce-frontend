@@ -58,11 +58,6 @@
   cursor: pointer;
 }
 
-/*
-select option:hover {
-  background-color: #72a4c2;
-}
-*/
 .switch {
   position: relative;
   display: inline-block;
@@ -111,8 +106,12 @@ select option:hover {
   transition: 0.4s;
 }
 
+.slider:checked {
+  background-color: #f26925;
+}
+
 input:checked + .slider {
-  background-color: #2196f3;
+  background-color: #f26925;
 }
 
 input:focus + .slider {

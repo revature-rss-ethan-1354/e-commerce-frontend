@@ -57,6 +57,7 @@ const Navbar = () => {
     const fetchData = async () => {
       const checkLogin = await apiCheckLogin();
       setLoggedIn(checkLogin.payload);
+      if(checkLogin.status == 500){navigate("/500")};
     };
     fetchData();
   }catch(e){setinvalidServer("Our servers are momentarily down please visit again soon.");}

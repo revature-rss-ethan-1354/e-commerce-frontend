@@ -8,6 +8,7 @@ import { isValidFullName } from "../checkout-validation/FullNameCardValidation";
 import { isValidCardNumber } from "../checkout-validation/CardNumberValidation";
 import { isValidExpirationDate } from "../checkout-validation/ExpirationDateCardValidation";
 import { isValidCvv } from "../checkout-validation/CvvValidation";
+import { orange } from "@mui/material/colors";
 
 interface paymentFormProps {
   handleBack: () => void;
@@ -198,10 +199,10 @@ export default function PaymentForm(props: paymentFormProps) {
           </Grid>
         </Grid>
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Button onClick={props.handleBack} sx={{ mt: 3, ml: 1 }}>
+          <Button onClick={props.handleBack} sx={{ mt: 3, ml: 1, backgroundColor: orange }}>
             Back
           </Button>
-          <Button type="submit" variant="contained" sx={{ mt: 3, ml: 1 }}>
+          <Button type="submit" variant="contained" sx={{ mt: 3, ml: 1 }} color="warning">
             Next
           </Button>
         </Box>

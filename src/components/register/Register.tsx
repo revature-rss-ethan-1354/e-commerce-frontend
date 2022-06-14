@@ -16,12 +16,15 @@ import { isValidFirstName } from "../checkout-validation/FirstNameValidation";
 import { isValidLastName } from "../checkout-validation/LastNameValidation";
 import { isValidEmail } from "../register-validation/EmailValidation";
 import { isValidPassword } from "../register-validation/PasswordValidation";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const theme = createTheme();
 
 export default function Register() {
   const navigate = useNavigate();
-  const [invalidServer, setinvalidServer] = React.useState<String>("");
+  
   let firstName: String = "";
   let lastName: String = "";
   let email: String = "";
@@ -92,9 +95,19 @@ export default function Register() {
       console.log(response.payload);
       navigate("/login");
       // props.handleNext();
-    } else {
+      console.log(data);
+    } else if(response.status == 409){
+      toast.error("Account already exists.", {
+        position: 'top-center',
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
-    }catch{setinvalidServer("Our servers are momentarily down please visit again soon.");}
+    }catch{}
     // if (response.status >= 200 && response.status < 300) navigate("/login");
   };
 
@@ -126,7 +139,7 @@ export default function Register() {
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
-        <p className="invalid-checkout-field">{invalidServer}</p>
+        <ToastContainer/>
         <Box
           sx={{
             marginTop: 8,

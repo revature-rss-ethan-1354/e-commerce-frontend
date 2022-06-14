@@ -10,7 +10,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { apiRegister } from "../../remote/e-commerce-api/authService";
+import { apiCheckLogin, apiRegister } from "../../remote/e-commerce-api/authService";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   apiGetProductById,
@@ -34,6 +34,17 @@ const theme = createTheme({
 });
 
 export default function UpdateProduct() {
+  const navigate = useNavigate();
+  useEffect(() => {
+   
+    try{
+    const fetchData = async () => {
+      const result = await apiCheckLogin();
+      if(result.payload != 3){navigate("/")}
+    };
+    fetchData();
+  }catch{}
+  }, []);
   let productName: String = "";
   let productNameChecked: String = "";
   let [validProductName, setValidProductName] = React.useState<String>("");
@@ -54,7 +65,7 @@ export default function UpdateProduct() {
   let productId = Number(window.location.pathname.split("/update/")[1]);
   console.log("Pid " + productId);
 
-  const navigator = useNavigate();
+  // const navigator = useNavigate();
 
   const [name, setName] = useState<string>("");
   const [quantity, setQuantity] = useState<number>(0);
@@ -77,6 +88,7 @@ export default function UpdateProduct() {
       isFeatured(result.payload.featured);
       isDiscontinued(result.payload.discontinued);
       setCategory(result.payload.category);
+      if(result.status == 404){navigate("/404")};
     };
     // console.log(name);
     fetchIdData();
@@ -129,6 +141,7 @@ export default function UpdateProduct() {
       featured,
       discontinued,
       category,
+      cartCount: 0
     };
 
     console.log(temp);
@@ -151,12 +164,13 @@ export default function UpdateProduct() {
     console.log(temp);
     if (
       productNameChecked.length === 0 &&
-      productPriceChecked.length === 0 &&
+      productQuantityChecked.length === 0 &&
       productPriceChecked.length === 0 &&
       productDescriptionChecked.length === 0
     ) {
       const response = await apiUpdateProduct(temp);
-      navigator("/");
+      if(response.status == 500){navigate("/500")};
+      navigate("/");
     }
 
   };
@@ -238,7 +252,7 @@ export default function UpdateProduct() {
                   //placeholder={product.price.toString()}
                   value={price}
                   onKeyPress={(event) => {
-                    if (!/[0-9]/.test(event.key)) {
+                    if (!/[0-9, .]/.test(event.key)) {
                       event.preventDefault();
                     }
                   }}
@@ -314,10 +328,11 @@ export default function UpdateProduct() {
 
                 <select
                   className="category"
-                  id="category"
+                  name="category"
                   onChange={handleSelect}
                 >
-                  <option className="option" selected value="clothing">Clothing</option>
+                  <option selected>Category</option>
+                  <option className="option" value="clothing">Clothing</option>
                   <option className="option" value="accessories">Accessories</option>
                   <option className="option" value="electronics">Electronics</option>
                 </select>

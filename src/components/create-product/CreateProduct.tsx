@@ -10,10 +10,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { apiRegister } from "../../remote/e-commerce-api/authService";
+import { apiCheckLogin, apiRegister } from "../../remote/e-commerce-api/authService";
 import { useNavigate } from "react-router-dom";
 import {
-  apiUpdateProduct,
   apiUpsertProduct,
 } from "../../remote/e-commerce-api/productService";
 import Product from "../../models/Product";
@@ -35,6 +34,17 @@ const theme = createTheme({
 });
 
 export default function CreateProduct() {
+  const navigate = useNavigate();
+  useEffect(() => {
+   
+    try{
+    const fetchData = async () => {
+      const result = await apiCheckLogin();
+      if(result.payload != 3){navigate("/")}
+    };
+    fetchData();
+  }catch{}
+  }, []);
   let productName: String = "";
   let productNameChecked: String = "";
   let [validProductName, setValidProductName] = React.useState<String>("");
@@ -86,7 +96,7 @@ export default function CreateProduct() {
   };
 
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    if (event.currentTarget.name == "category") {
+    if (event.currentTarget.name === "category") {
       setCategory(event.currentTarget.value);
       console.log(event.currentTarget.value);
     }
@@ -106,6 +116,7 @@ export default function CreateProduct() {
       featured,
       discontinued: false,
       category,
+      cartCount: 0
     };
 
 
@@ -133,6 +144,7 @@ export default function CreateProduct() {
       productDescriptionChecked.length === 0
     ) {
       const response = await apiUpsertProduct(temp);
+      if(response.status == 500){navigate("/500")};
     }
 
   };
@@ -208,7 +220,7 @@ export default function CreateProduct() {
                   type="number"
                   placeholder="Price"
                   onKeyPress={(event) => {
-                    if (!/[0-9]/.test(event.key)) {
+                    if (!/[0-9, .]/.test(event.key)) {
                       event.preventDefault();
                     }
                   }}
@@ -285,8 +297,9 @@ export default function CreateProduct() {
                 </Select>
                 */}
 
-                <select className="category" id="category" onChange={handleSelect}>
-                  <option selected value="clothing">
+                <select className="category" name="category" onChange={handleSelect}>
+                <option selected>Category</option>
+                  <option value="clothing">
                     Clothing
                   </option>
                   <option value="accessories">Accessories</option>

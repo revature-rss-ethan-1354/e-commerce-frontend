@@ -33,6 +33,14 @@ const theme = createTheme({
   }
 });
 
+const style = {
+  "& .MuiOutlinedInput-root": {
+    "&.Mui-focused fieldset": {
+      borderColor: "#F26925",
+    }
+  }
+}
+
 export default function UpdateProduct() {
   const navigate = useNavigate();
   useEffect(() => {
@@ -211,8 +219,10 @@ export default function UpdateProduct() {
                   required
                   fullWidth
                   id="name"
-                  label="name"
+                  label="Name"
                   autoFocus
+                  sx={style}
+                  InputLabelProps={{style: {color: "#474C55"}}}    
                   onKeyPress={(event) => {
                     if (!/[a-z, A-Z]/.test(event.key)) {
                       event.preventDefault();
@@ -226,11 +236,13 @@ export default function UpdateProduct() {
                   required
                   fullWidth
                   id="quantity"
-                  label="quantity"
+                  label="Quantity"
                   type="number"
                   name="quantity"
                   //placeholder={product.quantity.toString()}
                   value={quantity}
+                  sx={style}
+                  InputLabelProps={{style: {color: "#474C55"}}}    
                   onKeyPress={(event) => {
                     if (!/[0-9]/.test(event.key)) {
                       event.preventDefault();
@@ -248,6 +260,8 @@ export default function UpdateProduct() {
                   name="price"
                   type="number"
                   //placeholder={product.price.toString()}
+                  sx={style}
+                  InputLabelProps={{style: {color: "#474C55"}}}    
                   value={price}
                   onKeyPress={(event) => {
                     if (!/[0-9]/.test(event.key)) {
@@ -262,10 +276,12 @@ export default function UpdateProduct() {
                   required
                   fullWidth
                   name="description"
-                  label="description"
+                  label="Description"
                   id="description"
                   //placeholder={product.description}
                   value={description}
+                  sx={style}
+                  InputLabelProps={{style: {color: "#474C55"}}}    
                   onKeyPress={(event) => {
                     if (!/[a-z, A-Z, 0-9, %]/.test(event.key)) {
                       event.preventDefault();
@@ -279,10 +295,12 @@ export default function UpdateProduct() {
                 <TextField
                   fullWidth
                   name="image"
-                  label="image"
+                  label="Image"
                   id="image"
                   //placeholder={product.image}
                   value={image}
+                  sx={style}
+                  InputLabelProps={{style: {color: "#474C55"}}}    
                 />
               </Grid>
 
@@ -311,19 +329,6 @@ export default function UpdateProduct() {
               </div>
 
               <Grid item xs={12}>
-                {/*
-                <Select
-                    fullWidth
-                    name="category"
-                    label="category"
-                    id="category"
-                    >
-                      <option onSelect={(event) => setCategory("Clothing")} selected value="clothing">Clothing</option>
-                      <option onSelect={(event) => setCategory("Accessories")} value="accessories">Accessories</option>
-                      <option onSelect={(event) => setCategory("Electronics")}  value="electronics">Electronics</option>
-                </Select>
-                */}
-
                 <select
                   className="category"
                   id="category"

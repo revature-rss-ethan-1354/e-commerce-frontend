@@ -10,8 +10,7 @@ import Address from '../../models/Address';
 import { Box, Button } from '@mui/material';
 import { apiPurchase } from '../../remote/e-commerce-api/productService';
 import { CartContext } from '../../context/cart.context';
-
-
+import "./Checkout.css";
 
 interface reviewProps {
   handleBack: () => void
@@ -88,10 +87,10 @@ export default function Review(props: reviewProps) {
         </Grid>
       </Grid>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <Button onClick={props.handleBack} sx={{ mt: 3, ml: 1 }}>
+        <Button onClick={props.handleBack} sx={{ mt: 3, ml: 1, color: "#474C55"}}>
           Back
         </Button>
-        <Button
+        <Button className="place-order"
           variant="contained"
           onClick={handleSubmit}
           sx={{ mt: 3, ml: 1 }}

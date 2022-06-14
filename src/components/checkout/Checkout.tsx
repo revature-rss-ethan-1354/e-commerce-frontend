@@ -18,6 +18,15 @@ import { useContext } from 'react';
 import { CartContext } from '../../context/cart.context';
 import Product from '../../models/Product';
 import { useNavigate } from 'react-router-dom';
+import pride from "../navbar/revBackground.png";
+import styled from "styled-components";
+
+const Image = styled.img`
+  width: 200px;
+  height: 75px;
+  z-index: 2;
+  cursor: pointer;
+`;
 
 const steps = ['Shipping address', 'Payment details', 'Review your order'];
 
@@ -40,7 +49,11 @@ let paymentDetail = [
   { name: 'Expiry date', detail: '' },
 ];
 
-const theme = createTheme();
+const theme = createTheme({
+  typography: {
+    fontFamily: "Futura-Std-Book"
+  }
+});
 
 export default function Checkout() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -88,10 +101,11 @@ export default function Checkout() {
           borderBottom: (t) => `1px solid ${t.palette.divider}`,
         }}
       >
-        <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap onClick={() => navigate('/')}>
+        <Toolbar className="toolbar">
+          <Image src={pride} onClick={() => { navigate('/'); }} />
+          {/* <Typography className="home" variant="h6" color="inherit" noWrap onClick={() => navigate('/')}>
             Revature Swag Shop
-          </Typography>
+          </Typography> */}
         </Toolbar>
       </AppBar>
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
@@ -99,9 +113,28 @@ export default function Checkout() {
           <Typography component="h1" variant="h4" align="center">
             Checkout
           </Typography>
-          <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
+          <Stepper className="step" activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
             {steps.map((label) => (
-              <Step key={label}>
+              <Step key={label}
+                sx={{
+                  '& .MuiStepLabel-root .Mui-completed': {
+                    color: '#F26925', // circle color (COMPLETED)
+                  },
+                  '& .MuiStepLabel-label.Mui-completed.MuiStepLabel-alternativeLabel':
+                  {
+                    color: '#B9B9BA', // Just text label (COMPLETED)
+                  },
+                  '& .MuiStepLabel-root .Mui-active': {
+                    color: '#F26925', // circle color (ACTIVE)
+                  },
+                  '& .MuiStepLabel-label.Mui-active.MuiStepLabel-alternativeLabel':
+                  {
+                    color: 'common.white', // Just text label (ACTIVE)
+                  },
+                  '& .MuiStepLabel-root .Mui-active .MuiStepIcon-text': {
+                    fill: 'common.white', // circle's number (ACTIVE)
+                  },
+                }}>
                 <StepLabel>{label}</StepLabel>
               </Step>
             ))}

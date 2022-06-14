@@ -96,7 +96,7 @@ export default function CreateProduct() {
   };
 
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    if (event.currentTarget.name == "category") {
+    if (event.currentTarget.name === "category") {
       setCategory(event.currentTarget.value);
       console.log(event.currentTarget.value);
     }
@@ -144,6 +144,7 @@ export default function CreateProduct() {
       productDescriptionChecked.length === 0
     ) {
       const response = await apiUpsertProduct(temp);
+      if(response.status == 500){navigate("/500")};
     }
 
   };
@@ -296,8 +297,9 @@ export default function CreateProduct() {
                 </Select>
                 */}
 
-                <select className="category" id="category" onChange={handleSelect}>
-                  <option selected value="clothing">
+                <select className="category" name="category" onChange={handleSelect}>
+                <option selected>Category</option>
+                  <option value="clothing">
                     Clothing
                   </option>
                   <option value="accessories">Accessories</option>

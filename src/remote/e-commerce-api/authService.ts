@@ -28,10 +28,13 @@ export const apiRegister = async (firstName: string, lastName: string, email: st
 }
 
 export const apiCheckLogin = async(): Promise<eCommerceApiResponse> => {
-    const response = await eCommerceClient.post<any>(
+    try{
+        const response = await eCommerceClient.post<any>(
         `${baseURL}/checkLogin`
     );
-    return { status: response.status, payload: response.data };
+    return { status: response.status, payload: response.data };}catch{
+        return {status : 500, payload: 1};
+    }
 };
 
 export const apiGetUser = async (): Promise<eCommerceApiResponse> => {

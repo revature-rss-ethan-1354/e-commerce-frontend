@@ -88,6 +88,7 @@ export default function UpdateProduct() {
       isFeatured(result.payload.featured);
       isDiscontinued(result.payload.discontinued);
       setCategory(result.payload.category);
+      if(result.status == 404){navigate("/404")};
     };
     // console.log(name);
     fetchIdData();
@@ -168,6 +169,7 @@ export default function UpdateProduct() {
       productDescriptionChecked.length === 0
     ) {
       const response = await apiUpdateProduct(temp);
+      if(response.status == 500){navigate("/500")};
       navigate("/");
     }
 
@@ -326,10 +328,11 @@ export default function UpdateProduct() {
 
                 <select
                   className="category"
-                  id="category"
+                  name="category"
                   onChange={handleSelect}
                 >
-                  <option className="option" selected value="clothing">Clothing</option>
+                  <option selected>Category</option>
+                  <option className="option" value="clothing">Clothing</option>
                   <option className="option" value="accessories">Accessories</option>
                   <option className="option" value="electronics">Electronics</option>
                 </select>

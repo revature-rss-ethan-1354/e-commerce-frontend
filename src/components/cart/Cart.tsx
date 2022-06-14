@@ -149,6 +149,7 @@ export const Cart = () =>  {
       const result = await apiCheckLogin();
       setLoggedInStatus(result.payload);
       if(result.payload == 1){navigate("/")}
+      if(result.status == 500){navigate("/500")};
     };
     fetchData();
   }, []);

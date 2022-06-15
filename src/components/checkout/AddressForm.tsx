@@ -377,7 +377,7 @@ export default function AddressForm(props: addressFormProps) {
             </Grid>
           </Grid>
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-            <Button className="submit-button" type="submit" variant="contained" sx={{ mt: 3, ml: 1 }}>
+            <Button className="submit-button" type="submit" variant="contained" sx={{ mt: 3, ml: 1}}>
               Next
             </Button>
           </Box>

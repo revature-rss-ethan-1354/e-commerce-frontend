@@ -33,18 +33,20 @@ const Messenger: React.FC = () => {
 
     // Show the input box when the user clicks the Get Support button
     const showConnect = () => {
+        let getUser: any;
         const fetchData = async () => { //Checkadmin + update UserData
-            const getUser = await apiGetUser();
-            if (getUser.payload.lastName != "") {
-                setUserData({ ...userData, "username": getUser.payload.lastName });                
-            }
+            getUser = await apiGetUser();
+
             
         }; fetchData().then(() => {
-            
+            if (getUser.payload.lastName != "") {
+                userData.username = getUser.payload.firstName + getUser.payload.lastName
+                connect();                 
+            }
         });
          fetchData().catch(() => {
-            setUserData({ ...userData, "username": "Guest: " + Date.now() });
-            
+            userData.username = "Guest: " + Date.now();
+            connect();
         });
         setShowSupport(false);
         setShowInput(true);
@@ -203,21 +205,6 @@ const Messenger: React.FC = () => {
                 </div>
                 :
                 <button className={(!showInput && showSupport) ? "showConnect" : "hideConnect"} onClick={showConnect}>Get Support</button>
-            }
-            {
-                (showInput && !showSupport) &&
-                <div className="register">
-                    <input
-                        id="user-name"
-                        placeholder="Enter your name"
-                        name="userName"
-                        value={userData.username}
-                        onChange={handleUsername}
-                    />
-                    <button type="button" onClick={registerUser}>
-                        connect
-                    </button>
-                </div>
             }
         </div>
     )

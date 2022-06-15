@@ -17,7 +17,7 @@ input {
 button{
   border: none;
   padding: 10px;
-  background: #F37A2A;
+  background: rgb(146, 122, 90);
   color:#fff;
   font-size: 1.2em;
   font-weight: bold;
@@ -30,19 +30,11 @@ button{
 }
 .register{
   position: fixed;
-  padding:0px;
-  box-shadow:0 2.8px 2.2px rgba(0, 0, 0, 0.034),0 6.7px 5.3px rgba(0, 0, 0, 0.048),0 12.5px 10px rgba(0, 0, 0, 0.06),0 22.3px 17.9px rgba(0, 0, 0, 0.072),0 41.8px 33.4px rgba(0, 0, 0, 0.086),0 100px 80px rgba(0, 0, 0, 0.12);
-  top: 95%;
-  left: 80.5%;
+  left: 70%;
   display: flex;
-  flex-direction: row;
-  z-index:20;
+  
   border-radius: 5px;
-  /* right: 3%;
-  display: flex;
-  flex-direction: row;
-  z-index:20;
-  bottom: 20px; */
+  bottom: 20px;
 }
 .chat-box{
   box-shadow:0 2.8px 2.2px rgba(0, 0, 0, 0.034),0 6.7px 5.3px rgba(0, 0, 0, 0.048),0 12.5px 10px rgba(0, 0, 0, 0.06),0 22.3px 17.9px rgba(0, 0, 0, 0.072),0 41.8px 33.4px rgba(0, 0, 0, 0.086),0 100px 80px rgba(0, 0, 0, 0.12);
@@ -51,28 +43,29 @@ height: 600px;
 padding: 10px;
 display: flex;
 flex-direction: row;
-border-radius: 5px;
-max-width: 'calc(100% - 60px)';
-max-height: 'calc(100% - 60px)';
-bottom: 116px;
-right: 50px;
+border-radius: 15px;
 width: fit-content;
-height: '530px';
--webkit-backdrop-filter: blur(10px);
 backdrop-filter: blur(10px);
 margin-left: auto;
 }
-/* .member-list{
-  width: 20%;
+
+.member-list{
+  margin-top: 50px;
+  margin-bottom: 60px;
+  width: fit-content;
+  padding: 10px;
+  border-radius: 15px;
   box-shadow:0 2.8px 2.2px rgba(0, 0, 0, 0.034),0 6.7px 5.3px rgba(0, 0, 0, 0.048),0 12.5px 10px rgba(0, 0, 0, 0.06),0 22.3px 17.9px rgba(0, 0, 0, 0.072),0 41.8px 33.4px rgba(0, 0, 0, 0.086),0 100px 80px rgba(0, 0, 0, 0.12);
-} */
+}
 .chat-content{
   width:80%;
   margin-left: 10px;
 }
 .chat-messages{
   height: 80%;
-  border: 1px solid #000;
+  border: 1px solid blanchedalmond;
+  border-radius: 10px;
+  background: antiquewhite;
 }
 .send-message{
   width: 100%;
@@ -81,7 +74,8 @@ margin-left: auto;
 }
 .input-message{
   width:90%;
-  border-radius: 50px;
+  border: 1px solid rgb(146, 122, 90);
+  border-radius: 10px;
 }
 ul {
   padding: 0;
@@ -89,20 +83,22 @@ ul {
 }
 .send-button{
   width:20%;
-  border-radius: 75px;
-  margin-left: 5px;
+  border-radius: 10px;
+  margin-left: 10px;
   cursor: pointer;
 }
 .member{
   padding: 10px;
-  background: #eee;
+  background: antiquewhite;
   border:#000;
   cursor: pointer;
+  border-radius: 20px;
   margin: 5px 2px;
   box-shadow: 0 8px 8px -4px lightblue;
 }
 .member.active{
-  background: cornflowerblue;
+  background: rgb(146, 122, 90);
+  border-radius: 20px;
   color:#fff;
 }
 .member:hover{
@@ -110,15 +106,14 @@ ul {
   color:#fff;
 }
 .avatar{
-  background-color: cornflowerblue;
+  background-color: rgb(146, 122, 90);
   padding: 3px 5px;
   border-radius: 5px;
   color:#fff;
 }
 .avatar.self{
-  color:#000;
-  background-color: gray;
-  margin-left: 200px;
+  background-color: indianred;
+  margin-left: auto;
   padding: 3px 5px
 }
 .message{
@@ -129,6 +124,7 @@ ul {
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
   margin: 20px;
   border-radius: 5px;
+  background: burlywood;
 }
 .message-data{
   padding:5px;
@@ -136,17 +132,31 @@ ul {
 .message.self{
   justify-content: left;
 padding: 3px 5px;
+background: aliceblue;
 }
+
+.chat-close {
+  background: rgba(255, 0, 43, 0.432);
+  border-radius: 20px;
+  cursor: pointer;
+  margin-left: 350px;
+  color: crimson;
+  width: 40px;
+}
+
 .register input{
+  border: 1px solid rgb(146, 122, 90);
     border-radius: 17px;
+    margin-right: 20px;
+    color: rgb(146, 122, 90);
 }
 .register button{
   border-radius: 17px;
-  background-color: #F37A2A;
+  background-color: #rgb(146, 122, 90);
 }
 .showConnect {
 border-radius: 17px;
-background-color: #F37A2A;
+background-color: rgb(146, 122, 90)#F37A2A;
 position: fixed;
 right: 3%;
 bottom: 20px;

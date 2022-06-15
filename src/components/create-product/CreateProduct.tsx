@@ -107,7 +107,7 @@ export default function CreateProduct() {
   };
 
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    if (event.currentTarget.name == "category") {
+    if (event.currentTarget.name === "category") {
       setCategory(event.currentTarget.value);
       console.log(event.currentTarget.value);
     }
@@ -155,6 +155,7 @@ export default function CreateProduct() {
       productDescriptionChecked.length === 0
     ) {
       const response = await apiUpsertProduct(temp);
+      if(response.status == 500){navigate("/500")};
     }
 
   };
@@ -236,7 +237,7 @@ export default function CreateProduct() {
                   sx={style}
                   InputLabelProps={{style: {color: "#474C55"}}}    
                   onKeyPress={(event) => {
-                    if (!/[0-9]/.test(event.key)) {
+                    if (!/[0-9, .]/.test(event.key)) {
                       event.preventDefault();
                     }
                   }}
@@ -317,7 +318,7 @@ export default function CreateProduct() {
                 </Select>
                 */}
 
-                <select className="category" id="category" onChange={handleSelect}
+                <select className="category" id="category" name="category" onChange={handleSelect}
                   // theme={(theme) => ({
                   //   ...theme,
                   //   colors: {...theme.colors,
@@ -325,7 +326,10 @@ export default function CreateProduct() {
                   //   },
                   // })}
                 >
-                  <option selected value="clothing">Clothing</option>
+                  <option selected>Category</option>
+                  <option value="clothing">
+                    Clothing
+                  </option>
                   <option value="accessories">Accessories</option>
                   <option value="electronics">Electronics</option>
                 </select>

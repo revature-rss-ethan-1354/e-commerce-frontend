@@ -12,6 +12,9 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { apiLogin } from "../../remote/e-commerce-api/authService";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 const theme = createTheme({
@@ -46,8 +49,16 @@ export default function Login() {
       if (response.status >= 200 && response.status < 300) navigate("/");
     }
     catch{
-     
-      setinvalidEmail("Email or Password incorrect");
+      toast.error("Email or Password incorrect.", {
+        position: 'top-center',
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      
       
     }
   };
@@ -76,7 +87,7 @@ export default function Login() {
             noValidate
             sx={{ mt: 1 }}
           >
-            <p className="invalid-checkout-field">{invalidEmail}</p>
+            <ToastContainer/>
             <TextField
               className="login-input"
               margin="normal"

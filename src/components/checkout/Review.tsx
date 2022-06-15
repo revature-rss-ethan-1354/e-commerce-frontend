@@ -94,6 +94,7 @@ export default function Review(props: reviewProps) {
           variant="contained"
           onClick={handleSubmit}
           sx={{ mt: 3, ml: 1 }}
+          color="warning"
         >
           Place order
         </Button>

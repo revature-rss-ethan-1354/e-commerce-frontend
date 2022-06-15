@@ -3,13 +3,16 @@ import { Client, over } from 'stompjs';
 import SockJS from 'sockjs-client';
 import "./style.css";
 import { apiGetUser } from '../../remote/e-commerce-api/authService';
+import { emitKeypressEvents } from 'readline';
 
 var stompClient: Client | null = null;
 const Messenger: React.FC = () => {
-    const [privateChats, setPrivateChats] = useState(new Map());
+    const [privateChats, setPrivateChats] = useState(new Map()); 
     const [publicChats, setPublicChats] = useState([]);
     const [tab, setTab] = useState("CHATROOM");
     const [showInput, setShowInput] = useState(false);
+    const [showSupport, setShowSupport]  = useState(true);
+   
 
     const [userData, setUserData] = useState({
         username: '',
@@ -18,10 +21,7 @@ const Messenger: React.FC = () => {
         message: ''
     });
 
-    const [user, setUser] = useState({
-        id: 0 + Date.now(),
-        email: "guest@gmail.com",
-        password: "password",
+    const [user, setUser] = useState({        
         firstName: "Blank_first",
         lastName: "Blank_last",
         admin: false
@@ -31,27 +31,35 @@ const Messenger: React.FC = () => {
         console.log(userData);
     }, [userData]);
 
+    // Show the input box when the user clicks the Get Support button
     const showConnect = () => {
-
+        let getUser: any;
         const fetchData = async () => { //Checkadmin + update UserData
-            const getUser = await apiGetUser();
+            getUser = await apiGetUser();
 
+            
+        }; fetchData().then(() => {
             if (getUser.payload.lastName != "") {
-                setUserData({ ...userData, "username": getUser.payload.lastName });
+                userData.username = getUser.payload.firstName + getUser.payload.lastName
+                connect();                 
             }
-
-        }; fetchData().catch(() => {
-            setUserData({ ...userData, "username": "Guest: " + Date.now() });
         });
-
-        setShowInput(true)
+         fetchData().catch(() => {
+            userData.username = "Guest: " + Date.now();
+            connect();
+        });
+        setShowSupport(false);
+        setShowInput(true);
     }
 
+    // Connection to the server
     const connect = () => {
         let Sock = new SockJS('http://localhost:8080/ws');
         stompClient = over(Sock);
         stompClient.connect({}, onConnected, onError);
     }
+
+    // When the connection is established, subscribe to the chat room
     const onConnected = () => {
         setUserData({ ...userData, "connected": true });
         if (stompClient) {
@@ -60,6 +68,8 @@ const Messenger: React.FC = () => {
             userJoin();
         }
     }
+
+    // New User joins the chat room
     const userJoin = () => {
         var chatMessage = {
             senderName: userData.username,
@@ -69,6 +79,8 @@ const Messenger: React.FC = () => {
             stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
         }
     }
+
+    // New message received from the server
     const onMessageReceived = (payload: { body: string; }) => {
         let payloadData = JSON.parse(payload.body);
         switch (payloadData.status) {
@@ -84,6 +96,8 @@ const Messenger: React.FC = () => {
                 break;
         }
     }
+
+    // New private message received from the server
     const onPrivateMessage = (payload: { body: string; }) => {
         console.log(payload);
         var payloadData = JSON.parse(payload.body);
@@ -97,13 +111,17 @@ const Messenger: React.FC = () => {
             setPrivateChats(new Map(privateChats));
         }
     }
+    
+    
     const onError = (err: any) => {
         console.log(err);
     }
+
     const handleMessage = (event: { target: { value: any; }; }) => {
         const { value } = event.target;
         setUserData({ ...userData, "message": value });
     }
+
     const sendValue = () => {
         if (stompClient) {
             var chatMessage = {
@@ -115,6 +133,15 @@ const Messenger: React.FC = () => {
             stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
             setUserData({ ...userData, "message": "" });
         }
+    }
+
+    const closeChatBox = () => {
+        setShowInput(false);
+        setShowSupport(true);
+
+       
+        setUserData({ ...userData, "connected": false });
+
     }
     const sendPrivateValue = () => {
         if (stompClient) {
@@ -137,7 +164,13 @@ const Messenger: React.FC = () => {
         setUserData({ ...userData, "username": value });
     }
     const registerUser = () => {
+        setShowInput(false);
         connect();
+    }
+    const keyPress = (e) => {
+        if (e.key === "Enter") {
+            sendPrivateValue();
+        }
     }
     return (
         <div className="container">
@@ -152,6 +185,9 @@ const Messenger: React.FC = () => {
                         </ul>
                     </div>
                     {tab !== "CHATROOM" && <div className="chat-content">
+                        
+                            <button type="button" className='chat-close' onClick={closeChatBox}>---</button>
+                        
                         <ul className="chat-messages">
                             {[...privateChats.get(tab)].map((chat, index) => (
                                 <li className={`message ${chat.senderName === userData.username && "self"}`} key={index}>
@@ -162,28 +198,13 @@ const Messenger: React.FC = () => {
                             ))}
                         </ul>
                         <div className="send-message">
-                            <input type="text" className="input-message" placeholder="enter the message" value={userData.message} onChange={handleMessage} />
+                            <input type="text" className="input-message" placeholder="enter the message" value={userData.message} onChange={handleMessage} onKeyPress={(e) => keyPress(e)}/>
                             <button type="button" className="send-button" onClick={sendPrivateValue}>send</button>
                         </div>
                     </div>}
                 </div>
                 :
-                <button className={!showInput ? "showConnect" : "hideConnect"} onClick={showConnect}>Get Support</button>
-            }
-            {
-                showInput &&
-                <div className="register">
-                    <input
-                        id="user-name"
-                        placeholder="Enter your name"
-                        name="userName"
-                        value={userData.username}
-                        onChange={handleUsername}
-                    />
-                    <button type="button" onClick={registerUser}>
-                        connect
-                    </button>
-                </div>
+                <button className={(!showInput && showSupport) ? "showConnect" : "hideConnect"} onClick={showConnect}>Get Support</button>
             }
         </div>
     )

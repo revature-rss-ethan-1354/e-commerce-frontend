@@ -18,18 +18,23 @@ export const apiLogout = async (): Promise<eCommerceApiResponse> => {
 }
 
 export const apiRegister = async (firstName: string, lastName: string, email: string, password: string): Promise<eCommerceApiResponse> => {
-    const response = await eCommerceClient.post<any>(
+    try{const response = await eCommerceClient.post<any>(
         `${baseURL}/register`,
         { firstName: firstName, lastName: lastName, email: email, password: password }
     );
-    return { status: response.status, payload: response.data };
+    return { status: response.status, payload: response.data };}catch{
+        return { status: 409, payload: null };
+    }
 }
 
 export const apiCheckLogin = async(): Promise<eCommerceApiResponse> => {
-    const response = await eCommerceClient.post<any>(
+    try{
+        const response = await eCommerceClient.post<any>(
         `${baseURL}/checkLogin`
     );
-    return { status: response.status, payload: response.data };
+    return { status: response.status, payload: response.data };}catch{
+        return {status : 500, payload: 1};
+    }
 };
 
 export const apiGetUser = async (): Promise<eCommerceApiResponse> => {

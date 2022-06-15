@@ -96,6 +96,7 @@ export default function UpdateProduct() {
       isFeatured(result.payload.featured);
       isDiscontinued(result.payload.discontinued);
       setCategory(result.payload.category);
+      if(result.status == 404){navigate("/404")};
     };
     // console.log(name);
     fetchIdData();
@@ -171,11 +172,12 @@ export default function UpdateProduct() {
     console.log(temp);
     if (
       productNameChecked.length === 0 &&
-      productPriceChecked.length === 0 &&
+      productQuantityChecked.length === 0 &&
       productPriceChecked.length === 0 &&
       productDescriptionChecked.length === 0
     ) {
       const response = await apiUpdateProduct(temp);
+      if(response.status == 500){navigate("/500")};
       navigate("/");
     }
 
@@ -264,7 +266,7 @@ export default function UpdateProduct() {
                   InputLabelProps={{style: {color: "#474C55"}}}    
                   value={price}
                   onKeyPress={(event) => {
-                    if (!/[0-9]/.test(event.key)) {
+                    if (!/[0-9, .]/.test(event.key)) {
                       event.preventDefault();
                     }
                   }}
@@ -331,10 +333,11 @@ export default function UpdateProduct() {
               <Grid item xs={12}>
                 <select
                   className="category"
-                  id="category"
+                  name="category"
                   onChange={handleSelect}
                 >
-                  <option className="option" selected value="clothing">Clothing</option>
+                  <option selected>Category</option>
+                  <option className="option" value="clothing">Clothing</option>
                   <option className="option" value="accessories">Accessories</option>
                   <option className="option" value="electronics">Electronics</option>
                 </select>

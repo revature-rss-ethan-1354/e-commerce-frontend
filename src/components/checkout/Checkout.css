@@ -18,11 +18,11 @@
     background-color: #F26925;
 }
 
-.submit-button:hover {
+/* .submit-button:hover {
     background-color: #F26925;
     opacity: 0.8;
     transition: 0.3s;
-}
+} */
 
 .place-order {
     background-color: #FCB414;

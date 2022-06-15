@@ -30,20 +30,22 @@ const Messenger: React.FC = () => {
         console.log(userData);
     }, [userData]);
 
+    let getUser: any;
+
     const showConnect = () => {
-
         const fetchData = async () => { //Checkadmin + update UserData
-            const getUser = await apiGetUser();
-
+            getUser = await apiGetUser();
+        };
+        fetchData().then( () => {
             if (getUser.payload.lastName != "") {
-                setUserData({ ...userData, "username": getUser.payload.lastName });
+                userData.username = getUser.payload.firstName + " " + getUser.payload.lastName;
             }
-
-        }; fetchData().catch(() => {
-            setUserData({ ...userData, "username": "Guest: " + Date.now() });
+            connect();
+        })
+        fetchData().catch(() => {
+            userData.username = "GUEST" + Date.now();
+            connect();
         });
-        setShowSupport(false);
-        setShowInput(true);
     }
 
     const connect = () => {
@@ -144,10 +146,6 @@ const Messenger: React.FC = () => {
         const { value } = event.target;
         setUserData({ ...userData, "username": value });
     }
-    const registerUser = () => {
-        setShowInput(false);
-        connect();
-    }
     return (
         <div className="container">
             {userData.connected ?
@@ -192,9 +190,6 @@ const Messenger: React.FC = () => {
                         value={userData.username}
                         onChange={handleUsername}
                     />
-                    <button type="button" onClick={registerUser}>
-                        connect
-                    </button>
                 </div>
             }
         </div>

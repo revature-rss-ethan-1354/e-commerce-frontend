@@ -12,9 +12,9 @@ import { isValidFirstName } from "../checkout-validation/FirstNameValidation";
 import { isValidLastName } from "../checkout-validation/LastNameValidation";
 import { isValidAddress } from "../checkout-validation/AddressValidation";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import "./Checkout.css";
 import { ThemeProviderProps, rgbToHex } from "@material-ui/core";
 import { orange } from "@mui/material/colors";
+import "./Checkout.css";
 
 /*
  * import { Autocomplete } from "@lob/react-address-autocomplete";
@@ -34,6 +34,13 @@ const style = {
   '& label.Mui-hover': {
     borderBottomColor: 'orange',
   },
+}
+
+const styleButton = {
+  '&:hover': {
+    backgroundColor: '#F26925',
+  },
+  mt: 3, ml: 1, backgroundColor: "#F26925", color: "white"
 }
 
 
@@ -377,7 +384,7 @@ export default function AddressForm(props: addressFormProps) {
             </Grid>
           </Grid>
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-            <Button className="submit-button" type="submit" variant="contained" sx={{ mt: 3, ml: 1}}>
+            <Button className="submit-button" type="submit" sx={styleButton}>
               Next
             </Button>
           </Box>

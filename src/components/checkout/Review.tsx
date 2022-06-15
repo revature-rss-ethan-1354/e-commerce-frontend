@@ -19,6 +19,13 @@ interface reviewProps {
   payments: PaymentDetail[]
 }
 
+const styleButton = {
+  '&:hover': {
+    backgroundColor: '#FCB414',
+  },
+  mt: 3, ml: 1, backgroundColor: "#FCB414", color: "black"
+}
+
 export default function Review(props: reviewProps) {
 
   const {cart, setCart} = React.useContext(CartContext)
@@ -93,8 +100,7 @@ export default function Review(props: reviewProps) {
         <Button className="place-order"
           variant="contained"
           onClick={handleSubmit}
-          sx={{ mt: 3, ml: 1 }}
-          color="warning"
+          sx={styleButton}
         >
           Place order
         </Button>

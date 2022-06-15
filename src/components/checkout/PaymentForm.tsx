@@ -19,6 +19,13 @@ const style = {
   },
 }
 
+const styleButton = {
+  '&:hover': {
+    backgroundColor: '#F26925',
+  },
+  mt: 3, ml: 1, backgroundColor: "#F26925", color: "white"
+}
+
 interface paymentFormProps {
   handleBack: () => void;
   handleNext: () => void;
@@ -219,7 +226,7 @@ export default function PaymentForm(props: paymentFormProps) {
           <Button onClick={props.handleBack} sx={{ mt: 3, ml: 1, color: "#474C55"}}>
             Back
           </Button>
-          <Button className="submit-button" type="submit" variant="contained" sx={{ mt: 3, ml: 1 }}>
+          <Button className="submit-button" type="submit" variant="contained" sx={styleButton}>
             Next
           </Button>
         </Box>

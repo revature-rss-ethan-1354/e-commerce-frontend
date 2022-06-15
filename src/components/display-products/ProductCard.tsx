@@ -140,9 +140,6 @@ export const ProductCard = (props: productProps) => {
     fetchData();
   }, []);
 
-
-
-
   const addItemToCart = (product: Product) => {
 
       let success = false;
@@ -188,8 +185,8 @@ export const ProductCard = (props: productProps) => {
 
   const displayProduct = (product: Product) => {
 
-
   }
+
   const handleUpdate = () => {
     if (loggedInStatus == 3) {
       navigator(`/update/${props.product.id}`);
@@ -241,8 +238,8 @@ export const ProductCard = (props: productProps) => {
                       contentStyle= {{
                         border: "2px solid #F26925",
                         borderRadius: "10px",
-                        background: "#f5fbfd"
-
+                        background: "#f5fbfd",
+                        textAlign: "center"
                       }}
                       >
                       <div>

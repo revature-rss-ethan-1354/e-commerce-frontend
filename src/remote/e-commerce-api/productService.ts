@@ -5,6 +5,7 @@ const baseURL = "/api/product"
 
 export const apiGetAllProducts = async (): Promise<eCommerceApiResponse> => {
     try{
+       
     const response = await eCommerceClient.get<any>(
         `${baseURL}`
     );

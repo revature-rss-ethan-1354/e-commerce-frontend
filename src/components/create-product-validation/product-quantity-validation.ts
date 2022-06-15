@@ -2,9 +2,7 @@ export let isValidProductQuantity: (productQuantity: String) => String = functio
     productQuantity: String,
     checkNumb: number = parseInt(<string>productQuantity)
   ): String {
-    if(checkNumb == 0) {
-        return "Quantity must not be empty";
-    }
+    
     if(checkNumb < 0){
         return "Cannot be less than 0";
     }

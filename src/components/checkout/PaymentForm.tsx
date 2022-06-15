@@ -26,7 +26,6 @@ const styleButton = {
   mt: 3, ml: 1, backgroundColor: "#F26925", color: "white"
 }
 
-
 interface paymentFormProps {
   handleBack: () => void;
   handleNext: () => void;

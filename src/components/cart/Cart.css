@@ -1,3 +1,12 @@
 .checkout-button:hover {
     opacity: 0.8;
 }
+
+.checkout-button-primary, .continue-button {
+    background-color: #F26925;
+}
+
+.checkout-button-primary:hover, .continue-button:hover {
+    opacity: 0.8;
+    transition: 0.3s;
+}

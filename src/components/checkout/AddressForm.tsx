@@ -11,13 +11,31 @@ import { isValidCountry } from "../checkout-validation/CountryValidation";
 import { isValidFirstName } from "../checkout-validation/FirstNameValidation";
 import { isValidLastName } from "../checkout-validation/LastNameValidation";
 import { isValidAddress } from "../checkout-validation/AddressValidation";
-import "../checkout/Checkout.css";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import "./Checkout.css";
+import { ThemeProviderProps, rgbToHex } from "@material-ui/core";
 import { orange } from "@mui/material/colors";
-import { rgbToHex } from "@material-ui/core";
+
 /*
  * import { Autocomplete } from "@lob/react-address-autocomplete";
  * <Autocomplete apiKey="YOUR_API_KEY" />;
  */
+
+const theme = createTheme({
+  typography: {
+    fontFamily: "Futura-Std-Book"
+  }
+});
+
+const style = {
+  '& .MuiInput-underline:after': {
+    borderBottomColor: '#F26925',
+  },
+  '& label.Mui-hover': {
+    borderBottomColor: 'orange',
+  },
+}
+
 
 interface addressFormProps {
   updateAddress: (addresses: Address) => void;
@@ -175,178 +193,196 @@ export default function AddressForm(props: addressFormProps) {
   };
 
   return (
-    <React.Fragment>
-      <Typography variant="h6" gutterBottom>
-        Shipping address
-      </Typography>
-      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="firstName"
-              name="firstName"
-              label="First name"
-              fullWidth
-              autoComplete="given-name"
-              variant="standard"
-              onBlur={handleOnBlur}
-              onChange={handleChange}
-              onKeyPress={(event) => {
-                if (!/[A-Z, a-z]/.test(event.key)) {
-                  event.preventDefault();
-                }
-              }}
-            />
-            <p className="invalid-checkout-field">{validFirstName}</p>
+    <ThemeProvider theme={theme}>
+      <React.Fragment>
+        <Typography variant="h6" gutterBottom>
+          Shipping Address
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                id="firstName"
+                name="firstName"
+                label="First name"
+                fullWidth
+                autoComplete="given-name"
+                variant="standard"
+                onBlur={handleOnBlur}
+                onChange={handleChange}
+                sx={style}
+                InputLabelProps={{ style: { color: "#474C55" } }}
+                onKeyPress={(event) => {
+                  if (!/[A-Z, a-z]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+              />
+              <p className="invalid-checkout-field">{validFirstName}</p>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                id="lastName"
+                name="lastName"
+                label="Last name"
+                fullWidth
+                autoComplete="family-name"
+                variant="standard"
+                onBlur={handleOnBlur}
+                onChange={handleChange}
+                sx={style}
+                InputLabelProps={{ style: { color: "#474C55" } }}
+                onKeyPress={(event) => {
+                  if (!/[A-Z, a-z]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+              />
+              <p className="invalid-checkout-field">{validLastName}</p>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                id="address1"
+                name="address1"
+                label="Address line 1"
+                fullWidth
+                autoComplete="shipping address-line1"
+                variant="standard"
+                onBlur={handleOnBlur}
+                onChange={handleChange}
+                sx={style}
+                InputLabelProps={{ style: { color: "#474C55" } }}
+                onKeyPress={(event) => {
+                  if (!/[A-Z, a-z, 0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+              />
+              <p className="invalid-checkout-field">{validAddress}</p>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="address2"
+                name="address2"
+                label="Address line 2"
+                fullWidth
+                autoComplete="shipping address-line2"
+                variant="standard"
+                sx={style}
+                InputLabelProps={{ style: { color: "#474C55" } }}
+                onKeyPress={(event) => {
+                  if (!/[A-Z, a-z, 0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                id="city"
+                name="city"
+                label="City"
+                fullWidth
+                autoComplete="shipping address-level2"
+                variant="standard"
+                inputProps={{
+                  autoComplete: "off",
+                }}
+                onBlur={handleOnBlur}
+                onChange={handleChange}
+                sx={style}
+                InputLabelProps={{ style: { color: "#474C55" } }}
+                onKeyPress={(event) => {
+                  if (!/[A-Z, a-z]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+              />
+              <p className="invalid-checkout-field">{validCity}</p>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                id="state"
+                name="state"
+                label="State/Province/Region"
+                fullWidth
+                variant="standard"
+                inputProps={{
+                  autoComplete: "off",
+                }}
+                onBlur={handleOnBlur}
+                onChange={handleChange}
+                sx={style}
+                InputLabelProps={{ style: { color: "#474C55" } }}
+                onKeyPress={(event) => {
+                  if (!/[A-Z, a-z]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+              />
+              <p className="invalid-checkout-field">{validStateOrRegion}</p>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                id="zip"
+                name="zip"
+                label="Zip / Postal code"
+                fullWidth
+                autoComplete="shipping postal-code"
+                variant="standard"
+                inputProps={{
+                  autoComplete: "off",
+                }}
+                onBlur={handleOnBlur}
+                onChange={handleChange}
+                sx={style}
+                InputLabelProps={{ style: { color: "#474C55" } }}
+                onKeyPress={(event) => {
+                  if (!/[A-Z, a-z, 0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+              />
+              <p className="invalid-checkout-field">{validZipOrPostal}</p>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                id="country"
+                name="country"
+                label="Country"
+                fullWidth
+                autoComplete="shipping country"
+                variant="standard"
+                inputProps={{
+                  autoComplete: "off",
+                }}
+                onBlur={handleOnBlur}
+                onChange={handleChange}
+                sx={style}
+                InputLabelProps={{ style: { color: "#474C55" } }}
+                onKeyPress={(event) => {
+                  if (!/[A-Z, a-z]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+              />
+              <p className="invalid-checkout-field">{validCountry}</p>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="lastName"
-              name="lastName"
-              label="Last name"
-              fullWidth
-              autoComplete="family-name"
-              variant="standard"
-              onBlur={handleOnBlur}
-              onChange={handleChange}
-              onKeyPress={(event) => {
-                if (!/[A-Z, a-z]/.test(event.key)) {
-                  event.preventDefault();
-                }
-              }}
-            />
-            <p className="invalid-checkout-field">{validLastName}</p>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              required
-              id="address1"
-              name="address1"
-              label="Address line 1"
-              fullWidth
-              autoComplete="shipping address-line1"
-              variant="standard"
-              onBlur={handleOnBlur}
-              onChange={handleChange}
-              onKeyPress={(event) => {
-                if (!/[A-Z, a-z, 0-9]/.test(event.key)) {
-                  event.preventDefault();
-                }
-              }}
-            />
-            <p className="invalid-checkout-field">{validAddress}</p>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              id="address2"
-              name="address2"
-              label="Address line 2"
-              fullWidth
-              autoComplete="shipping address-line2"
-              variant="standard"
-              onKeyPress={(event) => {
-                if (!/[A-Z, a-z, 0-9]/.test(event.key)) {
-                  event.preventDefault();
-                }
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="city"
-              name="city"
-              label="City"
-              fullWidth
-              autoComplete="shipping address-level2"
-              variant="standard"
-              inputProps={{
-                autoComplete: "off",
-              }}
-              onBlur={handleOnBlur}
-              onChange={handleChange}
-              onKeyPress={(event) => {
-                if (!/[A-Z, a-z]/.test(event.key)) {
-                  event.preventDefault();
-                }
-              }}
-            />
-            <p className="invalid-checkout-field">{validCity}</p>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="state"
-              name="state"
-              label="State/Province/Region"
-              fullWidth
-              variant="standard"
-              inputProps={{
-                autoComplete: "off",
-              }}
-              onBlur={handleOnBlur}
-              onChange={handleChange}
-              onKeyPress={(event) => {
-                if (!/[A-Z, a-z]/.test(event.key)) {
-                  event.preventDefault();
-                }
-              }}
-            />
-            <p className="invalid-checkout-field">{validStateOrRegion}</p>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="zip"
-              name="zip"
-              label="Zip / Postal code"
-              fullWidth
-              autoComplete="shipping postal-code"
-              variant="standard"
-              inputProps={{
-                autoComplete: "off",
-              }}
-              onBlur={handleOnBlur}
-              onChange={handleChange}
-              onKeyPress={(event) => {
-                if (!/[A-Z, a-z, 0-9]/.test(event.key)) {
-                  event.preventDefault();
-                }
-              }}
-            />
-            <p className="invalid-checkout-field">{validZipOrPostal}</p>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="country"
-              name="country"
-              label="Country"
-              fullWidth
-              autoComplete="shipping country"
-              variant="standard"
-              inputProps={{
-                autoComplete: "off",
-              }}
-              onBlur={handleOnBlur}
-              onChange={handleChange}
-              onKeyPress={(event) => {
-                if (!/[A-Z, a-z]/.test(event.key)) {
-                  event.preventDefault();
-                }
-              }}
-            />
-            <p className="invalid-checkout-field">{validCountry}</p>
-          </Grid>
-        </Grid>
-        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Button type="submit" variant="contained" sx={{ mt: 3, ml: 1 }} color= "warning">
-            Next
-          </Button>
+          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+            <Button className="submit-button" type="submit" variant="contained" sx={{ mt: 3, ml: 1 }}>
+              Next
+            </Button>
+          </Box>
         </Box>
-      </Box>
-    </React.Fragment>
+      </React.Fragment>
+    </ThemeProvider>
   );
 }

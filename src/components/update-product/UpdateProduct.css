@@ -107,7 +107,7 @@ select option:hover {
 }
 
 input:checked + .slider {
-  background-color: #2196f3;
+  background-color: #f26925;
 }
 
 input:focus + .slider {

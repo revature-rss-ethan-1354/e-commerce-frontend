@@ -3,3 +3,35 @@
     color: var(--error-red); 
     font-weight: 450; 
 }
+
+.home {
+    cursor: pointer;
+}
+
+.toolbar {
+    background-color: #72A4C2;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.submit-button {
+    background-color: #F26925;
+}
+
+.submit-button:hover {
+    background-color: #F26925;
+    opacity: 0.8;
+    transition: 0.3s;
+}
+
+.place-order {
+    background-color: #FCB414;
+    color: #474C55;
+    font-weight: bold;
+}
+
+.place-order:hover {
+    background-color: #FCB414;
+    opacity: 0.8;
+    transition: 0.3s;
+}

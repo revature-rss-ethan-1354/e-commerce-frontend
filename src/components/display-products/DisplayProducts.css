@@ -17,12 +17,16 @@ body {
 .price-range {
   width: 90%;
   margin-top: 15px;
-  border: 3px solid #f26925;
+  border: 2px solid #B9B9BA;
   padding: 5px;
   height: 20px;
   border-radius: 5px;
   outline: none;
   font-family: "Futura-Std-Book";
+}
+
+.price-range:focus, .price-range:hover, .search-field:focus, .search-field:hover {
+  border: 2px solid #f26925;
 }
 
 .reset-btn {
@@ -37,6 +41,7 @@ body {
   margin: 0 auto;
   margin-top: 30px;
   display: block;
+  font-family: 'Futura-Std-Book';
 }
 
 .reset-btn:hover {
@@ -54,6 +59,13 @@ body {
   margin-bottom: 20px;
 }
 
-.radio-box {
+.radio-box:checked {
   font-size: 20px;
+  accent-color: #f26925;
+  background-color: #f26925;
+  border: 2px solid #f26925;
+}
+
+.form-control + .form-control {
+  margin-top: 1em;
 }

@@ -10,6 +10,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveIcon from '@mui/icons-material/Remove';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import "./Cart.css";
 import { apiCheckLogin } from "../../remote/e-commerce-api/authService";
 
 const Container = styled.div``;
@@ -35,6 +36,7 @@ const TopButton = styled.button`
   font-weight: 600;
   cursor: pointer;
   border-radius: 10px;
+  font-family: Futura-Std-Book;
 `;
 
 const Bottom = styled.div`
@@ -138,9 +140,9 @@ const Button = styled.button`
   color: white;
   font-weight: 600;
   border-radius: 10px;
+  font-family: Futura-Std-Book;
   cursor: pointer;
 `;
-
 
 export const Cart = () =>  {
   const { cart, setCart } = useContext(CartContext);
@@ -257,7 +259,7 @@ export const Cart = () =>  {
                 {cart.reduce<number>((total, product) => total + product.price * product.cartCount, 0)}
               </SummaryItemPrice>
             </SummaryItem>
-            <Button onClick={() => {navigate('/checkout')}}>CHECKOUT NOW</Button>
+            <Button className="checkout-button" onClick={() => {navigate('/checkout')}}>CHECKOUT NOW</Button>
           </Summary>
         </Bottom>
       </Wrapper>

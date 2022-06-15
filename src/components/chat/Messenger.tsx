@@ -21,11 +21,6 @@ const Messenger: React.FC = () => {
         message: ''
     });
 
-    const [user, setUser] = useState({        
-        firstName: "Blank_first",
-        lastName: "Blank_last",
-        admin: false
-    });
 
     useEffect(() => {
         console.log(userData);
@@ -38,13 +33,14 @@ const Messenger: React.FC = () => {
             getUser = await apiGetUser();
 
             
-        }; fetchData().then(() => {
+        }; fetchData().then(() => { // http request fulfilled 
             if (getUser.payload.lastName != "") {
                 userData.username = getUser.payload.firstName + getUser.payload.lastName
                 connect();                 
             }
         });
-         fetchData().catch(() => {
+
+         fetchData().catch(() => { //error handling for api call
             userData.username = "Guest: " + Date.now();
             connect();
         });

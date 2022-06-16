@@ -4,6 +4,7 @@ import SockJS from 'sockjs-client';
 import "./style.css";
 import { apiGetUser } from '../../remote/e-commerce-api/authService';
 import { emitKeypressEvents } from 'readline';
+import { getSuggestedQuery } from '@testing-library/react';
 
 var stompClient: Client | null = null;
 const Messenger: React.FC = () => {
@@ -18,18 +19,21 @@ const Messenger: React.FC = () => {
         username: '',
         receivername: '',
         connected: false,
-        message: ''
-    });
-
-    const [user, setUser] = useState({        
-        firstName: "Blank_first",
-        lastName: "Blank_last",
+        message: '',
         admin: false
     });
 
+
+
     useEffect(() => {
         console.log(userData);
-    }, [userData]);
+        if (userData.connected == false && userData.username !== ""){
+            console.log("x2");
+            connect();
+            
+        }
+        console.log(tab);
+    }, [userData.username]);
 
     // Show the input box when the user clicks the Get Support button
     const showConnect = () => {
@@ -39,22 +43,35 @@ const Messenger: React.FC = () => {
 
             
         }; fetchData().then(() => {
-            if (getUser.payload.lastName != "") {
-                userData.username = getUser.payload.firstName + getUser.payload.lastName
-                connect();                 
+             if (getUser.payload.admin) {
+                userData.username = getUser.payload.firstName 
+                userData.admin = true
+                connect(); 
             }
-        });
-         fetchData().catch(() => {
+
+            else if (getUser.payload.lastName != "") {
+                userData.username = getUser.payload.firstName + " " +  getUser.payload.lastName;
+                setTab(userData.username);
+                console.log("x1");             
+            }
+
+        })
+         .catch(() => {
             userData.username = "Guest: " + Date.now();
             connect();
         });
+        
+        // if(getUser.payload.admin == true){
+        //     userData.username = getUser.payload.firstName + getUser.payload.lastName
+        //     connect();    
+        // }
         setShowSupport(false);
         setShowInput(true);
     }
 
     // Connection to the server
     const connect = () => {
-        let Sock = new SockJS('http://localhost:8080/ws');
+        let Sock = new SockJS('http://localhost:8000/ws');
         stompClient = over(Sock);
         stompClient.connect({}, onConnected, onError);
     }
@@ -173,23 +190,29 @@ const Messenger: React.FC = () => {
         }
     }
     return (
-        <div className="container">
+        <div className="container"   >
             {userData.connected ?
-                <div className="chat-box">
+                <div className="chat-box"  >
+
                     <div className="member-list">
-                        {/* TODO: REMOVE LEFT SIDE PANEL IF IT IS A USER OR GUEST */}
-                        <ul>
-                            {[...privateChats.keys()].map((name, index) => (
-                                <li onClick={() => { setTab(name) }} className={`member ${tab === name && "active"}`} key={index}>{name}</li>
+                        {userData.admin == false ?<ul>
+                           
+                         </ul>
+                     : 
+                            [...privateChats.keys()].map((name, index) => (
+                                <li className={`member ${tab === name && "active"}`} key={index}>{name}</li>
+                            ))} 
+                        
+                        {[...privateChats.keys()].map((name, index) => (
+                                <button onClick={() => { setTab(name) }} className={`member ${tab === name && "active"}`} key={index}>Chat</button>
                             ))}
-                        </ul>
                     </div>
                     {tab !== "CHATROOM" && <div className="chat-content">
                         
                             <button type="button" className='chat-close' onClick={closeChatBox}>---</button>
                         
                         <ul className="chat-messages">
-                            {[...privateChats.get(tab)].map((chat, index) => (
+                         {[...privateChats.get(tab)].map((chat, index) => (
                                 <li className={`message ${chat.senderName === userData.username && "self"}`} key={index}>
                                     {chat.senderName !== userData.username && <div className="avatar">{chat.senderName}</div>}
                                     <div className="message-data">{chat.message}</div>

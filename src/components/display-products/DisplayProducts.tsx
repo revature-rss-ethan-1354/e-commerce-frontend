@@ -250,7 +250,7 @@ export const DisplayProducts = () => {
         </ItemContainer>
       </Container>
       {/*<Chat/>*/}
-      <Messenger/>
+    <Messenger />
     </React.Fragment>
   );
 };

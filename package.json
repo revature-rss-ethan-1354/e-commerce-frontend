@@ -32,6 +32,11 @@
     "react-dom": "^18.1.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+<<<<<<< Updated upstream
+=======
+    "react-sticky": "^6.0.3",
+    "react-toastify": "^9.0.4",
+>>>>>>> Stashed changes
     "reactjs-popup": "^2.0.5",
     "sockjs": "^0.3.24",
     "sockjs-client": "^1.6.1",

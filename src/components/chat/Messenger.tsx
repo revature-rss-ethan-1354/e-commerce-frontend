@@ -2,6 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { Client, over } from 'stompjs';
 import SockJS from 'sockjs-client';
 import "./style.css";
+<<<<<<< Updated upstream
+=======
+import { apiGetUser } from '../../remote/e-commerce-api/authService';
+import { emitKeypressEvents } from 'readline';
+import { getSuggestedQuery } from '@testing-library/react';
+>>>>>>> Stashed changes
 
 var stompClient: Client | null = null;
 const Messenger: React.FC = () => {
@@ -18,6 +24,37 @@ const Messenger: React.FC = () => {
         console.log(userData);
     }, [userData]);
 
+<<<<<<< Updated upstream
+=======
+    // Show the input box when the user clicks the Get Support button
+    const showConnect = () => {
+        let getUser: any;
+        const fetchData = async () => { //Checkadmin + update UserData
+            getUser = await apiGetUser();
+
+            
+        }; fetchData().then(() => {
+             if (getUser.payload.lastName != "") {
+                userData.username = getUser.payload.firstName + getUser.payload.lastName
+                connect();                 
+            }
+
+        });
+         fetchData().catch(() => {
+            userData.username = "Guest: " + Date.now();
+            connect();
+        });
+        
+        // if(getUser.payload.admin == true){
+        //     userData.username = getUser.payload.firstName + getUser.payload.lastName
+        //     connect();    
+        // }
+        setShowSupport(false);
+        setShowInput(true);
+    }
+
+    // Connection to the server
+>>>>>>> Stashed changes
     const connect = () => {
         let Sock = new SockJS('http://localhost:8080/ws');
         stompClient = over(Sock);
@@ -122,16 +159,32 @@ const Messenger: React.FC = () => {
         connect();
     }
     return (
-        <div className="container">
+        <div className="container"   >
             {userData.connected ?
+<<<<<<< Updated upstream
                 <div className="chat-box">
                     <div className="member-list"> 
                     {/* TODO: REMOVE LEFT SIDE PANEL IF IT IS A USER OR GUEST */}
                         <ul>
                             {[...privateChats.keys()].map((name, index) => (
                                 <li onClick={() => { setTab(name) }} className={`member ${tab === name && "active"}`} key={index}>{name}</li>
+=======
+                <div className="chat-box"  >
+
+                    <div className="member-list">
+                        {user.admin == true ?      <ul>
+                            
+                        <li>{userData.username} </li>
+                         </ul>
+                     : <></>}
+                             {/* {[...privateChats.keys()].map((name, index) => (
+                                <li className={`member ${tab === name && "active"}`} key={index}>{name}</li>
+                            ))}  */}
+                        
+                        {[...privateChats.keys()].map((name, index) => (
+                                <button onClick={() => { setTab(name) }} className={`member ${tab === name && "active"}`} key={index}>Chat</button>
+>>>>>>> Stashed changes
                             ))}
-                        </ul>
                     </div>
                     {tab !== "CHATROOM" && <div className="chat-content">
                         <ul className="chat-messages">

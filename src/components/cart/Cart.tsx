@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { CartContext } from "../../context/cart.context";
@@ -10,6 +10,8 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveIcon from '@mui/icons-material/Remove';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import "./Cart.css";
+import { apiCheckLogin } from "../../remote/e-commerce-api/authService";
 
 const Container = styled.div``;
 
@@ -34,6 +36,7 @@ const TopButton = styled.button`
   font-weight: 600;
   cursor: pointer;
   border-radius: 10px;
+  font-family: Futura-Std-Book;
 `;
 
 const Bottom = styled.div`
@@ -137,13 +140,25 @@ const Button = styled.button`
   color: white;
   font-weight: 600;
   border-radius: 10px;
+  font-family: Futura-Std-Book;
+  cursor: pointer;
 `;
-
 
 export const Cart = () =>  {
   const { cart, setCart } = useContext(CartContext);
+  const [loggedInStatus, setLoggedInStatus] = useState<number>(1);
 
   const navigate = useNavigate();
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await apiCheckLogin();
+      setLoggedInStatus(result.payload);
+      if(result.payload == 1){navigate("/")}
+      if(result.status == 500){navigate("/500")};
+    };
+    fetchData();
+  }, []);
+
 
   const removeProductFromCart = (product: Product) => {
 
@@ -187,8 +202,8 @@ export const Cart = () =>  {
       <Wrapper>
         <Title>YOUR BAG</Title>
         <Top>
-          <TopButton onClick={() => {navigate('/')}}>CONTINUE SHOPPING</TopButton>
-          <TopButton onClick={() => {navigate('/checkout')}}>CHECKOUT NOW</TopButton>
+          <TopButton className="continue-button" onClick={() => {navigate('/')}}>CONTINUE SHOPPING</TopButton>
+          <TopButton className="checkout-button-primary" onClick={() => {navigate('/checkout')}}>CHECKOUT NOW</TopButton>
         </Top>
         <Bottom>
           <Info>
@@ -244,7 +259,7 @@ export const Cart = () =>  {
                 {cart.reduce<number>((total, product) => total + product.price * product.cartCount, 0)}
               </SummaryItemPrice>
             </SummaryItem>
-            <Button onClick={() => {navigate('/checkout')}}>CHECKOUT NOW</Button>
+            <Button className="checkout-button" onClick={() => {navigate('/checkout')}}>CHECKOUT NOW</Button>
           </Summary>
         </Bottom>
       </Wrapper>

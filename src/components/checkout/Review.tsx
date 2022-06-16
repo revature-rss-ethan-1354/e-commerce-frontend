@@ -10,14 +10,20 @@ import Address from '../../models/Address';
 import { Box, Button } from '@mui/material';
 import { apiPurchase } from '../../remote/e-commerce-api/productService';
 import { CartContext } from '../../context/cart.context';
-
-
+import "./Checkout.css";
 
 interface reviewProps {
   handleBack: () => void
   handleNext: () => void
   address: Address
   payments: PaymentDetail[]
+}
+
+const styleButton = {
+  '&:hover': {
+    backgroundColor: '#FCB414',
+  },
+  mt: 3, ml: 1, backgroundColor: "#FCB414", color: "black"
 }
 
 export default function Review(props: reviewProps) {
@@ -88,13 +94,13 @@ export default function Review(props: reviewProps) {
         </Grid>
       </Grid>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <Button onClick={props.handleBack} sx={{ mt: 3, ml: 1 }}>
+        <Button onClick={props.handleBack} sx={{ mt: 3, ml: 1, color: "#474C55"}}>
           Back
         </Button>
-        <Button
+        <Button className="place-order"
           variant="contained"
           onClick={handleSubmit}
-          sx={{ mt: 3, ml: 1 }}
+          sx={styleButton}
         >
           Place order
         </Button>

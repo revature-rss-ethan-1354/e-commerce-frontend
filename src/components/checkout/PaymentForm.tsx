@@ -8,6 +8,23 @@ import { isValidFullName } from "../checkout-validation/FullNameCardValidation";
 import { isValidCardNumber } from "../checkout-validation/CardNumberValidation";
 import { isValidExpirationDate } from "../checkout-validation/ExpirationDateCardValidation";
 import { isValidCvv } from "../checkout-validation/CvvValidation";
+import { orange } from "@mui/material/colors";
+
+const style = {
+  '& .MuiInput-underline:after': {
+    borderBottomColor: '#F26925',
+  },
+  '& label.Mui-hover': {
+    borderBottomColor: 'orange',
+  },
+}
+
+const styleButton = {
+  '&:hover': {
+    backgroundColor: '#F26925',
+  },
+  mt: 3, ml: 1, backgroundColor: "#F26925", color: "white"
+}
 
 interface paymentFormProps {
   handleBack: () => void;
@@ -130,6 +147,8 @@ export default function PaymentForm(props: paymentFormProps) {
               variant="standard"
               onBlur={handleOnBlur}
               onChange={handleChange}
+              sx={style}
+              InputLabelProps={{ style: { color: "#474C55" } }}
               onKeyPress={(event) => {
                 if (!/[a-z, A-Z]/.test(event.key)) {
                   event.preventDefault();
@@ -149,6 +168,8 @@ export default function PaymentForm(props: paymentFormProps) {
               variant="standard"
               onBlur={handleOnBlur}
               onChange={handleChange}
+              sx={style}
+              InputLabelProps={{ style: { color: "#474C55" } }}
               onKeyPress={(event) => {
                 if (!/[0-9]/.test(event.key)) {
                   event.preventDefault();
@@ -168,6 +189,8 @@ export default function PaymentForm(props: paymentFormProps) {
               variant="standard"
               onBlur={handleOnBlur}
               onChange={handleChange}
+              sx={style}
+              InputLabelProps={{ style: { color: "#474C55" } }}
               onKeyPress={(event) => {
                 if (!/[0-9]/.test(event.key)) {
                   event.preventDefault();
@@ -188,6 +211,8 @@ export default function PaymentForm(props: paymentFormProps) {
               variant="standard"
               onBlur={handleOnBlur}
               onChange={handleChange}
+              sx={style}
+              InputLabelProps={{ style: { color: "#474C55" } }}
               onKeyPress={(event) => {
                 if (!/[0-9]/.test(event.key)) {
                   event.preventDefault();
@@ -198,10 +223,10 @@ export default function PaymentForm(props: paymentFormProps) {
           </Grid>
         </Grid>
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Button onClick={props.handleBack} sx={{ mt: 3, ml: 1 }}>
+          <Button onClick={props.handleBack} sx={{ mt: 3, ml: 1, color: "#474C55"}}>
             Back
           </Button>
-          <Button type="submit" variant="contained" sx={{ mt: 3, ml: 1 }}>
+          <Button className="submit-button" type="submit" variant="contained" sx={styleButton}>
             Next
           </Button>
         </Box>

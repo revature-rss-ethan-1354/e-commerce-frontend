@@ -12,8 +12,23 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { apiLogin } from "../../remote/e-commerce-api/authService";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
-const theme = createTheme();
+const theme = createTheme({
+  typography: {
+    fontFamily: "Futura-Std-Book",
+  }
+});
+
+const style = {
+  "& .MuiOutlinedInput-root": {
+    "&.Mui-focused fieldset": {
+      borderColor: "#F26925",
+    }
+  }
+}
+
 //export const HTTP_500_ERROR = 'HTTP_500_ERROR'
 export default function Login() {
   const navigate = useNavigate();
@@ -32,8 +47,16 @@ export default function Login() {
       if (response.status >= 200 && response.status < 300) navigate("/");
     }
     catch{
-     
-      setinvalidEmail("Email or Password incorrect");
+      toast.error("Email or Password incorrect.", {
+        position: 'top-center',
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      
       
     }
   };
@@ -50,11 +73,11 @@ export default function Login() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <Avatar sx={{ m: 1, bgcolor: "#474C55" }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Sign In
           </Typography>
           <Box
             component="form"
@@ -62,8 +85,9 @@ export default function Login() {
             noValidate
             sx={{ mt: 1 }}
           >
-            <p className="invalid-checkout-field">{invalidEmail}</p>
+            <ToastContainer/>
             <TextField
+              className="login-input"
               margin="normal"
               required
               fullWidth
@@ -72,8 +96,11 @@ export default function Login() {
               name="email"
               autoComplete="email"
               autoFocus
+              sx={style}
+              InputLabelProps={{style: {color: "#474C55"}}}
             />
             <TextField
+              className="login-input"
               margin="normal"
               required
               fullWidth
@@ -82,12 +109,17 @@ export default function Login() {
               type="password"
               id="password"
               autoComplete="current-password"
+              sx={style}
+              InputLabelProps={{style: {color: "#474C55"}}}
             />
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              style={{
+                backgroundColor: "#f26925"
+              }}
             >
               Sign In
             </Button>

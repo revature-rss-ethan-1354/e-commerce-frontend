@@ -16,12 +16,27 @@ import { isValidFirstName } from "../checkout-validation/FirstNameValidation";
 import { isValidLastName } from "../checkout-validation/LastNameValidation";
 import { isValidEmail } from "../register-validation/EmailValidation";
 import { isValidPassword } from "../register-validation/PasswordValidation";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import AppRegistrationSharpIcon from '@mui/icons-material/AppRegistrationSharp';
 
-const theme = createTheme();
+const theme = createTheme({
+  typography: {
+    fontFamily: "Futura-Std-Book",
+  }
+});
+
+const style = {
+  "& .MuiOutlinedInput-root": {
+    "&.Mui-focused fieldset": {
+      borderColor: "#F26925",
+    }
+  }
+}
 
 export default function Register() {
   const navigate = useNavigate();
-  const [invalidServer, setinvalidServer] = React.useState<String>("");
+  
   let firstName: String = "";
   let lastName: String = "";
   let email: String = "";
@@ -93,9 +108,18 @@ export default function Register() {
       navigate("/login");
       // props.handleNext();
       console.log(data);
-    } else {
+    } else if(response.status == 409){
+      toast.error("Account already exists.", {
+        position: 'top-center',
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
-    }catch{setinvalidServer("Our servers are momentarily down please visit again soon.");}
+    }catch{}
     // if (response.status >= 200 && response.status < 300) navigate("/login");
   };
 
@@ -127,7 +151,7 @@ export default function Register() {
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
-        <p className="invalid-checkout-field">{invalidServer}</p>
+        <ToastContainer/>
         <Box
           sx={{
             marginTop: 8,
@@ -136,8 +160,8 @@ export default function Register() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
+          <Avatar sx={{ m: 1, bgcolor: "#474C55" }}>
+            <AppRegistrationSharpIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign up
@@ -160,6 +184,8 @@ export default function Register() {
                   autoFocus
                   onBlur={handleOnBlur}
                   onChange={handleChange}
+                  sx={style}
+                  InputLabelProps={{style: {color: "#474C55"}}}    
                 />
                 <p className="invalid-checkout-field">{validFirstName}</p>
               </Grid>
@@ -173,6 +199,8 @@ export default function Register() {
                   autoComplete="family-name"
                   onBlur={handleOnBlur}
                   onChange={handleChange}
+                  sx={style}
+                  InputLabelProps={{style: {color: "#474C55"}}}    
                 />
                 <p className="invalid-checkout-field">{validLastName}</p>
               </Grid>
@@ -186,6 +214,8 @@ export default function Register() {
                   autoComplete="email"
                   onBlur={handleOnBlur}
                   onChange={handleChange}
+                  sx={style}
+                  InputLabelProps={{style: {color: "#474C55"}}}    
                 />
                 <p className="invalid-checkout-field">{validEmail}</p>
               </Grid>
@@ -200,6 +230,8 @@ export default function Register() {
                   autoComplete="new-password"
                   onBlur={handleOnBlur}
                   onChange={handleChange}
+                  sx={style}
+                  InputLabelProps={{style: {color: "#474C55"}}}    
                 />
                 <p className="invalid-checkout-field">{validPassword}</p>
               </Grid>
@@ -209,6 +241,9 @@ export default function Register() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              style={{
+                backgroundColor: "#f26925"
+              }}
             >
               Sign Up
             </Button>

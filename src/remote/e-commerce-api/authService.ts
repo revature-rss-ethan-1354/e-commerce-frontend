@@ -20,7 +20,7 @@ export const apiLogout = async (): Promise<eCommerceApiResponse> => {
 export const apiRegister = async (firstName: string, lastName: string, email: string, password: string): Promise<eCommerceApiResponse> => {
     const response = await eCommerceClient.post<any>(
         `${baseURL}/register`,
-        { firstName: firstName, lastName: lastName, email: email, password: password }
+        { firstname: firstName, lastName: lastName, email: email, password: password }
     );
     return { status: response.status, payload: response.data };
 }
@@ -32,9 +32,9 @@ export const apiCheckLogin = async(): Promise<eCommerceApiResponse> => {
     return { status: response.status, payload: response.data };
 };
 
-export const apiGetUser = async (): Promise<eCommerceApiResponse> => {
+export const apiGetUser = async(): Promise<eCommerceApiResponse> => {
     const response = await eCommerceClient.get<any>(
-        `${baseURL}/getUser`        
+        `${baseURL}/getUser`
     );
     return { status: response.status, payload: response.data };
-}
+};

@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-export const ERROR500 = () =>{
+import Navbar from "../navbar/Narbar";
+export const ERROR404 = () =>{
     const Container = styled.div`
     display: flex;
     align-items: center;
@@ -26,10 +27,13 @@ const Message = styled.div`
   text-align: center;
 `;
     return (
+        <>
+        <Navbar/>
         <Container>
-            <Message >Error 500: Our servers are momentarily down please visit again soon.</Message>
+            <Message >Error 404: Item not found in our catalog.</Message>
         <Image
            src = "https://www.pngarts.com/files/3/Turtle-PNG-High-Quality-Image.png"/>
         </Container>
+        </>
     )
 }

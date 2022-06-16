@@ -26,12 +26,23 @@ import { isValidProductQuantity } from "../create-product-validation/product-qua
 import { isValidProductPrice } from "../create-product-validation/product-price-validation";
 import { isValidProductDescription } from "../create-product-validation/product-description-validation";
 import { number } from "card-validator";
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import AddBoxSharpIcon from '@mui/icons-material/AddBoxSharp';
+import CreateIcon from '@mui/icons-material/Create';
 
 const theme = createTheme({
   typography: {
     fontFamily: "Futura-Std-Book"
   }
 });
+
+const style = {
+  "& .MuiOutlinedInput-root": {
+    "&.Mui-focused fieldset": {
+      borderColor: "#F26925",
+    }
+  }
+}
 
 export default function CreateProduct() {
   const navigate = useNavigate();
@@ -96,7 +107,7 @@ export default function CreateProduct() {
   };
 
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    if (event.currentTarget.name == "category") {
+    if (event.currentTarget.name === "category") {
       setCategory(event.currentTarget.value);
       console.log(event.currentTarget.value);
     }
@@ -144,6 +155,7 @@ export default function CreateProduct() {
       productDescriptionChecked.length === 0
     ) {
       const response = await apiUpsertProduct(temp);
+      if(response.status == 500){navigate("/500")};
     }
 
   };
@@ -162,8 +174,8 @@ export default function CreateProduct() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
+          <Avatar sx={{ m: 1, bgcolor: "#f26925" }}>
+            <CreateIcon sx={{color: "black"}}/>
           </Avatar>
           <Typography component="h1" variant="h5">
             Create
@@ -182,8 +194,10 @@ export default function CreateProduct() {
                   required
                   fullWidth
                   id="name"
-                  label="name"
+                  label="Name"
                   autoFocus
+                  sx={style}
+                  InputLabelProps={{style: {color: "#474C55"}}}    
                   onKeyPress={(event) => {
                     if (!/[a-z, A-Z]/.test(event.key)) {
                       event.preventDefault();
@@ -197,10 +211,12 @@ export default function CreateProduct() {
                   required
                   fullWidth
                   id="quantity"
-                  label="quantity"
+                  label="Quantity"
                   type="number"
                   name="quantity"
                   placeholder="Quantity"
+                  sx={style}
+                  InputLabelProps={{style: {color: "#474C55"}}}    
                   onKeyPress={(event) => {
                     if (!/[0-9]/.test(event.key)) {
                       event.preventDefault();
@@ -218,6 +234,8 @@ export default function CreateProduct() {
                   name="price"
                   type="number"
                   placeholder="Price"
+                  sx={style}
+                  InputLabelProps={{style: {color: "#474C55"}}}    
                   onKeyPress={(event) => {
                     if (!/[0-9, .]/.test(event.key)) {
                       event.preventDefault();
@@ -231,9 +249,11 @@ export default function CreateProduct() {
                   required
                   fullWidth
                   name="description"
-                  label="description"
+                  label="Description"
                   id="description"
                   placeholder="Description"
+                  sx={style}
+                  InputLabelProps={{style: {color: "#474C55"}}}    
                   onKeyPress={(event) => {
                     if (!/[a-z, A-Z, 0-9, %]/.test(event.key)) {
                       event.preventDefault();
@@ -247,9 +267,11 @@ export default function CreateProduct() {
                 <TextField
                   fullWidth
                   name="image"
-                  label="image"
+                  label="Image"
                   id="image"
                   placeholder="Image"
+                  sx={style}
+                  InputLabelProps={{style: {color: "#474C55"}}}    
                 />
               </Grid>
 
@@ -296,8 +318,16 @@ export default function CreateProduct() {
                 </Select>
                 */}
 
-                <select className="category" id="category" onChange={handleSelect}>
-                  <option selected value="clothing">
+                <select className="category" id="category" name="category" onChange={handleSelect}
+                  // theme={(theme) => ({
+                  //   ...theme,
+                  //   colors: {...theme.colors,
+                  //   primary: "black"
+                  //   },
+                  // })}
+                >
+                  <option selected>Category</option>
+                  <option value="clothing">
                     Clothing
                   </option>
                   <option value="accessories">Accessories</option>

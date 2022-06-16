@@ -7,24 +7,20 @@ import { emitKeypressEvents } from 'readline';
 
 var stompClient: Client | null = null;
 const Messenger: React.FC = () => {
-    const [privateChats, setPrivateChats] = useState(new Map()); 
+    const [privateChats, setPrivateChats] = useState(new Map());
     const [publicChats, setPublicChats] = useState([]);
     const [tab, setTab] = useState("CHATROOM");
     const [showInput, setShowInput] = useState(false);
-    const [showSupport, setShowSupport]  = useState(true);
-   
+    const [showSupport, setShowSupport] = useState(true);
+
 
     const [userData, setUserData] = useState({
         username: '',
         receivername: '',
         connected: false,
-        message: ''
+        message: '',
+        admin: false
     });
-
-
-    useEffect(() => {
-        console.log(userData);
-    }, [userData]);
 
     // Show the input box when the user clicks the Get Support button
     const showConnect = () => {
@@ -32,16 +28,22 @@ const Messenger: React.FC = () => {
         const fetchData = async () => { //Checkadmin + update UserData
             getUser = await apiGetUser();
 
-            
+
         }; fetchData().then(() => { // http request fulfilled 
-            if (getUser.payload.lastName != "") {
-                userData.username = getUser.payload.firstName + getUser.payload.lastName
-                connect();                 
+            if (getUser.payload.admin) {    //when user tries to connect
+                userData.username = getUser.payload.firstName;
+                userData.admin = true;
+                connect();
+
+            } else if (getUser.payload.lastName != "") { // when users try to connect
+                userData.username = getUser.payload.firstName + " " + getUser.payload.lastName;
+                connect();
+
             }
         });
 
-         fetchData().catch(() => { //error handling for api call
-            userData.username = "Guest: " + Date.now();
+        fetchData().catch(() => { //error handling for api call
+            userData.username = "Guest No. " + Date.now();
             connect();
         });
         setShowSupport(false);
@@ -71,7 +73,7 @@ const Messenger: React.FC = () => {
             senderName: userData.username,
             status: "JOIN"
         };
-        if (stompClient) {
+        if (stompClient) { //send message to endpoint of websocket
             stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
         }
     }
@@ -80,9 +82,10 @@ const Messenger: React.FC = () => {
     const onMessageReceived = (payload: { body: string; }) => {
         let payloadData = JSON.parse(payload.body);
         switch (payloadData.status) {
-            case "JOIN":
+            case "JOIN":    //when user connects to another user
                 if (!privateChats.get(payloadData.senderName)) {
-                    privateChats.set(payloadData.senderName, []);
+                    privateChats.set(payloadData.senderName, []); //sender name mapped to multiple receivers?
+                    console.log("connect from: ", payloadData.senderName);
                     setPrivateChats(new Map(privateChats));
                 }
                 break;
@@ -95,7 +98,6 @@ const Messenger: React.FC = () => {
 
     // New private message received from the server
     const onPrivateMessage = (payload: { body: string; }) => {
-        console.log(payload);
         var payloadData = JSON.parse(payload.body);
         if (privateChats.get(payloadData.senderName)) {
             privateChats.get(payloadData.senderName).push(payloadData);
@@ -107,8 +109,8 @@ const Messenger: React.FC = () => {
             setPrivateChats(new Map(privateChats));
         }
     }
-    
-    
+
+
     const onError = (err: any) => {
         console.log(err);
     }
@@ -134,10 +136,7 @@ const Messenger: React.FC = () => {
     const closeChatBox = () => {
         setShowInput(false);
         setShowSupport(true);
-
-       
         setUserData({ ...userData, "connected": false });
-
     }
     const sendPrivateValue = () => {
         if (stompClient) {
@@ -147,10 +146,16 @@ const Messenger: React.FC = () => {
                 message: userData.message,
                 status: "MESSAGE"
             };
+            
+            if (userData.admin == false) {// if sender is not admin
+                chatMessage.receiverName = "Admin"; //then send to admin
+            }
+            //and an object containing who sent the message and who the receiver is 
             if (userData.username !== tab) {
                 privateChats.get(tab).push(chatMessage);
                 setPrivateChats(new Map(privateChats));
             }
+            // send and reset message to empty string
             stompClient.send("/app/private-message", {}, JSON.stringify(chatMessage));
             setUserData({ ...userData, "message": "" });
         }
@@ -172,18 +177,19 @@ const Messenger: React.FC = () => {
         <div className="container">
             {userData.connected ?
                 <div className="chat-box">
+                    {/* TODO: REMOVE LEFT SIDE PANEL IF IT IS A USER OR GUEST */}
                     <div className="member-list">
-                        {/* TODO: REMOVE LEFT SIDE PANEL IF IT IS A USER OR GUEST */}
                         <ul>
                             {[...privateChats.keys()].map((name, index) => (
                                 <li onClick={() => { setTab(name) }} className={`member ${tab === name && "active"}`} key={index}>{name}</li>
                             ))}
                         </ul>
                     </div>
+
                     {tab !== "CHATROOM" && <div className="chat-content">
-                        
-                            <button type="button" className='chat-close' onClick={closeChatBox}>---</button>
-                        
+
+                        <button type="button" className='chat-close' onClick={closeChatBox}>---</button>
+                        <h2>You Are: {userData.username}</h2>
                         <ul className="chat-messages">
                             {[...privateChats.get(tab)].map((chat, index) => (
                                 <li className={`message ${chat.senderName === userData.username && "self"}`} key={index}>
@@ -193,8 +199,9 @@ const Messenger: React.FC = () => {
                                 </li>
                             ))}
                         </ul>
+
                         <div className="send-message">
-                            <input type="text" className="input-message" placeholder="enter the message" value={userData.message} onChange={handleMessage} onKeyPress={(e) => keyPress(e)}/>
+                            <input type="text" className="input-message" placeholder="enter the message" value={userData.message} onChange={handleMessage} onKeyPress={(e) => keyPress(e)} />
                             <button type="button" className="send-button" onClick={sendPrivateValue}>send</button>
                         </div>
                     </div>}

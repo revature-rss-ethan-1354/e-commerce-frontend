@@ -20,8 +20,10 @@ import Product from '../../models/Product';
 import { useNavigate } from 'react-router-dom';
 import pride from "../navbar/revBackground.png";
 import styled from "styled-components";
-import { apiCheckLogin } from '../../remote/e-commerce-api/authService';
+// import { apiCheckLogin } from '../../remote/e-commerce-api/authService';
 import Navbar from '../navbar/Narbar';
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
 
 const Image = styled.img`
   width: 200px;
@@ -77,16 +79,17 @@ export default function Checkout() {
   const updatePayment = (newPaymentDetail: PaymentDetail[]) => {
     paymentDetail = newPaymentDetail
   }
-  const [loggedInStatus, setLoggedInStatus] = React.useState<number>(1);
-  React.useEffect(() => {
-    const fetchData = async () => {
-      const result = await apiCheckLogin();
-      setLoggedInStatus(result.payload);
-      if(result.payload == 1){navigate("/")}
-      if(result.status == 500){navigate("/500")};
-    };
-    fetchData();
-  }, []);
+  const loggedInStatus = useSelector((state:RootState) => state.role.role);
+  // const [loggedInStatus, setLoggedInStatus] = React.useState<number>(1);
+  // React.useEffect(() => {
+  //   const fetchData = async () => {
+  //     const result = await apiCheckLogin();
+  //     setLoggedInStatus(result.payload);
+  //     if(result.payload == 1){navigate("/")}
+  //     if(result.status == 500){navigate("/500")};
+  //   };
+  //   fetchData();
+  // }, []);
 
   function getStepContent(step: number) {
     switch (step) {

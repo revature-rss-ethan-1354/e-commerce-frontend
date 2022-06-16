@@ -4,11 +4,14 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import {
-  apiCheckLogin,
+  // apiCheckLogin,
   apiLogout,
+  setInitRole,
 } from "../../remote/e-commerce-api/authService";
 import pride from "./revBackground.png";
 import { useCallback } from "react";
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   height: fit-content;
@@ -52,23 +55,26 @@ const Image = styled.img`
 
 const Navbar = () => {
   let [invalidServer, setinvalidServer] = React.useState<String>("");
-  useEffect(() => {
-    try{
-    const fetchData = async () => {
-      const checkLogin = await apiCheckLogin();
-      setLoggedIn(checkLogin.payload);
-      if(checkLogin.status == 500){navigate("/500")};
-    };
-    fetchData();
-  }catch(e){setinvalidServer("Our servers are momentarily down please visit again soon.");}
-  }, []);
+  const loggedIn = useSelector((state:RootState) => state.role.role);
+  // const loggedIn = loggedIn1.role;
+  
+  // useEffect(() => {
+  //   try{
+  //   const fetchData = async () => {
+  //     const checkLogin = await apiCheckLogin();
+  //     // setLoggedIn(checkLogin.payload);
+  //     if(checkLogin.status == 500){navigate("/500")};
+  //   };
+  //   fetchData();
+  // }catch(e){setinvalidServer("Our servers are momentarily down please visit again soon.");}
+  // }, []);
 
   const navigate = useNavigate();
-  const [loggedIn, setLoggedIn] = useState<number>(1);
+  // const [loggedIn, setLoggedIn] = useState<number>(1);
 
   const handleLogout = () => {
     apiLogout();
-    setLoggedIn(1);
+    // setLoggedIn(1);
     window.location.reload();
     navigate("/");
   };

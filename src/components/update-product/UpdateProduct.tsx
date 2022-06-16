@@ -10,7 +10,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { apiCheckLogin, apiRegister } from "../../remote/e-commerce-api/authService";
+import { apiRegister } from "../../remote/e-commerce-api/authService";
+// import { apiCheckLogin } from "../../remote/e-commerce-api/authService";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   apiGetProductById,
@@ -26,7 +27,8 @@ import { isValidProductName } from "../create-product-validation/product-name-va
 import { isValidProductQuantity } from "../create-product-validation/product-quantity-validation";
 import { isValidProductPrice } from "../create-product-validation/product-price-validation";
 import { isValidProductDescription } from "../create-product-validation/product-description-validation";
-
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
 const theme = createTheme({
   typography: {
     fontFamily: "Futura-Std-Book"
@@ -43,16 +45,17 @@ const style = {
 
 export default function UpdateProduct() {
   const navigate = useNavigate();
-  useEffect(() => {
+  const loggedIn = useSelector((state:RootState) => state.role.role);
+  // useEffect(() => {
    
-    try{
-    const fetchData = async () => {
-      const result = await apiCheckLogin();
-      if(result.payload != 3){navigate("/")}
-    };
-    fetchData();
-  }catch{}
-  }, []);
+  //   try{
+  //   const fetchData = async () => {
+  //     const result = await apiCheckLogin();
+  //     if(result.payload != 3){navigate("/")}
+  //   };
+  //   fetchData();
+  // }catch{}
+  // }, []);
   let productName: String = "";
   let productNameChecked: String = "";
   let [validProductName, setValidProductName] = React.useState<String>("");

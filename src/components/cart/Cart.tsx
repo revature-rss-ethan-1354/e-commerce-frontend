@@ -11,8 +11,9 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveIcon from '@mui/icons-material/Remove';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import "./Cart.css";
-import { apiCheckLogin } from "../../remote/e-commerce-api/authService";
-
+// import { apiCheckLogin } from "../../remote/e-commerce-api/authService";
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
 const Container = styled.div``;
 
 const Wrapper = styled.div`
@@ -146,18 +147,19 @@ const Button = styled.button`
 
 export const Cart = () =>  {
   const { cart, setCart } = useContext(CartContext);
-  const [loggedInStatus, setLoggedInStatus] = useState<number>(1);
+  // const [loggedInStatus, setLoggedInStatus] = useState<number>(1);
+  const loggedIn = useSelector((state:RootState) => state.role.role);
 
   const navigate = useNavigate();
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await apiCheckLogin();
-      setLoggedInStatus(result.payload);
-      if(result.payload == 1){navigate("/")}
-      if(result.status == 500){navigate("/500")};
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const result = await apiCheckLogin();
+  //     setLoggedInStatus(result.payload);
+  //     if(result.payload == 1){navigate("/")}
+  //     if(result.status == 500){navigate("/500")};
+  //   };
+  //   fetchData();
+  // }, []);
 
 
   const removeProductFromCart = (product: Product) => {

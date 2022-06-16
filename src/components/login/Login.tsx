@@ -10,10 +10,12 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { apiLogin } from "../../remote/e-commerce-api/authService";
+import { apiLogin, setInitRole } from "../../remote/e-commerce-api/authService";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { AppDispatch } from "../../store";
+import { useDispatch } from "react-redux";
 
 const theme = createTheme({
   typography: {
@@ -33,10 +35,12 @@ const style = {
 export default function Login() {
   const navigate = useNavigate();
   let [invalidEmail, setinvalidEmail] = React.useState<String>("");
+  const dispatch:AppDispatch = useDispatch();
   
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    
     try{
       const response = await apiLogin(
         `${data.get("email")}`,
@@ -44,9 +48,13 @@ export default function Login() {
       );
 
       console.log(response);
-      if (response.status >= 200 && response.status < 300) navigate("/");
+      if (response.status >= 200 && response.status < 300) {
+        dispatch(setInitRole(response.payload.admin));
+        navigate("/");
     }
-    catch{
+    }
+    catch (e){
+      console.log(e);
       toast.error("Email or Password incorrect.", {
         position: 'top-center',
         autoClose: 1500,

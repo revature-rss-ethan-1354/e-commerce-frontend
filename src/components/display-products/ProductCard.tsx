@@ -5,13 +5,14 @@ import { CartContext } from "../../context/cart.context";
 import Product from "../../models/Product";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { apiCheckLogin } from "../../remote/e-commerce-api/authService";
+// import { apiCheckLogin } from "../../remote/e-commerce-api/authService";
 import EditIcon from "@mui/icons-material/Edit";
 import CancelIcon from "@mui/icons-material/Cancel";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
 
 import React from 'react';
 import Popup from  'reactjs-popup';
@@ -129,16 +130,16 @@ interface productProps {
 
 export const ProductCard = (props: productProps) => {
   const { cart, setCart } = useContext(CartContext);
-  const [loggedInStatus, setLoggedInStatus] = useState<number>(1);
+  // const [loggedInStatus, setLoggedInStatus] = useState<number>(1);
   const navigator = useNavigate();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await apiCheckLogin();
-      setLoggedInStatus(result.payload);
-    };
-    fetchData();
-  }, []);
+  const loggedInStatus = useSelector((state:RootState) => state.role.role);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const result = await apiCheckLogin();
+  //     setLoggedInStatus(result.payload);
+  //   };
+  //   fetchData();
+  // }, []);
 
   const addItemToCart = (product: Product) => {
 

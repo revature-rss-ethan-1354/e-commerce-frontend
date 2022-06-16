@@ -4,10 +4,10 @@ import axios from 'axios';
 // Very simple, but it also doesn't give us much abstraction
 const eCommerceClient = axios.create({
   withCredentials: true,
-  baseURL: 'http://localhost:8000',
+  baseURL: 'http://3.143.211.53:8000/',
   headers: {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'http://localhost:3000',
+    'Access-Control-Allow-Origin': 'http://e-commerce-frontend-p3.s3-website.us-east-2.amazonaws.com/',
   },
 });
 

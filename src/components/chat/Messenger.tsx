@@ -50,7 +50,7 @@ const Messenger: React.FC = () => {
 
     // Connection to the server
     const connect = () => {
-        let Sock = new SockJS('http://localhost:8000/ws');
+        let Sock = new SockJS('http://3.143.211.53:8000/ws');
         stompClient = over(Sock);
         stompClient.connect({}, onConnected, onError);
     }

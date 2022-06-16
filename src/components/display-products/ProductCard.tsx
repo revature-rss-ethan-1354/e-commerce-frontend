@@ -71,6 +71,7 @@ const Icon = styled.div`
   height: 40px;
   border-radius: 50%;
   background-color: white;
+  color: black;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -115,6 +116,7 @@ const Price = styled.div`
   position: absolute;
   font-family: fantasy;
   font-size: 30px;
+  color: black;
 `;
 
 
@@ -239,7 +241,7 @@ export const ProductCard = (props: productProps) => {
                       contentStyle= {{
                         border: "2px solid #F26925",
                         borderRadius: "10px",
-                        background: "#f5fbfd",
+                        background: "var(--background-color)",
                         textAlign: "center"
                       }}
                       >
@@ -323,10 +325,9 @@ export const ProductCard = (props: productProps) => {
                   
                 </Icon>
                 {loggedInStatus == 3 ? (
-                  <Icon>
-                    <EditIcon onClick={handleUpdate} />
-                  </Icon>
-                  
+                    <Icon >
+                        <EditIcon onClick={handleUpdate} />
+                    </Icon>
                 ) : (
                   <></>
                 )}

@@ -87,7 +87,7 @@ const Messenger: React.FC = () => {
                 }
                 break;
             case "MESSAGE":
-                publicChats.push(payloadData);
+                //publicChats.push(payloadData);
                 setPublicChats([...publicChats]);
                 break;
         }
@@ -163,11 +163,11 @@ const Messenger: React.FC = () => {
         setShowInput(false);
         connect();
     }
-    const keyPress = (e) => {
-        if (e.key === "Enter") {
-            sendPrivateValue();
-        }
-    }
+    // const keyPress = (e) => {
+    //     if (e.key === "Enter") {
+    //         sendPrivateValue();
+    //     }
+    // }
     return (
         <div className="container">
             {userData.connected ?
@@ -175,9 +175,9 @@ const Messenger: React.FC = () => {
                     <div className="member-list">
                         {/* TODO: REMOVE LEFT SIDE PANEL IF IT IS A USER OR GUEST */}
                         <ul>
-                            {[...privateChats.keys()].map((name, index) => (
+                            {/* {[...privateChats.keys()].map((name, index) => (
                                 <li onClick={() => { setTab(name) }} className={`member ${tab === name && "active"}`} key={index}>{name}</li>
-                            ))}
+                            ))} */}
                         </ul>
                     </div>
                     {tab !== "CHATROOM" && <div className="chat-content">
@@ -194,7 +194,7 @@ const Messenger: React.FC = () => {
                             ))}
                         </ul>
                         <div className="send-message">
-                            <input type="text" className="input-message" placeholder="enter the message" value={userData.message} onChange={handleMessage} onKeyPress={(e) => keyPress(e)}/>
+                            {/* <input type="text" className="input-message" placeholder="enter the message" value={userData.message} onChange={handleMessage} onKeyPress={(e) => keyPress(e)}/> */}
                             <button type="button" className="send-button" onClick={sendPrivateValue}>send</button>
                         </div>
                     </div>}

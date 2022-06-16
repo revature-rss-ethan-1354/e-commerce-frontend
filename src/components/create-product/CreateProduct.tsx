@@ -34,6 +34,11 @@ import { RootState } from "../../store";
 import { useSelector } from "react-redux";
 
 const theme = createTheme({
+  palette: {
+    background: {
+      default: 'var(--background-color)'
+    }
+  },
   typography: {
     fontFamily: "Futura-Std-Book"
   }
@@ -41,9 +46,18 @@ const theme = createTheme({
 
 const style = {
   "& .MuiOutlinedInput-root": {
-    "&.Mui-focused fieldset": {
-      borderColor: "#F26925",
-    }
+
+      "&.Mui-focused fieldset": {
+        borderColor: "#F26925"
+      },
+
+      "&.MuiOutlinedInput-root": {
+        "& fieldset":{
+          borderColor: "var(--font-color)"
+        }
+      },
+      
+
   }
 }
 
@@ -201,7 +215,8 @@ export default function CreateProduct() {
                   label="Name"
                   autoFocus
                   sx={style}
-                  InputLabelProps={{style: {color: "#474C55"}}}    
+                  InputLabelProps={{style: {color: "var(--font-color)"}}}
+                  InputProps={{style: {color: "var(--font-color)"}}}    
                   onKeyPress={(event) => {
                     if (!/[a-z, A-Z]/.test(event.key)) {
                       event.preventDefault();
@@ -220,7 +235,8 @@ export default function CreateProduct() {
                   name="quantity"
                   placeholder="Quantity"
                   sx={style}
-                  InputLabelProps={{style: {color: "#474C55"}}}    
+                  InputLabelProps={{style: {color: "var(--font-color)"}}}
+                  InputProps={{style: {color: "var(--font-color)"}}}    
                   onKeyPress={(event) => {
                     if (!/[0-9]/.test(event.key)) {
                       event.preventDefault();
@@ -239,7 +255,8 @@ export default function CreateProduct() {
                   type="number"
                   placeholder="Price"
                   sx={style}
-                  InputLabelProps={{style: {color: "#474C55"}}}    
+                  InputLabelProps={{style: {color: "var(--font-color)"}}} 
+                  InputProps={{style: {color: "var(--font-color)"}}}   
                   onKeyPress={(event) => {
                     if (!/[0-9, .]/.test(event.key)) {
                       event.preventDefault();
@@ -257,7 +274,8 @@ export default function CreateProduct() {
                   id="description"
                   placeholder="Description"
                   sx={style}
-                  InputLabelProps={{style: {color: "#474C55"}}}    
+                  InputLabelProps={{style: {color: "var(--font-color)"}}}  
+                  InputProps={{style: {color: "var(--font-color)"}}}  
                   onKeyPress={(event) => {
                     if (!/[a-z, A-Z, 0-9, %]/.test(event.key)) {
                       event.preventDefault();
@@ -275,7 +293,8 @@ export default function CreateProduct() {
                   id="image"
                   placeholder="Image"
                   sx={style}
-                  InputLabelProps={{style: {color: "#474C55"}}}    
+                  InputLabelProps={{style: {color: "var(--font-color)"}}} 
+                  InputProps={{style: {color: "var(--font-color)"}}}   
                 />
               </Grid>
 

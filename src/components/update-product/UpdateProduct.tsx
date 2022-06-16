@@ -27,9 +27,32 @@ import { isValidProductName } from "../create-product-validation/product-name-va
 import { isValidProductQuantity } from "../create-product-validation/product-quantity-validation";
 import { isValidProductPrice } from "../create-product-validation/product-price-validation";
 import { isValidProductDescription } from "../create-product-validation/product-description-validation";
+<<<<<<< HEAD
 import { RootState } from "../../store";
 import { useSelector } from "react-redux";
+=======
+
+// const theme = createTheme({
+//   typography: {
+//     fontFamily: "Futura-Std-Book"
+//   }
+// });
+
+// const style = {
+//   "& .MuiOutlinedInput-root": {
+//     "&.Mui-focused fieldset": {
+//       borderColor: "#F26925",
+//     }
+//   }
+// }
+
+>>>>>>> frontend-develop
 const theme = createTheme({
+  palette: {
+    background: {
+      default: 'var(--background-color)'
+    }
+  },
   typography: {
     fontFamily: "Futura-Std-Book"
   }
@@ -37,9 +60,16 @@ const theme = createTheme({
 
 const style = {
   "& .MuiOutlinedInput-root": {
-    "&.Mui-focused fieldset": {
-      borderColor: "#F26925",
-    }
+
+      "&.Mui-focused fieldset": {
+        borderColor: "#F26925"
+      },
+
+      "&.MuiOutlinedInput-root": {
+        "& fieldset":{
+          borderColor: "var(--font-color)"
+        }
+      }
   }
 }
 
@@ -227,7 +257,8 @@ export default function UpdateProduct() {
                   label="Name"
                   autoFocus
                   sx={style}
-                  InputLabelProps={{style: {color: "#474C55"}}}    
+                  InputLabelProps={{style: {color: "var(--font-color)"}}}
+                  InputProps={{style: {color: "var(--font-color)"}}}    
                   onKeyPress={(event) => {
                     if (!/[a-z, A-Z]/.test(event.key)) {
                       event.preventDefault();
@@ -247,7 +278,8 @@ export default function UpdateProduct() {
                   //placeholder={product.quantity.toString()}
                   value={quantity}
                   sx={style}
-                  InputLabelProps={{style: {color: "#474C55"}}}    
+                  InputLabelProps={{style: {color: "var(--font-color)"}}}
+                  InputProps={{style: {color: "var(--font-color)"}}}    
                   onKeyPress={(event) => {
                     if (!/[0-9]/.test(event.key)) {
                       event.preventDefault();
@@ -266,7 +298,8 @@ export default function UpdateProduct() {
                   type="number"
                   //placeholder={product.price.toString()}
                   sx={style}
-                  InputLabelProps={{style: {color: "#474C55"}}}    
+                  InputLabelProps={{style: {color: "var(--font-color)"}}}
+                  InputProps={{style: {color: "var(--font-color)"}}}    
                   value={price}
                   onKeyPress={(event) => {
                     if (!/[0-9, .]/.test(event.key)) {
@@ -286,7 +319,8 @@ export default function UpdateProduct() {
                   //placeholder={product.description}
                   value={description}
                   sx={style}
-                  InputLabelProps={{style: {color: "#474C55"}}}    
+                  InputLabelProps={{style: {color: "var(--font-color)"}}}
+                  InputProps={{style: {color: "var(--font-color)"}}}    
                   onKeyPress={(event) => {
                     if (!/[a-z, A-Z, 0-9, %]/.test(event.key)) {
                       event.preventDefault();
@@ -305,7 +339,8 @@ export default function UpdateProduct() {
                   //placeholder={product.image}
                   value={image}
                   sx={style}
-                  InputLabelProps={{style: {color: "#474C55"}}}    
+                  InputLabelProps={{style: {color: "var(--font-color)"}}}
+                  InputProps={{style: {color: "var(--font-color)"}}}    
                 />
               </Grid>
 

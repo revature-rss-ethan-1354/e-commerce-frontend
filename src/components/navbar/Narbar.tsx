@@ -1,14 +1,14 @@
-import { Badge } from "@material-ui/core";
-import { ShoppingCartOutlined } from "@material-ui/icons";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import { Badge } from '@material-ui/core';
+import { ShoppingCartOutlined } from '@material-ui/icons';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import {
   apiCheckLogin,
   apiLogout,
-} from "../../remote/e-commerce-api/authService";
-import pride from "./revBackground.png";
-import { useCallback } from "react";
+} from '../../remote/e-commerce-api/authService';
+import pride from './revBackground.png';
+import { useCallback } from 'react';
 
 const Container = styled.div`
   height: fit-content;
@@ -51,16 +51,22 @@ const Image = styled.img`
 `;
 
 const Navbar = () => {
-  let [invalidServer, setinvalidServer] = React.useState<String>("");
+  let [invalidServer, setinvalidServer] = React.useState<String>('');
   useEffect(() => {
-    try{
-    const fetchData = async () => {
-      const checkLogin = await apiCheckLogin();
-      setLoggedIn(checkLogin.payload);
-      if(checkLogin.status == 500){navigate("/500")};
-    };
-    fetchData();
-  }catch(e){setinvalidServer("Our servers are momentarily down please visit again soon.");}
+    try {
+      const fetchData = async () => {
+        const checkLogin = await apiCheckLogin();
+        setLoggedIn(checkLogin.payload);
+        if (checkLogin.status == 500) {
+          navigate('/500');
+        }
+      };
+      fetchData();
+    } catch (e) {
+      setinvalidServer(
+        'Our servers are momentarily down please visit again soon.'
+      );
+    }
   }, []);
 
   const navigate = useNavigate();
@@ -70,12 +76,12 @@ const Navbar = () => {
     apiLogout();
     setLoggedIn(1);
     window.location.reload();
-    navigate("/");
+    navigate('/');
   };
 
   const handleCart = () => {
-    if (loggedIn != 1) navigate("/cart");
-    else navigate("/login");
+    if (loggedIn != 1) navigate('/cart');
+    else navigate('/login');
   };
 
   return (
@@ -85,7 +91,7 @@ const Navbar = () => {
           <Image
             src={pride}
             onClick={() => {
-              navigate("/");
+              navigate('/');
             }}
           />
         </Left>
@@ -93,10 +99,10 @@ const Navbar = () => {
         <Right>
           {loggedIn == 3 ? (
             <>
-              {window.location.pathname == "/create" ? (
+              {window.location.pathname == '/create' ? (
                 <MenuItem
                   onClick={() => {
-                    navigate("/");
+                    navigate('/');
                   }}
                 >
                   SEARCH
@@ -104,7 +110,7 @@ const Navbar = () => {
               ) : (
                 <MenuItem
                   onClick={() => {
-                    navigate("/create");
+                    navigate('/create');
                   }}
                 >
                   CREATE
@@ -120,14 +126,14 @@ const Navbar = () => {
             <>
               <MenuItem
                 onClick={() => {
-                  navigate("/register");
+                  navigate('/register');
                 }}
               >
                 REGISTER
               </MenuItem>
               <MenuItem
                 onClick={() => {
-                  navigate("/login");
+                  navigate('/login');
                 }}
               >
                 SIGN IN

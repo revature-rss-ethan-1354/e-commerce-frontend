@@ -14,66 +14,98 @@ input {
   padding: 10px;
   font-size: 1.2em;
 }
-button{
+button {
   border: none;
   padding: 10px;
   background: rgb(146, 122, 90);
-  color:#fff;
+  color: #fff;
   font-size: 1.2em;
   font-weight: bold;
 }
 .hideConnect {
   display: none;
 }
-.container{
-  position: relative;
+.container {
+  width: 50%;
+  /* background: black; */
+  position: sticky;
+  bottom: 0;
+  margin-left: auto;
+  overflow: hidden;
+
+  z-index: 300 !important;
 }
-.register{
+
+.chat-box {
+  box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12);
+
+  /* position: sticky !important;
+  bottom: 0; */
+
+  /* position: fixed; */
+
+  height: 600px;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  border-radius: 15px;
+  margin: 0 auto;
+
+  border: 1px solid #3498db;
+
+  /* background: #fff; */
+
+  backdrop-filter: blur(10px);
+
+  margin-bottom: 2rem;
+  /* margin-left: auto; */
+
+  /* position: sticky !important;
+  top: 0; */
+}
+.register {
   position: fixed;
   left: 70%;
   display: flex;
-  
+
   border-radius: 5px;
   bottom: 20px;
 }
-.chat-box{
-  box-shadow:0 2.8px 2.2px rgba(0, 0, 0, 0.034),0 6.7px 5.3px rgba(0, 0, 0, 0.048),0 12.5px 10px rgba(0, 0, 0, 0.06),0 22.3px 17.9px rgba(0, 0, 0, 0.072),0 41.8px 33.4px rgba(0, 0, 0, 0.086),0 100px 80px rgba(0, 0, 0, 0.12);
-margin:40px 50px;
-height: 600px;
-padding: 10px;
-display: flex;
-flex-direction: row;
-border-radius: 15px;
-width: fit-content;
-backdrop-filter: blur(10px);
-margin-left: auto;
-}
 
-.member-list{
+.member-list {
   margin-top: 50px;
   margin-bottom: 60px;
   width: fit-content;
+  width: 100%;
   padding: 10px;
   border-radius: 15px;
-  box-shadow:0 2.8px 2.2px rgba(0, 0, 0, 0.034),0 6.7px 5.3px rgba(0, 0, 0, 0.048),0 12.5px 10px rgba(0, 0, 0, 0.06),0 22.3px 17.9px rgba(0, 0, 0, 0.072),0 41.8px 33.4px rgba(0, 0, 0, 0.086),0 100px 80px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12);
 }
-.chat-content{
-  width:80%;
+.chat-content {
+  width: 80%;
   margin-left: 10px;
 }
-.chat-messages{
+.chat-messages {
   height: 80%;
   border: 1px solid blanchedalmond;
   border-radius: 10px;
   background: antiquewhite;
 }
-.send-message{
+.send-message {
   width: 100%;
   display: flex;
   flex-direction: row;
 }
-.input-message{
-  width:90%;
+.input-message {
+  width: 90%;
   border: 1px solid rgb(146, 122, 90);
   border-radius: 10px;
 }
@@ -81,43 +113,43 @@ ul {
   padding: 0;
   list-style-type: none;
 }
-.send-button{
-  width:20%;
+.send-button {
+  width: 20%;
   border-radius: 10px;
   margin-left: 10px;
   cursor: pointer;
 }
-.member{
+.member {
   padding: 10px;
   background: antiquewhite;
-  border:#000;
+  border: #000;
   cursor: pointer;
   border-radius: 20px;
   margin: 5px 2px;
   box-shadow: 0 8px 8px -4px lightblue;
 }
-.member.active{
+.member.active {
   background: rgb(146, 122, 90);
   border-radius: 20px;
-  color:#fff;
+  color: #fff;
 }
-.member:hover{
+.member:hover {
   background: grey;
-  color:#fff;
+  color: #fff;
 }
-.avatar{
+.avatar {
   background-color: rgb(146, 122, 90);
   padding: 3px 5px;
   border-radius: 5px;
-  color:#fff;
+  color: #fff;
 }
-.avatar.self{
+.avatar.self {
   background-color: indianred;
   margin-left: auto;
-  padding: 3px 5px
+  padding: 3px 5px;
 }
-.message{
-  padding:5px;
+.message {
+  padding: 5px;
   width: auto;
   display: flex;
   flex-direction: row;
@@ -126,13 +158,13 @@ ul {
   border-radius: 5px;
   background: burlywood;
 }
-.message-data{
-  padding:5px;
+.message-data {
+  padding: 5px;
 }
-.message.self{
+.message.self {
   justify-content: left;
-padding: 3px 5px;
-background: aliceblue;
+  padding: 3px 5px;
+  background: aliceblue;
 }
 
 .chat-close {
@@ -144,20 +176,21 @@ background: aliceblue;
   width: 40px;
 }
 
-.register input{
+.register input {
   border: 1px solid rgb(146, 122, 90);
-    border-radius: 17px;
-    margin-right: 20px;
-    color: rgb(146, 122, 90);
-}
-.register button{
   border-radius: 17px;
-  background-color: #rgb(146, 122, 90);
+  margin-right: 20px;
+  color: rgb(146, 122, 90);
 }
+.register button {
+  border-radius: 17px;
+  background-color: rgb(146, 122, 90);
+}
+
 .showConnect {
-border-radius: 17px;
-background-color: rgb(146, 122, 90)#F37A2A;
-position: fixed;
-right: 3%;
-bottom: 20px;
+  border-radius: 17px;
+  background-color: rgb(146, 122, 90) #f37a2a;
+  position: fixed;
+  right: 3%;
+  bottom: 20px;
 }

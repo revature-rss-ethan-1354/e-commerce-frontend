@@ -22,11 +22,6 @@ const Messenger: React.FC = () => {
         admin: false
     });
 
-
-    useEffect(() => {
-        console.log(userData);
-    }, [userData]);
-
     // Show the input box when the user clicks the Get Support button
     const showConnect = () => {
         let getUser: any;
@@ -39,17 +34,15 @@ const Messenger: React.FC = () => {
                 userData.username = getUser.payload.firstName;
                 userData.admin = true;
                 connect();
-            }
-            if (getUser.payload.lastName != "") {
+            } else {
                 userData.username = getUser.payload.firstName + " " + getUser.payload.lastName
                 connect();
             }
-        });
-
-        fetchData().catch(() => { //error handling for api call
+        }).catch(() => { //error handling for api call
             userData.username = "Guest: " + Date.now();
             connect();
         });
+
         setShowSupport(false);
         setShowInput(true);
     }
@@ -77,8 +70,26 @@ const Messenger: React.FC = () => {
             senderName: userData.username,
             status: "JOIN"
         };
+
+        var welcomeMsg = {
+            senderName: "Admin",
+            receiverName: userData.username,
+            message: "Welcome " + userData.username + ". How can we help you?",
+            status: "MESSAGE"
+        };
+
         if (stompClient) {
+            console.log("joined chat");
             stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
+
+            if (!userData.admin) {
+                stompClient.send("/app/private-message", {}, JSON.stringify(welcomeMsg));
+                if (!privateChats.get("Admin")) {
+                    privateChats.set("Admin", []);
+                    setPrivateChats(new Map(privateChats));
+                }
+                setTab("Admin");
+            }
         }
     }
 
@@ -93,7 +104,6 @@ const Messenger: React.FC = () => {
                 }
                 break;
             case "MESSAGE":
-                //publicChats.push(payloadData);
                 setPublicChats([...publicChats]);
                 break;
         }
@@ -106,11 +116,13 @@ const Messenger: React.FC = () => {
         if (privateChats.get(payloadData.senderName)) {
             privateChats.get(payloadData.senderName).push(payloadData);
             setPrivateChats(new Map(privateChats));
+
         } else {
             let list = [];
             list.push(payloadData);
             privateChats.set(payloadData.senderName, list);
             setPrivateChats(new Map(privateChats));
+
         }
     }
 
@@ -146,10 +158,7 @@ const Messenger: React.FC = () => {
     const closeChatBox = () => {
         setShowInput(false);
         setShowSupport(true);
-
-
         setUserData({ ...userData, "connected": false });
-
     }
     const sendPrivateValue = () => {
         if (stompClient) {
@@ -175,23 +184,23 @@ const Messenger: React.FC = () => {
         setShowInput(false);
         connect();
     }
-    // const keyPress = (e) => {
-    //     if (e.key === "Enter") {
-    //         sendPrivateValue();
-    //     }
-    // }
+
     return (
         <div className="container">
             {userData.connected ?
                 <div className="chat-box">
-                    <div className="member-list">
-                        {/* TODO: REMOVE LEFT SIDE PANEL IF IT IS A USER OR GUEST */}
-                        <ul>
-                            {[...privateChats.keys()].map((name, index) => (
-                                <li onClick={() => { setTab(name) }} className={`member ${tab === name && "active"}`} key={index}>{name}</li>
-                            ))}
-                        </ul>
-                    </div>
+
+                    {userData.admin == true &&
+                        <div className="member-list">
+                            <ul>
+                                {[...privateChats.keys()].map((name, index) => (
+                                    <li onClick={() => { setTab(name) }} className={`member ${tab === name && "active"}`} key={index}>{name}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    }
+
+
                     {tab !== "CHATROOM" && <div className="chat-content">
 
                         <button type="button" className='chat-close' onClick={closeChatBox}>---</button>

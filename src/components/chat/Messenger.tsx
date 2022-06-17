@@ -7,18 +7,19 @@ import { emitKeypressEvents } from 'readline';
 
 var stompClient: Client | null = null;
 const Messenger: React.FC = () => {
-    const [privateChats, setPrivateChats] = useState(new Map()); 
+    const [privateChats, setPrivateChats] = useState(new Map());
     const [publicChats, setPublicChats] = useState([]);
     const [tab, setTab] = useState("CHATROOM");
     const [showInput, setShowInput] = useState(false);
-    const [showSupport, setShowSupport]  = useState(true);
-   
+    const [showSupport, setShowSupport] = useState(true);
+
 
     const [userData, setUserData] = useState({
         username: '',
         receivername: '',
         connected: false,
-        message: ''
+        message: '',
+        admin: false
     });
 
 
@@ -32,15 +33,20 @@ const Messenger: React.FC = () => {
         const fetchData = async () => { //Checkadmin + update UserData
             getUser = await apiGetUser();
 
-            
+
         }; fetchData().then(() => { // http request fulfilled 
+            if (getUser.payload.admin) {
+                userData.username = getUser.payload.firstName;
+                userData.admin = true;
+                connect();
+            }
             if (getUser.payload.lastName != "") {
-                userData.username = getUser.payload.firstName + getUser.payload.lastName
-                connect();                 
+                userData.username = getUser.payload.firstName + " " + getUser.payload.lastName
+                connect();
             }
         });
 
-         fetchData().catch(() => { //error handling for api call
+        fetchData().catch(() => { //error handling for api call
             userData.username = "Guest: " + Date.now();
             connect();
         });
@@ -107,8 +113,8 @@ const Messenger: React.FC = () => {
             setPrivateChats(new Map(privateChats));
         }
     }
-    
-    
+
+
     const onError = (err: any) => {
         console.log(err);
     }
@@ -116,6 +122,12 @@ const Messenger: React.FC = () => {
     const handleMessage = (event: { target: { value: any; }; }) => {
         const { value } = event.target;
         setUserData({ ...userData, "message": value });
+    }
+
+    const keyPress = (e: any) => {
+        if (e.key === "Enter") {
+            sendPrivateValue();
+        }
     }
 
     const sendValue = () => {
@@ -135,7 +147,7 @@ const Messenger: React.FC = () => {
         setShowInput(false);
         setShowSupport(true);
 
-       
+
         setUserData({ ...userData, "connected": false });
 
     }
@@ -175,15 +187,14 @@ const Messenger: React.FC = () => {
                     <div className="member-list">
                         {/* TODO: REMOVE LEFT SIDE PANEL IF IT IS A USER OR GUEST */}
                         <ul>
-                            {/* {[...privateChats.keys()].map((name, index) => (
+                            {[...privateChats.keys()].map((name, index) => (
                                 <li onClick={() => { setTab(name) }} className={`member ${tab === name && "active"}`} key={index}>{name}</li>
-                            ))} */}
+                            ))}
                         </ul>
                     </div>
                     {tab !== "CHATROOM" && <div className="chat-content">
-                        
-                            <button type="button" className='chat-close' onClick={closeChatBox}>---</button>
-                        
+
+                        <button type="button" className='chat-close' onClick={closeChatBox}>---</button>
                         <ul className="chat-messages">
                             {[...privateChats.get(tab)].map((chat, index) => (
                                 <li className={`message ${chat.senderName === userData.username && "self"}`} key={index}>
@@ -194,7 +205,7 @@ const Messenger: React.FC = () => {
                             ))}
                         </ul>
                         <div className="send-message">
-                            {/* <input type="text" className="input-message" placeholder="enter the message" value={userData.message} onChange={handleMessage} onKeyPress={(e) => keyPress(e)}/> */}
+                            <input type="text" className="input-message" placeholder="enter the message" value={userData.message} onChange={handleMessage} onKeyPress={(e) => keyPress(e)} />
                             <button type="button" className="send-button" onClick={sendPrivateValue}>send</button>
                         </div>
                     </div>}

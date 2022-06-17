@@ -6,7 +6,8 @@ import { apiGetUser } from '../../remote/e-commerce-api/authService';
 import { emitKeypressEvents } from 'readline';
 
 var stompClient: Client | null = null;
-const Messenger: React.FC = () => {
+
+const MessengerOriginalCopy: React.FC = () => {
   const [privateChats, setPrivateChats] = useState(new Map());
   const [publicChats, setPublicChats] = useState([]);
   const [tab, setTab] = useState('CHATROOM');
@@ -21,10 +22,6 @@ const Messenger: React.FC = () => {
     admin: false,
   });
 
-  useEffect(() => {
-    console.log('coming from line 25 ', userData);
-  }, [userData]);
-
   // Show the input box when the user clicks the Get Support button
   const showConnect = () => {
     let getUser: any;
@@ -32,10 +29,8 @@ const Messenger: React.FC = () => {
       //Checkadmin + update UserData
       getUser = await apiGetUser();
     };
-
     fetchData().then(() => {
       // http request fulfilled
-      console.log('coming from line 34 ', getUser);
       if (getUser.payload.admin) {
         //when user tries to connect
         userData.username = getUser.payload.firstName;
@@ -190,24 +185,21 @@ const Messenger: React.FC = () => {
     <div className="container">
       {userData.connected ? (
         <div className="chat-box">
+          {/* TODO: REMOVE LEFT SIDE PANEL IF IT IS A USER OR GUEST */}
+
           <div className="member-list">
             <ul>
-              {[...privateChats.keys()].map((name, index) => {
-                console.log('coming from line 196 ', name);
-                console.log('coming from line 197 ', tab);
-                return (
-                  <li
-                    onClick={() => {
-                      setTab(name);
-                    }}
-                    className={`member ${tab === name && 'active'}`}
-                    key={index}
-                  >
-                    nabil
-                    {/* {name} */}
-                  </li>
-                );
-              })}
+              {[...privateChats.keys()].map((name, index) => (
+                <li
+                  onClick={() => {
+                    setTab(name);
+                  }}
+                  className={`member ${tab === name && 'active'}`}
+                  key={index}
+                >
+                  {name}
+                </li>
+              ))}
             </ul>
           </div>
 

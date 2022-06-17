@@ -27,26 +27,8 @@ import { isValidProductName } from "../create-product-validation/product-name-va
 import { isValidProductQuantity } from "../create-product-validation/product-quantity-validation";
 import { isValidProductPrice } from "../create-product-validation/product-price-validation";
 import { isValidProductDescription } from "../create-product-validation/product-description-validation";
-<<<<<<< HEAD
 import { RootState } from "../../store";
 import { useSelector } from "react-redux";
-=======
-
-// const theme = createTheme({
-//   typography: {
-//     fontFamily: "Futura-Std-Book"
-//   }
-// });
-
-// const style = {
-//   "& .MuiOutlinedInput-root": {
-//     "&.Mui-focused fieldset": {
-//       borderColor: "#F26925",
-//     }
-//   }
-// }
-
->>>>>>> frontend-develop
 const theme = createTheme({
   palette: {
     background: {

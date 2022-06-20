@@ -83,7 +83,7 @@ The System will...
 
 # Usage
 
-main page
+Users can view the catalog from the main page
 ![image](https://user-images.githubusercontent.com/101683611/174679509-2d302047-b693-4ecb-95e3-cac833606b09.png)
 
 search feature

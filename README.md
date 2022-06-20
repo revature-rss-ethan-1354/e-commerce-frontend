@@ -89,6 +89,28 @@ Users can view the catalog from the main page
 search feature
 ![image](https://user-images.githubusercontent.com/101683611/174679582-862bbd15-7a6c-4e02-a127-68c069839f70.png)
 
+add to cart + prompt
+![image](https://user-images.githubusercontent.com/101683611/174679673-8c3a71a3-5d6c-4a3f-87f7-64c6fc717cb2.png)
+
+register account page
+![image](https://user-images.githubusercontent.com/101683611/174679717-bcce26c2-ef4b-4958-b23f-c0499623d9f2.png)
+
+Login Page
+![image](https://user-images.githubusercontent.com/101683611/174679763-3a9dc189-4867-484d-8206-b92b7db7e06d.png)
+
+Dark Mode
+![image](https://user-images.githubusercontent.com/101683611/174679859-857457a8-1f4d-424d-8ee6-3f3a62bbb6e7.png)
+
+cart page
+![image](https://user-images.githubusercontent.com/101683611/174679951-e3810fb1-9a97-49f4-a48a-6a9f07b537fb.png)
+
+out of stock and discontinued
+![image](https://user-images.githubusercontent.com/101683611/174680127-023e751b-d1de-4087-b2ef-56e3333aeea4.png)
+
+featured items
+![image](https://user-images.githubusercontent.com/101683611/174680177-391e29ea-e272-4094-886d-b1f734049a3e.png)
+
+
 
 
 

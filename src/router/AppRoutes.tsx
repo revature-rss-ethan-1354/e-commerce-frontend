@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Routes } from "react-router-dom";
-import { ERROR500 } from '../500ERROR/500Error';
+import { ERROR500 } from '../500ERROR/500ERROR';
 import { Cart } from '../components/cart/Cart';
 import Messenger from '../components/chat/Messenger';
 import Checkout from '../components/checkout/Checkout';

@@ -26,20 +26,23 @@ button{
   display: none;
 }
 .container{
-  position: relative;
+  padding-top: 100px;
+  height: fit-content;
+  bottom: 0;
+  position: sticky;
+  z-index: 201;
 }
 .register{
   position: fixed;
   left: 70%;
   display: flex;
-  
   border-radius: 5px;
   bottom: 20px;
 }
 .chat-box{
   box-shadow:0 2.8px 2.2px rgba(0, 0, 0, 0.034),0 6.7px 5.3px rgba(0, 0, 0, 0.048),0 12.5px 10px rgba(0, 0, 0, 0.06),0 22.3px 17.9px rgba(0, 0, 0, 0.072),0 41.8px 33.4px rgba(0, 0, 0, 0.086),0 100px 80px rgba(0, 0, 0, 0.12);
 margin:40px 50px;
-height: 600px;
+height: fit-content;
 padding: 10px;
 display: flex;
 flex-direction: row;
@@ -47,6 +50,7 @@ border-radius: 15px;
 width: fit-content;
 backdrop-filter: blur(10px);
 margin-left: auto;
+/*overflow: scroll;*/
 }
 
 .member-list{
@@ -58,14 +62,15 @@ margin-left: auto;
   box-shadow:0 2.8px 2.2px rgba(0, 0, 0, 0.034),0 6.7px 5.3px rgba(0, 0, 0, 0.048),0 12.5px 10px rgba(0, 0, 0, 0.06),0 22.3px 17.9px rgba(0, 0, 0, 0.072),0 41.8px 33.4px rgba(0, 0, 0, 0.086),0 100px 80px rgba(0, 0, 0, 0.12);
 }
 .chat-content{
-  width:80%;
+  width:95%;
   margin-left: 10px;
+  height:80%;
 }
 .chat-messages{
   height: 80%;
-  border: 1px solid blanchedalmond;
+  border: 1px solid rgb(185, 185, 186, 0.6);
   border-radius: 10px;
-  background: antiquewhite;
+  background: rgba(185, 185, 186, 0.6);
 }
 .send-message{
   width: 100%;
@@ -86,6 +91,8 @@ ul {
   border-radius: 10px;
   margin-left: 10px;
   cursor: pointer;
+  background-color:#f26925;
+  font-family: 'Futura-Std-Book';
 }
 .member{
   padding: 10px;
@@ -106,13 +113,15 @@ ul {
   color:#fff;
 }
 .avatar{
-  background-color: rgb(146, 122, 90);
+  background-color:#f26925;
   padding: 3px 5px;
   border-radius: 5px;
   color:#fff;
+  display: flex;
+  align-items: center;
 }
 .avatar.self{
-  background-color: indianred;
+  background-color:#72A4C2;
   margin-left: auto;
   padding: 3px 5px
 }
@@ -124,10 +133,11 @@ ul {
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
   margin: 20px;
   border-radius: 5px;
-  background: burlywood;
+  background: aliceblue;
 }
 .message-data{
   padding:5px;
+  color: black;
 }
 .message.self{
   justify-content: left;
@@ -136,11 +146,13 @@ background: aliceblue;
 }
 
 .chat-close {
-  background: rgba(255, 0, 43, 0.432);
+  background: rgb(0, 0, 0);
   border-radius: 20px;
   cursor: pointer;
-  margin-left: 350px;
-  color: crimson;
+  display: flex;
+  justify-content: center;
+  margin-left: 500px;
+  color: whitesmoke;
   width: 40px;
 }
 
@@ -156,8 +168,11 @@ background: aliceblue;
 }
 .showConnect {
 border-radius: 17px;
-background-color: rgb(146, 122, 90)#F37A2A;
+background-color:#f26925;
+font-family: 'Futura-Std-Book';
 position: fixed;
 right: 3%;
 bottom: 20px;
+cursor: pointer;
+z-index: 5;
 }

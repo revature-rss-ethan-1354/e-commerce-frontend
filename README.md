@@ -128,10 +128,6 @@ payment page
 order summary 
 ![image](https://user-images.githubusercontent.com/101683611/174680512-a191fd8a-ab08-40a7-aa4c-6e142d4b11b2.png)
 
-order placed page
-![Uploading image.png…]()
-
-
 
 
 

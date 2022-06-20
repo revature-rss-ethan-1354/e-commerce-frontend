@@ -110,6 +110,26 @@ out of stock and discontinued
 featured items
 ![image](https://user-images.githubusercontent.com/101683611/174680177-391e29ea-e272-4094-886d-b1f734049a3e.png)
 
+create page
+![image](https://user-images.githubusercontent.com/101683611/174680283-e9d10ac6-509c-4b9a-9838-c8f50ee3f93c.png)
+
+Update Page
+![image](https://user-images.githubusercontent.com/101683611/174680316-8eb20c40-bfb7-41ca-9a5a-3034c33b8efb.png)
+
+checkout - fill in information
+![image](https://user-images.githubusercontent.com/101683611/174680397-d929ec26-1f9c-4c49-b2a5-5d1dc2fd5f2d.png)
+
+payment page
+![image](https://user-images.githubusercontent.com/101683611/174680436-ab66f865-97f0-4510-ae9a-dda774085e26.png)
+
+order summary 
+![image](https://user-images.githubusercontent.com/101683611/174680512-a191fd8a-ab08-40a7-aa4c-6e142d4b11b2.png)
+
+order placed page
+![Uploading image.png…]()
+
+
+
 
 
 

@@ -201,7 +201,7 @@ const Messenger: React.FC = () => {
 
                     {tab !== "CHATROOM" && <div className="chat-content">
 
-                        <button type="button" className='chat-close' onClick={closeChatBox}>---</button>
+                        <button type="button" className='chat-close' onClick={closeChatBox}>X</button>
                         <ul className="chat-messages">
                             {[...privateChats.get(tab)].map((chat, index) => (
                                 <li className={`message ${chat.senderName === userData.username && "self"}`} key={index}>
@@ -213,7 +213,7 @@ const Messenger: React.FC = () => {
                         </ul>
                         <div className="send-message">
                             <input type="text" className="input-message" placeholder="enter the message" value={userData.message} onChange={handleMessage} onKeyPress={(e) => keyPress(e)} />
-                            <button type="button" className="send-button" onClick={sendPrivateValue}>send</button>
+                            <button type="button" className="send-button" onClick={sendPrivateValue}>Send</button>
                         </div>
                     </div>}
                 </div>

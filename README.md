@@ -15,13 +15,15 @@ Users are able to...
   - Add items they wish to purchase and proceed to checkout
   - They can specify the quantity of the item the wish to purchase
   - Connect with admin chat support on the main product page
+  - Search through the catalog according to an input field, item category, and price range
 
 Admin are able to...
   - Login to their account
   - Create a new product listing
   - Open up chatroom, and see customer messages
+  - Search through the catalog according to an input field, item category, and price range
 
-Invalidation checks...
+Validations are implemented into the system to ensure items, purchase amount, 
 
 # Getting Started with Create React App
 

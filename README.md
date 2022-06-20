@@ -80,6 +80,10 @@ The System will...
   - AWS S3 - Bucket
 
 # Deployment
+1. Back-End, Front-End is hosted on Amazon Web Service wth EC2, and S3 bucket respectively
+
+2. Follow the link to the launch page when the EC2 server is up at:
+http://redking-frontend.s3-website.us-east-2.amazonaws.com/login
 
 # Usage
 

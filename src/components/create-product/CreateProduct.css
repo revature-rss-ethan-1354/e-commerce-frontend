@@ -8,6 +8,10 @@
   --error-red: #A3161D;
 }
 
+main{
+  color: var(--font-color);
+}
+
 .body-container {
   font-family: "Futura-Std-Book";
 }

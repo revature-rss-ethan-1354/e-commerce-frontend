@@ -6,6 +6,8 @@
       "dom.iterable",
       "esnext"
     ],
+    "target": "es5",
+    "downlevelIteration": true,
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -18,10 +20,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "preserve",
-    "compilerOptions": {
-      "target": "es2015"
-    }
+    "jsx": "preserve"
   },
   "include": [
     "src"

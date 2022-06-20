@@ -21,16 +21,30 @@ import 'react-toastify/dist/ReactToastify.css';
 import AppRegistrationSharpIcon from '@mui/icons-material/AppRegistrationSharp';
 
 const theme = createTheme({
+  palette: {
+    background: {
+      default: 'var(--background-color)'
+    }
+  },
   typography: {
-    fontFamily: "Futura-Std-Book",
+    fontFamily: "Futura-Std-Book"
   }
 });
 
 const style = {
   "& .MuiOutlinedInput-root": {
-    "&.Mui-focused fieldset": {
-      borderColor: "#F26925",
-    }
+
+      "&.Mui-focused fieldset": {
+        borderColor: "#F26925"
+      },
+
+      "&.MuiOutlinedInput-root": {
+        "& fieldset":{
+          borderColor: "var(--font-color)"
+        }
+      },
+      
+
   }
 }
 
@@ -185,7 +199,8 @@ export default function Register() {
                   onBlur={handleOnBlur}
                   onChange={handleChange}
                   sx={style}
-                  InputLabelProps={{style: {color: "#474C55"}}}    
+                  InputLabelProps={{style: {color: "var(--font-color)"}}}
+                  InputProps={{style: {color: "var(--font-color)"}}}    
                 />
                 <p className="invalid-checkout-field">{validFirstName}</p>
               </Grid>
@@ -200,7 +215,8 @@ export default function Register() {
                   onBlur={handleOnBlur}
                   onChange={handleChange}
                   sx={style}
-                  InputLabelProps={{style: {color: "#474C55"}}}    
+                  InputLabelProps={{style: {color: "var(--font-color)"}}}
+                  InputProps={{style: {color: "var(--font-color)"}}}    
                 />
                 <p className="invalid-checkout-field">{validLastName}</p>
               </Grid>
@@ -215,7 +231,8 @@ export default function Register() {
                   onBlur={handleOnBlur}
                   onChange={handleChange}
                   sx={style}
-                  InputLabelProps={{style: {color: "#474C55"}}}    
+                  InputLabelProps={{style: {color: "var(--font-color)"}}}
+                  InputProps={{style: {color: "var(--font-color)"}}}    
                 />
                 <p className="invalid-checkout-field">{validEmail}</p>
               </Grid>
@@ -231,7 +248,8 @@ export default function Register() {
                   onBlur={handleOnBlur}
                   onChange={handleChange}
                   sx={style}
-                  InputLabelProps={{style: {color: "#474C55"}}}    
+                  InputLabelProps={{style: {color: "var(--font-color)"}}}
+                  InputProps={{style: {color: "var(--font-color)"}}}    
                 />
                 <p className="invalid-checkout-field">{validPassword}</p>
               </Grid>

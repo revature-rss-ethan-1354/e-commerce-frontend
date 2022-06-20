@@ -16,16 +16,28 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 const theme = createTheme({
+  palette: {
+    background: {
+      default: 'var(--background-color)'
+    }
+  },
   typography: {
-    fontFamily: "Futura-Std-Book",
+    fontFamily: "Futura-Std-Book"
   }
 });
 
 const style = {
   "& .MuiOutlinedInput-root": {
-    "&.Mui-focused fieldset": {
-      borderColor: "#F26925",
-    }
+
+      "&.Mui-focused fieldset": {
+        borderColor: "#F26925"
+      },
+
+      "&.MuiOutlinedInput-root": {
+        "& fieldset":{
+          borderColor: "var(--font-color)"
+        }
+      }
   }
 }
 
@@ -97,7 +109,8 @@ export default function Login() {
               autoComplete="email"
               autoFocus
               sx={style}
-              InputLabelProps={{style: {color: "#474C55"}}}
+              InputLabelProps={{style: {color: "var(--font-color)"}}}
+                  InputProps={{style: {color: "var(--font-color)"}}}
             />
             <TextField
               className="login-input"
@@ -110,7 +123,8 @@ export default function Login() {
               id="password"
               autoComplete="current-password"
               sx={style}
-              InputLabelProps={{style: {color: "#474C55"}}}
+              InputLabelProps={{style: {color: "var(--font-color)"}}}
+                  InputProps={{style: {color: "var(--font-color)"}}}
             />
             <Button
               type="submit"

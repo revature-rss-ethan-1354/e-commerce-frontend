@@ -7,24 +7,20 @@ import { emitKeypressEvents } from 'readline';
 
 var stompClient: Client | null = null;
 const Messenger: React.FC = () => {
-    const [privateChats, setPrivateChats] = useState(new Map()); 
+    const [privateChats, setPrivateChats] = useState(new Map());
     const [publicChats, setPublicChats] = useState([]);
     const [tab, setTab] = useState("CHATROOM");
     const [showInput, setShowInput] = useState(false);
-    const [showSupport, setShowSupport]  = useState(true);
-   
+    const [showSupport, setShowSupport] = useState(true);
+
 
     const [userData, setUserData] = useState({
         username: '',
         receivername: '',
         connected: false,
-        message: ''
+        message: '',
+        admin: false
     });
-
-
-    useEffect(() => {
-        console.log(userData);
-    }, [userData]);
 
     // Show the input box when the user clicks the Get Support button
     const showConnect = () => {
@@ -32,18 +28,21 @@ const Messenger: React.FC = () => {
         const fetchData = async () => { //Checkadmin + update UserData
             getUser = await apiGetUser();
 
-            
-        }; fetchData().then(() => { // http request fulfilled 
-            if (getUser.payload.lastName != "") {
-                userData.username = getUser.payload.firstName + getUser.payload.lastName
-                connect();                 
-            }
-        });
 
-         fetchData().catch(() => { //error handling for api call
+        }; fetchData().then(() => { // http request fulfilled 
+            if (getUser.payload.admin) {
+                userData.username = getUser.payload.firstName;
+                userData.admin = true;
+                connect();
+            } else {
+                userData.username = getUser.payload.firstName + " " + getUser.payload.lastName
+                connect();
+            }
+        }).catch(() => { //error handling for api call
             userData.username = "Guest: " + Date.now();
             connect();
         });
+
         setShowSupport(false);
         setShowInput(true);
     }
@@ -71,8 +70,26 @@ const Messenger: React.FC = () => {
             senderName: userData.username,
             status: "JOIN"
         };
+
+        var welcomeMsg = {
+            senderName: "Admin",
+            receiverName: userData.username,
+            message: "Welcome " + userData.username + ". How can we help you?",
+            status: "MESSAGE"
+        };
+
         if (stompClient) {
+            console.log("joined chat");
             stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
+
+            if (!userData.admin) {
+                stompClient.send("/app/private-message", {}, JSON.stringify(welcomeMsg));
+                if (!privateChats.get("Admin")) {
+                    privateChats.set("Admin", []);
+                    setPrivateChats(new Map(privateChats));
+                }
+                setTab("Admin");
+            }
         }
     }
 
@@ -87,7 +104,6 @@ const Messenger: React.FC = () => {
                 }
                 break;
             case "MESSAGE":
-                publicChats.push(payloadData);
                 setPublicChats([...publicChats]);
                 break;
         }
@@ -100,15 +116,17 @@ const Messenger: React.FC = () => {
         if (privateChats.get(payloadData.senderName)) {
             privateChats.get(payloadData.senderName).push(payloadData);
             setPrivateChats(new Map(privateChats));
+
         } else {
             let list = [];
             list.push(payloadData);
             privateChats.set(payloadData.senderName, list);
             setPrivateChats(new Map(privateChats));
+
         }
     }
-    
-    
+
+
     const onError = (err: any) => {
         console.log(err);
     }
@@ -116,6 +134,12 @@ const Messenger: React.FC = () => {
     const handleMessage = (event: { target: { value: any; }; }) => {
         const { value } = event.target;
         setUserData({ ...userData, "message": value });
+    }
+
+    const keyPress = (e: any) => {
+        if (e.key === "Enter") {
+            sendPrivateValue();
+        }
     }
 
     const sendValue = () => {
@@ -134,10 +158,7 @@ const Messenger: React.FC = () => {
     const closeChatBox = () => {
         setShowInput(false);
         setShowSupport(true);
-
-       
         setUserData({ ...userData, "connected": false });
-
     }
     const sendPrivateValue = () => {
         if (stompClient) {
@@ -163,27 +184,26 @@ const Messenger: React.FC = () => {
         setShowInput(false);
         connect();
     }
-    const keyPress = (e) => {
-        if (e.key === "Enter") {
-            sendPrivateValue();
-        }
-    }
+
     return (
         <div className="container">
             {userData.connected ?
                 <div className="chat-box">
-                    <div className="member-list">
-                        {/* TODO: REMOVE LEFT SIDE PANEL IF IT IS A USER OR GUEST */}
-                        <ul>
-                            {[...privateChats.keys()].map((name, index) => (
-                                <li onClick={() => { setTab(name) }} className={`member ${tab === name && "active"}`} key={index}>{name}</li>
-                            ))}
-                        </ul>
-                    </div>
+
+                    {userData.admin == true &&
+                        <div className="member-list">
+                            <ul>
+                                {[...privateChats.keys()].map((name, index) => (
+                                    <li onClick={() => { setTab(name) }} className={`member ${tab === name && "active"}`} key={index}>{name}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    }
+
+
                     {tab !== "CHATROOM" && <div className="chat-content">
-                        
-                            <button type="button" className='chat-close' onClick={closeChatBox}>---</button>
-                        
+
+                        <button type="button" className='chat-close' onClick={closeChatBox}>---</button>
                         <ul className="chat-messages">
                             {[...privateChats.get(tab)].map((chat, index) => (
                                 <li className={`message ${chat.senderName === userData.username && "self"}`} key={index}>
@@ -194,7 +214,7 @@ const Messenger: React.FC = () => {
                             ))}
                         </ul>
                         <div className="send-message">
-                            <input type="text" className="input-message" placeholder="enter the message" value={userData.message} onChange={handleMessage} onKeyPress={(e) => keyPress(e)}/>
+                            <input type="text" className="input-message" placeholder="enter the message" value={userData.message} onChange={handleMessage} onKeyPress={(e) => keyPress(e)} />
                             <button type="button" className="send-button" onClick={sendPrivateValue}>send</button>
                         </div>
                     </div>}

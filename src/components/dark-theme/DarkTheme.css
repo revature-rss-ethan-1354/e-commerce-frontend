@@ -1,0 +1,49 @@
+
+  
+  [data-theme="dark"] {
+    --font-color: #eee;
+    --background-color: #333;
+  }
+
+  [data-theme="light"] {
+    --font-color: #333;
+    --background-color: #eee;
+  }
+  
+  body {
+    background-color: var(--background-color);
+    color: var(--font-color);
+  }
+  
+  .dark-mode{
+    position: absolute;
+    height: 35px;
+    width: 65px;
+    right: 10px;
+  }
+
+  .dark-label{
+    position: absolute;
+    height: 35px;
+    width: 65px;
+    right: 38px;
+    top: 84px;
+  }
+  
+  .slider:before {
+    content: "";
+    position: absolute;
+    background-color: white;
+    bottom: 4px;
+    left: 4px;
+    height: 20px;
+    width: 20px;
+    transition: 0.4s;
+  }
+
+  input:checked + .slider {
+    background-color: #2D4263;
+  }
+  
+ 
+  

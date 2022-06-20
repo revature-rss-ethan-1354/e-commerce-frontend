@@ -4,6 +4,8 @@ import SockJS from 'sockjs-client';
 import "./style.css";
 import { apiGetUser } from '../../remote/e-commerce-api/authService';
 import { emitKeypressEvents } from 'readline';
+import { RootState } from "../../store";
+import { useSelector } from 'react-redux';
 
 var stompClient: Client | null = null;
 const Messenger: React.FC = () => {
@@ -12,7 +14,7 @@ const Messenger: React.FC = () => {
     const [tab, setTab] = useState("CHATROOM");
     const [showInput, setShowInput] = useState(false);
     const [showSupport, setShowSupport] = useState(true);
-
+    const userName = useSelector((state:RootState) => state.role);
 
     const [userData, setUserData] = useState({
         username: '',
@@ -25,23 +27,19 @@ const Messenger: React.FC = () => {
     // Show the input box when the user clicks the Get Support button
     const showConnect = () => {
         let getUser: any;
-        const fetchData = async () => { //Checkadmin + update UserData
-            getUser = await apiGetUser();
-
-
-        }; fetchData().then(() => { // http request fulfilled 
-            if (getUser.payload.admin) {
-                userData.username = getUser.payload.firstName;
+         // http request fulfilled 
+            if (userName.role == 3) {
+                userData.username = userName.name;
                 userData.admin = true;
                 connect();
-            } else {
-                userData.username = getUser.payload.firstName + " " + getUser.payload.lastName
+            } else if(userName.role == 2) {
+                userData.username = userName.name;
                 connect();
             }
-        }).catch(() => { //error handling for api call
-            userData.username = "Guest: " + Date.now();
+         else { //error handling for api call
+            userData.username = userName.name + Date.now();
             connect();
-        });
+        };
 
         setShowSupport(false);
         setShowInput(true);
@@ -49,7 +47,7 @@ const Messenger: React.FC = () => {
 
     // Connection to the server
     const connect = () => {
-        let Sock = new SockJS('http://3.143.211.53:8000/ws');
+        let Sock = new SockJS('http://localhost:8080/ws');
         stompClient = over(Sock);
         stompClient.connect({}, onConnected, onError);
     }

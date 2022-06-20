@@ -61,7 +61,8 @@ export default function Login() {
 
       console.log(response);
       if (response.status >= 200 && response.status < 300) {
-        dispatch(setInitRole(response.payload.admin));
+        dispatch(setInitRole(response.payload));
+        
         navigate("/");
     }
     }

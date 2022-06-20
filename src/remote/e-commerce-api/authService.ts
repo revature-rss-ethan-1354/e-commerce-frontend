@@ -7,13 +7,15 @@ import { useDispatch } from "react-redux";
 
 interface RoleSliceState {
     // user?: User
-    role: number
+    role: number,
+    name: string
 }
 
 
 
 const initialRoleState: RoleSliceState = {
-    role: 1
+    role: 1,
+    name: "guest user: "
 }
 
 
@@ -48,7 +50,7 @@ export const apiLogout = async (): Promise<eCommerceApiResponse> => {
 export const apiRegister = async (firstName: string, lastName: string, email: string, password: string): Promise<eCommerceApiResponse> => {
     const response = await eCommerceClient.post<any>(
         `${baseURL}/register`,
-        { firstname: firstName, lastName: lastName, email: email, password: password }
+        { firstName: firstName, lastName: lastName, email: email, password: password }
     );
     return { status: response.status, payload: response.data };
 
@@ -73,13 +75,15 @@ const RoleSlice = createSlice({
     initialState: initialRoleState,
     reducers: {
         setInitRole: (state, action) => {
-            if (action.payload == null){
+            if (action.payload.admin == null){
                 state.role =1;
             }
-            else if(action.payload){
+            else if(action.payload.admin){
             state.role = 3;
+            state.name = "Admin"
             }
             else {
+                state.name = action.payload.firstName + " " + action.payload.lastName;
                 state.role = 2;
             }
            

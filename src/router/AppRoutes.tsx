@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Routes } from "react-router-dom";
+import { ERROR500 } from '../500ERROR/500Error';
 import { Cart } from '../components/cart/Cart';
 import Messenger from '../components/chat/Messenger';
 import Checkout from '../components/checkout/Checkout';
@@ -19,7 +20,7 @@ export const AppRoutes: React.FC<unknown> = () => (
     <Route path="/update/:id" element={<UpdateProduct/>} />
     <Route path="/create" element={<CreateProduct/>} />
     <Route path="/messenger" element={<Messenger/>} />
-    {/* <Route path="/500" element={<ERROR500/>} />
-    <Route path="/404" element={<ERROR404/>} /> */}
+     <Route path="/500" element={<ERROR500/>} />
+    {/* <Route path="/404" element={<ERROR404/>} />  */}
   </Routes>
 )

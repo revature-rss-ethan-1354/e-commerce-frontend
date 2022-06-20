@@ -32,6 +32,7 @@ import AddBoxSharpIcon from '@mui/icons-material/AddBoxSharp';
 import CreateIcon from '@mui/icons-material/Create';
 import { RootState } from "../../store";
 import { useSelector } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
 
 const theme = createTheme({
   palette: {
@@ -134,7 +135,7 @@ export default function CreateProduct() {
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-
+    let success = false;
     let temp = {
       id: 0,
       name,
@@ -174,6 +175,28 @@ export default function CreateProduct() {
     ) {
       const response = await apiUpsertProduct(temp);
       if(response.status == 500){navigate("/500")};
+      success = true;
+    }
+    if(success){
+      toast.success(productName + ' Created!', {
+        position: 'top-center',
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      toast.error('Error: Something went wrong!', {
+        position: 'top-center',
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
 
   };
@@ -181,6 +204,7 @@ export default function CreateProduct() {
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
+      <ToastContainer/>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <p className="invalid-checkout-field">{invalidServer}</p>

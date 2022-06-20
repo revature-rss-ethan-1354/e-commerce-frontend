@@ -161,6 +161,10 @@ export default function Register() {
     }
   };
 
+  const handleClick = (event:React.MouseEvent<HTMLButtonElement>) => {
+    navigate('/login');
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -267,9 +271,9 @@ export default function Register() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="login" variant="body2">
+                <Button sx={{ mt: 2, mb: 1}} type="button" variant="text" style={{backgroundColor: "#B9B9BA"}} onClick={handleClick}>
                   Already have an account? Sign in
-                </Link>
+                </Button>
               </Grid>
             </Grid>
           </Box>

@@ -81,6 +81,10 @@ export default function Login() {
       
     }
   };
+  const handleClick = (event:React.MouseEvent<HTMLButtonElement>) => {
+    navigate('/register');
+  }
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -148,9 +152,9 @@ export default function Login() {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="register" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
+                <Button sx={{ mt: 2, mb: 1}} type="button" variant="text" style={{backgroundColor: "#B9B9BA"}} onClick={handleClick}>
+                  Don't have an account? Sign Up!
+                </Button>
               </Grid>
             </Grid>
           </Box>

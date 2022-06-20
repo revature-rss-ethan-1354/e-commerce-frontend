@@ -29,6 +29,7 @@ import { isValidProductPrice } from "../create-product-validation/product-price-
 import { isValidProductDescription } from "../create-product-validation/product-description-validation";
 import { RootState } from "../../store";
 import { useSelector } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
 const theme = createTheme({
   palette: {
     background: {
@@ -154,6 +155,8 @@ export default function UpdateProduct() {
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
+    let success = false;
+
     let temp = {
       id: productId,
       name,
@@ -193,7 +196,29 @@ export default function UpdateProduct() {
     ) {
       const response = await apiUpdateProduct(temp);
       if(response.status == 500){navigate("/500")};
-      navigate("/");
+      success = true;
+     setTimeout(() => navigate("/"), 3000);
+    }
+    if(success){
+      toast.success(productName + ' Updated!', {
+        position: 'top-center',
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      toast.error('Error: Something went wrong!', {
+        position: 'top-center',
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
 
   };
@@ -201,6 +226,7 @@ export default function UpdateProduct() {
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
+      <ToastContainer/>
       <div className="body-container">
       <Container component="main" maxWidth="xs">
         <CssBaseline />

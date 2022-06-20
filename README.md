@@ -1,3 +1,28 @@
+# E-Commerce Swag Shop 
+
+## Summary Description
+The E-Commerce Swag Shop is an e-commerce web application that allows users to search for a variety of goods stored in H2 database. 
+
+## Features
+
+Guest are able to...
+  - Create an account and browse through the online catalog. 
+  - Chat with admin support about any issues that they encounter during their experience on the web application.
+  - They can add items to cart, however they must have an account inorder to make a purchase.
+
+Users are able to...
+  - Login to the system and browse the online catalog
+  - Add items they wish to purchase and proceed to checkout
+  - They can specify the quantity of the item the wish to purchase
+  - Connect with admin chat support on the main product page
+
+Admin are able to...
+  - Login to their account
+  - Create a new product listing
+  - Open up chatroom, and see customer messages
+
+Invalidation checks...
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
